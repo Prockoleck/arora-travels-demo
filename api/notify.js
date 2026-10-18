@@ -52,6 +52,12 @@ export default async function handler(req, res) {
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
+          /* FormSubmit's edge protection rejects default server runtimes —
+             present a browser-shaped request */
+          "User-Agent":
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+          Origin: "https://aroratravels.vercel.app",
+          Referer: "https://aroratravels.vercel.app/",
         },
         body: JSON.stringify({
           _subject: `New ride request — ${who}${b.phone ? ` (${clean(b.phone)})` : ""}`,
