@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import Ticker from "./components/Ticker";
@@ -10,6 +10,7 @@ import Testimonials from "./components/Testimonials";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 import FloatingWhatsApp from "./components/FloatingWhatsApp";
+import Admin from "./components/Admin";
 import { emptyBooking, type Booking } from "./data";
 
 /* film-grain overlay for a printed, tactile feel */
@@ -20,6 +21,15 @@ export default function App() {
   /* shared booking state — hero widget, route chips, fleet cards & contact form all feed it */
   const [booking, setBooking] = useState<Booking>(emptyBooking());
 
+  /* lightweight hash route — #/admin swaps the whole site for the console
+     (plain section anchors like #home keep working untouched) */
+  const [isAdmin, setIsAdmin] = useState(() => window.location.hash === "#/admin");
+  useEffect(() => {
+    const onHash = () => setIsAdmin(window.location.hash === "#/admin");
+    window.addEventListener("hashchange", onHash);
+    return () => window.removeEventListener("hashchange", onHash);
+  }, []);
+
   const patch = useCallback((p: Partial<Booking>) => {
     setBooking((b) => ({ ...b, ...p }));
   }, []);
@@ -29,6 +39,8 @@ export default function App() {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     el?.scrollIntoView({ behavior: reduce ? "auto" : "smooth" });
   }, []);
+
+  if (isAdmin) return <Admin />;
 
   return (
     <div className="relative">
