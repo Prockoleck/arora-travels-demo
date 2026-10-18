@@ -81,7 +81,7 @@ export function bookingMessage(b: SavedBooking): string {
     `When: ${fmtWhen(b.datetime)}`,
     `Vehicle: ${b.vehicle || "Any"}`,
     ``,
-    `_Booked via arora-travels.vercel.app_`,
+    `_Booked via aroratravels.vercel.app_`,
   ].join("\n");
 }
 

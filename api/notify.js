@@ -26,7 +26,7 @@ function buildMessage(b) {
     `When: ${clean(b.datetime) || "-"}`,
     `Vehicle: ${clean(b.vehicle) || "-"}`,
     "",
-    "Sent from arora-travels.vercel.app",
+    "Sent from aroratravels.vercel.app",
   ].join("\n");
 }
 

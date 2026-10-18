@@ -223,6 +223,7 @@ export default function Admin() {
   if (!authed) return <Gate onUnlock={() => setAuthed(true)} />;
 
   const handleDelete = (id: string) => {
+    if (!confirm(`Delete record ${id} from this device?`)) return;
     removeBooking(id);
     setTick((t) => t + 1);
   };
