@@ -18,6 +18,7 @@ import {
   type Booking,
 } from "../data";
 import Reveal, { SectionTag } from "./Reveal";
+import { notifyServer, saveBooking, whatsappSendLink } from "../lib/booking";
 
 const labelCls =
   "mb-1.5 block font-mono text-[10px] font-semibold uppercase tracking-[0.25em] text-steel";
@@ -103,13 +104,14 @@ export default function Contact({
   const [errors, setErrors] = useState<Errors>({});
   const [sending, setSending] = useState(false);
   const [toast, setToast] = useState(false);
+  const [waLink, setWaLink] = useState<string | null>(null);
   const formRef = useRef<HTMLFormElement>(null);
   const reduce = useReducedMotion();
 
   /* auto-dismiss toast */
   useEffect(() => {
     if (!toast) return;
-    const id = setTimeout(() => setToast(false), 5000);
+    const id = setTimeout(() => setToast(false), 8000);
     return () => clearTimeout(id);
   }, [toast]);
 
@@ -132,13 +134,26 @@ export default function Contact({
       return;
     }
     setSending(true);
-    /* mock dispatch — in production this posts to the backend / WhatsApp */
+
+    /* 1. persist the record (local history + admin panel) */
+    const record = saveBooking(booking);
+
+    /* 2. WhatsApp handoff — opened synchronously inside the submit gesture
+          so popup blockers allow it; the toast keeps a fallback link in
+          case the browser still blocks it */
+    const link = whatsappSendLink(record);
+    setWaLink(link);
+    window.open(link, "_blank", "noopener,noreferrer");
+
+    /* 3. automatic server-side email relay (env-configured) */
+    void notifyServer(record);
+
     setTimeout(() => {
       setSending(false);
       setToast(true);
       const keep = { pickup: booking.pickup, drop: booking.drop };
       patch({ ...emptyBooking(), ...keep, name: "", phone: "" });
-    }, 900);
+    }, 700);
   };
 
   return (
@@ -444,8 +459,20 @@ export default function Contact({
                   Booking request received!
                 </p>
                 <p className="mt-1 text-sm leading-snug text-fog">
-                  Our dispatcher will call you back within 10 minutes to confirm your car and fare.
+                  Saved — WhatsApp just opened with your trip details. Press send so we get it
+                  instantly; our dispatcher is also notified.
                 </p>
+                {waLink && (
+                  <a
+                    href={waLink}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="mt-3 inline-flex items-center gap-2 bg-wa px-4 py-2 text-[11px] font-bold uppercase tracking-[0.16em] text-ink transition-all duration-300 hover:brightness-110"
+                  >
+                    <MessageCircle size={14} strokeWidth={2.5} />
+                    Send on WhatsApp
+                  </a>
+                )}
               </div>
             </div>
             <button
