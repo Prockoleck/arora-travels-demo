@@ -3,21 +3,19 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Menu, Phone, X } from "lucide-react";
 import { BUSINESS, NAV_LINKS } from "../data";
 
-/* Brand mark: amber plate with taxi-checker strip */
+/* Brand logo: official Arora Travels artwork on a white plate (keeps the navy
+   wordmark legible against the dark header) */
 export function Logo() {
   return (
-    <a href="#home" className="group flex items-center gap-3" aria-label="Arora Travels — home">
-      <span className="relative grid h-10 w-10 place-items-center overflow-hidden bg-gold font-display text-2xl leading-none text-ink transition-transform duration-300 group-hover:-rotate-6">
-        A
-        <span className="checker absolute inset-x-0 bottom-0 h-[7px]" />
-      </span>
-      <span className="leading-none">
-        <span className="block font-display text-xl tracking-wide text-paper">
-          ARORA <span className="text-gold">TRAVELS</span>
-        </span>
-        <span className="mt-1 block font-mono text-[9px] font-medium tracking-[0.32em] text-fog">
-          EST. 1997 · AMRITSAR
-        </span>
+    <a href="#home" className="group flex items-center" aria-label="Arora Travels — home">
+      <span className="flex items-center rounded-[3px] bg-white px-2.5 py-[7px] shadow-[0_4px_18px_-8px_rgba(0,0,0,0.6)] transition-shadow duration-300 group-hover:shadow-[0_6px_22px_-8px_rgba(0,0,0,0.75)]">
+        <img
+          src="/logo.jpg"
+          alt="Arora Travels"
+          width={428}
+          height={118}
+          className="h-7 w-auto md:h-[30px]"
+        />
       </span>
     </a>
   );
