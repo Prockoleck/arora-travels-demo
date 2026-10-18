@@ -33,7 +33,7 @@ function MapPlaceholder() {
     <div className="relative mt-14 h-80 overflow-hidden border border-paper/12 bg-navy-800">
       <svg viewBox="0 0 900 360" className="h-full w-full" preserveAspectRatio="xMidYMid slice" aria-label="Map showing Arora Travels at Gol Bagh, Amritsar">
         {/* city blocks */}
-        <g fill="#102a45">
+        <g fill="#0e1a4d">
           <rect x="0" y="0" width="250" height="120" />
           <rect x="290" y="0" width="280" height="90" />
           <rect x="610" y="0" width="290" height="140" />
@@ -43,7 +43,7 @@ function MapPlaceholder() {
           <rect x="300" y="280" width="320" height="80" />
         </g>
         {/* roads */}
-        <g stroke="#060f1d" strokeWidth="26" strokeLinecap="round">
+        <g stroke="#050c26" strokeWidth="26" strokeLinecap="round">
           <path d="M0 140 H 900" />
           <path d="M230 0 V 360" />
           <path d="M650 0 V 360" />
@@ -55,7 +55,7 @@ function MapPlaceholder() {
           <path d="M650 0 V 360" />
         </g>
         {/* street labels */}
-        <g fill="#9db1ca" fontFamily="IBM Plex Mono, monospace" fontSize="13" letterSpacing="3">
+        <g fill="#99a6cf" fontFamily="IBM Plex Mono, monospace" fontSize="13" letterSpacing="3">
           <text x="330" y="128">GT ROAD</text>
           <text x="244" y="60" transform="rotate(90 244 60)">MALL ROAD</text>
           <text x="700" y="330">CIRCULAR ROAD</text>
@@ -63,15 +63,15 @@ function MapPlaceholder() {
         {/* landmark */}
         <g transform="translate(760 60)">
           <path d="M0 -26 L 14 0 L 0 6 L -14 0 Z" fill="var(--color-gold)" opacity="0.9" />
-          <circle cx="0" cy="-8" r="4" fill="#060f1d" />
+          <circle cx="0" cy="-8" r="4" fill="#050c26" />
           <text x="22" y="2" fill="#ffc85c" fontFamily="IBM Plex Mono, monospace" fontSize="12" letterSpacing="2">GOLDEN TEMPLE →</text>
         </g>
         {/* pin for Arora Travels */}
         <g transform="translate(450 140)">
           <circle r="46" fill="var(--color-gold)" opacity="0.12" />
           <circle r="26" fill="var(--color-gold)" opacity="0.2" className="ring-ping" style={{ transformBox: "fill-box", transformOrigin: "center" }} />
-          <path d="M0 6 C -16 -12 -16 -34 0 -34 C 16 -34 16 -12 0 6 Z" fill="var(--color-gold)" stroke="#060f1d" strokeWidth="2.5" />
-          <circle cy="-20" r="6" fill="#060f1d" />
+          <path d="M0 6 C -16 -12 -16 -34 0 -34 C 16 -34 16 -12 0 6 Z" fill="var(--color-gold)" stroke="#050c26" strokeWidth="2.5" />
+          <circle cy="-20" r="6" fill="#050c26" />
         </g>
       </svg>
 

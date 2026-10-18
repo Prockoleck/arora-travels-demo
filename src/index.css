@@ -1,13 +1,13 @@
 @import "tailwindcss";
 
 @theme {
-  /* ── Arora Travels palette ─────────────────────────────── */
-  --color-ink: #060f1d;
-  --color-navy: #0b1e33;
-  --color-navy-800: #102a45;
-  --color-navy-700: #16365c;
-  --color-steel: #27476f;
-  --color-fog: #9db1ca;
+  /* ── Arora Travels palette — anchored on the logo's classic navy #000080 ── */
+  --color-ink: #050c26;
+  --color-navy: #0a1236;
+  --color-navy-800: #0e1a4d;
+  --color-navy-700: #16276b;
+  --color-steel: #253a78;
+  --color-fog: #99a6cf;
   --color-paper: #f3f6fa;
   --color-paper-2: #e7edf4;
   --color-gold: #f6a21b;
