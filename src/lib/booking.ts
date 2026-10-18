@@ -89,24 +89,24 @@ export function whatsappSendLink(b: SavedBooking): string {
   return `${BUSINESS.whatsapp}?text=${encodeURIComponent(bookingMessage(b))}`;
 }
 
-/** Fire-and-forget serverless relay. Silently no-ops when the function or
- *  NOTIFY_EMAIL env is not configured — WhatsApp path still covers the client. */
+/** Fire-and-forget email relay, sent straight from the visitor's browser to
+ *  FormSubmit's /ajax endpoint (built for browser calls — serverless egress
+ *  gets edge-blocked). Swap the address when handing over to the client. */
+const NOTIFY_EMAIL = "proshorts71@gmail.com";
+
 export async function notifyServer(b: SavedBooking): Promise<void> {
   try {
-    await fetch("/api/notify", {
+    await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(NOTIFY_EMAIL)}`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
       body: JSON.stringify({
-        id: b.id,
-        name: b.name,
-        phone: b.phone,
-        pickup: b.pickup,
-        drop: b.drop,
-        datetime: b.datetime,
-        vehicle: b.vehicle,
+        _subject: `New ride request — ${b.name || "website visitor"}${b.phone ? ` (${b.phone})` : ""}`,
+        message: bookingMessage(b),
       }),
+      /* let the request outlive any immediate navigation */
+      keepalive: true,
     });
   } catch {
-    /* offline / not deployed — never block the booking UX */
+    /* offline / blocked — WhatsApp path still covers the client */
   }
 }
