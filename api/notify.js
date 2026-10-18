@@ -59,7 +59,15 @@ export default async function handler(req, res) {
         }),
       },
     );
-    return res.status(200).json({ ok: r.ok, relay: r.status });
+    /* relay FormSubmit's verdict back so activation/queue states are visible */
+    let detail = "";
+    try {
+      const j = await r.json();
+      detail = String(j.message || j.success || "").slice(0, 200);
+    } catch {
+      /* non-JSON body */
+    }
+    return res.status(200).json({ ok: r.ok, relay: r.status, detail });
   } catch {
     /* relay outage must never fail the booking UX */
     return res.status(200).json({ ok: false, error: "relay-unavailable" });
