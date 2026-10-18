@@ -101,7 +101,8 @@ export async function notifyServer(b: SavedBooking): Promise<void> {
       headers: { "Content-Type": "application/json", Accept: "application/json" },
       body: JSON.stringify({
         _subject: `New ride request — ${b.name || "website visitor"}${b.phone ? ` (${b.phone})` : ""}`,
-        message: bookingMessage(b),
+        /* plain text for email — strip WhatsApp's *bold* /_italic_ markers */
+        message: bookingMessage(b).replace(/[*_]/g, ""),
       }),
       /* let the request outlive any immediate navigation */
       keepalive: true,
