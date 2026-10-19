@@ -90,15 +90,19 @@ export function whatsappSendLink(b: SavedBooking): string {
   return `${BUSINESS.whatsapp}?text=${encodeURIComponent(bookingMessage(b))}`;
 }
 
-/** Email relay, sent straight from the visitor's browser to FormSubmit's
- *  /ajax endpoint (built for browser calls — serverless egress gets
- *  edge-blocked). Resolves true when the relay accepted the message so the
- *  UI can tell the visitor the truth. Swap NOTIFY_EMAIL when handing over. */
-const NOTIFY_EMAIL = "proshorts71@gmail.com";
+/** Email relay → FormSubmit's *slug* endpoint (their "invisible email"
+ *  feature): the receiving address never appears in the bundle, and the
+ *  slug is the endpoint FormSubmit confirms at setup. Activation is
+ *  scoped per ORIGIN — every production visitor sends the same Origin
+ *  header (already confirmed), so bookings deliver with no manual clicks.
+ *  Dev previews on localhost are gated by their activation email (expected).
+ *  Slug currently maps to the setup inbox: proshorts71@gmail.com
+ *  (swap together with the address when handing over to the client). */
+const NOTIFY_ENDPOINT = "formsubmit.co/ajax/c0109bb59fa6b041918d5f47b83bdab0";
 
 export async function notifyServer(b: SavedBooking): Promise<boolean> {
   try {
-    const res = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(NOTIFY_EMAIL)}`, {
+    const res = await fetch(`https://${NOTIFY_ENDPOINT}`, {
       method: "POST",
       headers: { "Content-Type": "application/json", Accept: "application/json" },
       body: JSON.stringify({
@@ -109,7 +113,13 @@ export async function notifyServer(b: SavedBooking): Promise<boolean> {
       /* let the request outlive any immediate navigation */
       keepalive: true,
     });
-    return res.ok;
+    /* FormSubmit answers HTTP 200 even for HELD submissions — the body's
+       `success` field is the only honest signal of actual delivery */
+    if (!res.ok) return false;
+    const data = (await res.json().catch(() => null)) as
+      | { success?: boolean | string }
+      | null;
+    return data?.success === true || data?.success === "true";
   } catch {
     /* offline / blocked */
     return false;
