@@ -1,11 +1,12 @@
 import { BUSINESS, type Booking } from "../data";
 
 /* Booking records — persisted locally + routed to the client via two
-   independent notification paths (see submit flow in Contact.tsx):
-   1. WhatsApp handoff: wa.me opens with the details prefilled (instant).
-   2. Serverless relay: POST /api/notify emails the dispatcher
-      (env NOTIFY_EMAIL via FormSubmit.co) — works even if the visitor
-      never sends the WhatsApp message. */
+   *independent* paths (see submit flow in Contact.tsx):
+   1. Email relay (AUTOMATIC): the visitor's browser POSTs the trip to
+      FormSubmit.co, which emails the dispatcher — fires on every submit,
+      so the client is notified even if the visitor never messages.
+   2. WhatsApp handoff (OPTIONAL): an explicit link offered after submit —
+      wa.me opens with the trip prefilled. Never force-opened. */
 
 export type SavedBooking = Booking & {
   id: string;
@@ -89,14 +90,15 @@ export function whatsappSendLink(b: SavedBooking): string {
   return `${BUSINESS.whatsapp}?text=${encodeURIComponent(bookingMessage(b))}`;
 }
 
-/** Fire-and-forget email relay, sent straight from the visitor's browser to
- *  FormSubmit's /ajax endpoint (built for browser calls — serverless egress
- *  gets edge-blocked). Swap the address when handing over to the client. */
+/** Email relay, sent straight from the visitor's browser to FormSubmit's
+ *  /ajax endpoint (built for browser calls — serverless egress gets
+ *  edge-blocked). Resolves true when the relay accepted the message so the
+ *  UI can tell the visitor the truth. Swap NOTIFY_EMAIL when handing over. */
 const NOTIFY_EMAIL = "proshorts71@gmail.com";
 
-export async function notifyServer(b: SavedBooking): Promise<void> {
+export async function notifyServer(b: SavedBooking): Promise<boolean> {
   try {
-    await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(NOTIFY_EMAIL)}`, {
+    const res = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(NOTIFY_EMAIL)}`, {
       method: "POST",
       headers: { "Content-Type": "application/json", Accept: "application/json" },
       body: JSON.stringify({
@@ -107,7 +109,9 @@ export async function notifyServer(b: SavedBooking): Promise<void> {
       /* let the request outlive any immediate navigation */
       keepalive: true,
     });
+    return res.ok;
   } catch {
-    /* offline / blocked — WhatsApp path still covers the client */
+    /* offline / blocked */
+    return false;
   }
 }

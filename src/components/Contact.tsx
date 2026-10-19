@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import {
+  AlertTriangle,
   ArrowUpRight,
   CheckCircle2,
   Clock,
@@ -103,15 +104,16 @@ export default function Contact({
 }) {
   const [errors, setErrors] = useState<Errors>({});
   const [sending, setSending] = useState(false);
-  const [toast, setToast] = useState(false);
+  const [toast, setToast] = useState<"ok" | "fail" | null>(null);
   const [waLink, setWaLink] = useState<string | null>(null);
   const formRef = useRef<HTMLFormElement>(null);
   const reduce = useReducedMotion();
 
-  /* auto-dismiss toast */
+  /* auto-dismiss success toast — the failure variant stays until dismissed
+     so the visitor never misses the fallback options */
   useEffect(() => {
-    if (!toast) return;
-    const id = setTimeout(() => setToast(false), 8000);
+    if (toast !== "ok") return;
+    const id = setTimeout(() => setToast(null), 10000);
     return () => clearTimeout(id);
   }, [toast]);
 
@@ -126,7 +128,7 @@ export default function Contact({
     return Object.keys(e).length === 0;
   };
 
-  const onSubmit = (ev: FormEvent) => {
+  const onSubmit = async (ev: FormEvent) => {
     ev.preventDefault();
     if (sending) return;
     if (!validate()) {
@@ -134,26 +136,26 @@ export default function Contact({
       return;
     }
     setSending(true);
+    const keep = { pickup: booking.pickup, drop: booking.drop };
 
     /* 1. persist the record (local history + admin panel) */
     const record = saveBooking(booking);
 
-    /* 2. WhatsApp handoff — opened synchronously inside the submit gesture
-          so popup blockers allow it; the toast keeps a fallback link in
-          case the browser still blocks it */
-    const link = whatsappSendLink(record);
-    setWaLink(link);
-    window.open(link, "_blank", "noopener,noreferrer");
+    /* 2. AUTOMATIC channel — email relay to the client. The spinner waits
+          for a real answer (capped at 4s) so the toast can tell the truth
+          about delivery instead of guessing */
+    const emailDelivered = await Promise.race([
+      notifyServer(record),
+      new Promise<boolean>((r) => setTimeout(() => r(false), 4000)),
+    ]);
 
-    /* 3. automatic server-side email relay (env-configured) */
-    void notifyServer(record);
-
-    setTimeout(() => {
-      setSending(false);
-      setToast(true);
-      const keep = { pickup: booking.pickup, drop: booking.drop };
-      patch({ ...emptyBooking(), ...keep, name: "", phone: "" });
-    }, 700);
+    /* 3. OPTIONAL channel — hand the visitor a prefilled WhatsApp link in
+          the toast. No force-opened popup: a real link is both better
+          mannered and immune to popup blockers (Safari/iOS especially) */
+    setWaLink(whatsappSendLink(record));
+    setSending(false);
+    setToast(emailDelivered ? "ok" : "fail");
+    patch({ ...emptyBooking(), ...keep, name: "", phone: "" });
   };
 
   return (
@@ -441,7 +443,7 @@ export default function Contact({
         </Reveal>
       </div>
 
-      {/* success toast */}
+      {/* success / failure toast */}
       <AnimatePresence>
         {toast && (
           <motion.div
@@ -449,40 +451,82 @@ export default function Contact({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={reduce ? undefined : { opacity: 0, y: 24, scale: 0.97 }}
             transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-            role="status"
-            className="fixed bottom-6 right-5 z-[70] w-[min(92vw,400px)] overflow-hidden border border-gold/50 bg-navy shadow-[0_30px_70px_-20px_rgba(0,0,0,0.8)]"
+            role={toast === "ok" ? "status" : "alert"}
+            className={`fixed bottom-6 right-5 z-[70] w-[min(92vw,400px)] overflow-hidden bg-navy shadow-[0_30px_70px_-20px_rgba(0,0,0,0.8)] ${
+              toast === "ok" ? "border border-gold/50" : "border border-red-500/60"
+            }`}
           >
             <div className="flex items-start gap-3.5 p-5 pr-12">
-              <CheckCircle2 size={26} className="mt-0.5 shrink-0 text-gold" />
-              <div>
-                <p className="font-display text-lg uppercase tracking-wide text-paper">
-                  Booking request received!
-                </p>
-                <p className="mt-1 text-sm leading-snug text-fog">
-                  Saved — WhatsApp just opened with your trip details. Press send so we get it
-                  instantly; our dispatcher is also notified.
-                </p>
-                {waLink && (
-                  <a
-                    href={waLink}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="mt-3 inline-flex items-center gap-2 bg-wa px-4 py-2 text-[11px] font-bold uppercase tracking-[0.16em] text-ink transition-all duration-300 hover:brightness-110"
-                  >
-                    <MessageCircle size={14} strokeWidth={2.5} />
-                    Send on WhatsApp
-                  </a>
-                )}
-              </div>
+              {toast === "ok" ? (
+                <>
+                  <CheckCircle2 size={26} className="mt-0.5 shrink-0 text-gold" />
+                  <div>
+                    <p className="font-display text-lg uppercase tracking-wide text-paper">
+                      Booking request received!
+                    </p>
+                    <p className="mt-1 text-sm leading-snug text-fog">
+                      Our dispatcher has your trip details and will call you back within{" "}
+                      <strong className="text-paper">10 minutes</strong>. Prefer to keep it on
+                      WhatsApp? Your trip is ready to send:
+                    </p>
+                    {waLink && (
+                      <a
+                        href={waLink}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="mt-3 inline-flex items-center gap-2 bg-wa px-4 py-2 text-[11px] font-bold uppercase tracking-[0.16em] text-ink transition-all duration-300 hover:brightness-110"
+                      >
+                        <MessageCircle size={14} strokeWidth={2.5} />
+                        Continue on WhatsApp
+                      </a>
+                    )}
+                  </div>
+                </>
+              ) : (
+                <>
+                  <AlertTriangle size={26} className="mt-0.5 shrink-0 text-red-400" />
+                  <div>
+                    <p className="font-display text-lg uppercase tracking-wide text-paper">
+                      Saved — but our email didn’t send
+                    </p>
+                    <p className="mt-1 text-sm leading-snug text-fog">
+                      The connection dropped before the dispatcher was notified. Please call us
+                      or send the trip on WhatsApp — don’t let it slip:
+                    </p>
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      {waLink && (
+                        <a
+                          href={waLink}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="inline-flex items-center gap-2 bg-wa px-4 py-2 text-[11px] font-bold uppercase tracking-[0.16em] text-ink transition-all duration-300 hover:brightness-110"
+                        >
+                          <MessageCircle size={14} strokeWidth={2.5} />
+                          Send on WhatsApp
+                        </a>
+                      )}
+                      <a
+                        href={BUSINESS.phoneTel}
+                        className="inline-flex items-center gap-2 border border-gold px-4 py-2 text-[11px] font-bold uppercase tracking-[0.16em] text-gold transition-all duration-300 hover:bg-gold hover:text-ink"
+                      >
+                        <Phone size={14} strokeWidth={2.5} />
+                        Call us
+                      </a>
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
             <button
-              onClick={() => setToast(false)}
+              onClick={() => setToast(null)}
               aria-label="Dismiss notification"
               className="absolute right-3 top-3 grid h-8 w-8 place-items-center text-fog transition-colors hover:bg-paper/10 hover:text-paper"
             >
               <X size={16} />
             </button>
-            <div className="toast-bar h-1 w-full bg-gold" />
+            <div
+              className={`h-1 w-full ${toast === "ok" ? "toast-bar bg-gold" : "bg-red-500"}`}
+            />
           </motion.div>
         )}
       </AnimatePresence>

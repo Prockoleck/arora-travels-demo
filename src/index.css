@@ -168,9 +168,9 @@ body {
   }
 }
 
-/* toast progress bar */
+/* toast progress bar — matches the 10s auto-dismiss of the success toast */
 .toast-bar {
-  animation: toastbar 5s linear forwards;
+  animation: toastbar 10s linear forwards;
   transform-origin: left;
 }
 @keyframes toastbar {
