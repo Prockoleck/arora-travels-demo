@@ -142,11 +142,12 @@ export default function Contact({
     const record = saveBooking(booking);
 
     /* 2. AUTOMATIC channel — email relay to the client. The spinner waits
-          for a real answer (capped at 4s) so the toast can tell the truth
-          about delivery instead of guessing */
+          for a real answer (capped at 6s — FormSubmit normally replies in
+          ~1s; the cap only matters under their per-IP throttle) so the
+          toast can tell the truth about delivery instead of guessing */
     const emailDelivered = await Promise.race([
       notifyServer(record),
-      new Promise<boolean>((r) => setTimeout(() => r(false), 4000)),
+      new Promise<boolean>((r) => setTimeout(() => r(false), 6000)),
     ]);
 
     /* 3. OPTIONAL channel — hand the visitor a prefilled WhatsApp link in
