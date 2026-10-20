@@ -3,20 +3,17 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Menu, Phone, X } from "lucide-react";
 import { BUSINESS, NAV_LINKS } from "../data";
 
-/* Brand logo: official Arora Travels artwork on a white plate (keeps the navy
-   wordmark legible against the dark header) */
+/* Brand logo: official Arora Travels artwork */
 export function Logo() {
   return (
     <a href="#home" className="group flex items-center" aria-label="Arora Travels — home">
-      <span className="flex items-center rounded-[3px] bg-white px-2.5 py-[7px] shadow-[0_4px_18px_-8px_rgba(0,0,0,0.6)] transition-shadow duration-300 group-hover:shadow-[0_6px_22px_-8px_rgba(0,0,0,0.75)]">
-        <img
-          src="/logo.jpg"
-          alt="Arora Travels"
-          width={428}
-          height={118}
-          className="h-7 w-auto md:h-[30px]"
-        />
-      </span>
+      <img
+        src="/logo.jpg"
+        alt="Arora Travels"
+        width={428}
+        height={118}
+        className="h-7 w-auto md:h-[30px]"
+      />
     </a>
   );
 }
@@ -35,14 +32,12 @@ export default function Navbar() {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
-        scrolled
-          ? "border-b border-paper/10 bg-ink/90 shadow-[0_10px_40px_-20px_rgba(0,0,0,0.8)] backdrop-blur-md"
-          : "bg-gradient-to-b from-ink/80 to-transparent"
+      className={`fixed inset-x-0 top-0 z-50 bg-white transition-all duration-300 ${
+        scrolled ? "border-b border-paper-2 shadow-[0_2px_12px_-6px_rgba(16,35,63,0.12)]" : ""
       }`}
     >
       <div
-        className={`mx-auto flex max-w-7xl items-center justify-between px-5 transition-all duration-500 sm:px-8 ${
+        className={`mx-auto flex max-w-7xl items-center justify-between px-5 transition-all duration-300 sm:px-8 ${
           scrolled ? "py-3" : "py-4"
         }`}
       >
@@ -54,10 +49,10 @@ export default function Navbar() {
             <a
               key={l.href}
               href={l.href}
-              className="group relative font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-fog transition-colors hover:text-paper"
+              className="group relative text-sm font-semibold text-steel transition-colors hover:text-ink"
             >
               {l.label}
-              <span className="absolute -bottom-1.5 left-0 h-px w-full origin-left scale-x-0 bg-gold transition-transform duration-300 group-hover:scale-x-100" />
+              <span className="absolute -bottom-1.5 left-0 h-0.5 w-full origin-left scale-x-0 bg-gold transition-transform duration-300 group-hover:scale-x-100" />
             </a>
           ))}
         </nav>
@@ -65,20 +60,20 @@ export default function Navbar() {
         <div className="flex items-center gap-3">
           <a
             href={BUSINESS.phoneTel}
-            className="hidden items-center gap-2 bg-gold px-5 py-2.5 text-sm font-bold text-ink transition-all duration-300 hover:-translate-y-0.5 hover:bg-gold-soft hover:shadow-[0_10px_30px_-8px_rgba(246,162,27,0.55)] md:flex"
+            className="hidden items-center gap-2 rounded-lg bg-navy px-5 py-2.5 text-sm font-bold text-white transition-all duration-300 hover:bg-navy-800 md:flex"
           >
             <Phone size={15} strokeWidth={2.5} />
-            <span className="font-mono tracking-tight">{BUSINESS.phoneDisplay}</span>
+            <span className="font-mono text-[13px] tracking-tight">{BUSINESS.phoneDisplay}</span>
           </a>
           <a
             href={BUSINESS.phoneTel}
             aria-label="Call Arora Travels"
-            className="grid h-10 w-10 place-items-center bg-gold text-ink transition-colors hover:bg-gold-soft md:hidden"
+            className="grid h-10 w-10 place-items-center rounded-lg bg-navy text-white transition-colors hover:bg-navy-800 md:hidden"
           >
             <Phone size={17} strokeWidth={2.5} />
           </a>
           <button
-            className="grid h-10 w-10 place-items-center border border-paper/20 text-paper transition-colors hover:border-gold hover:text-gold lg:hidden"
+            className="grid h-10 w-10 place-items-center rounded-lg border border-paper-2 text-ink transition-colors hover:border-navy lg:hidden"
             onClick={() => setOpen((v) => !v)}
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
@@ -96,7 +91,7 @@ export default function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={reduce ? undefined : { opacity: 0, y: -12 }}
             transition={{ duration: 0.25 }}
-            className="border-t border-paper/10 bg-ink/95 px-5 pb-6 pt-2 backdrop-blur-md lg:hidden"
+            className="border-t border-paper-2 bg-white px-5 pb-6 pt-2 lg:hidden"
             aria-label="Mobile"
           >
             {NAV_LINKS.map((l, i) => (
@@ -107,7 +102,7 @@ export default function Navbar() {
                 initial={reduce ? false : { opacity: 0, x: -14 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.05 * i, duration: 0.25 }}
-                className="flex items-center justify-between border-b border-paper/10 py-4 font-display text-2xl uppercase tracking-wide text-paper transition-colors hover:text-gold"
+                className="flex items-center justify-between border-b border-paper-2 py-4 text-lg font-bold text-ink transition-colors hover:text-gold-deep"
               >
                 {l.label}
                 <span className="font-mono text-[10px] tracking-[0.3em] text-gold">0{i + 1}</span>
@@ -115,7 +110,7 @@ export default function Navbar() {
             ))}
             <a
               href={BUSINESS.phoneTel}
-              className="mt-5 flex items-center justify-center gap-2 bg-gold py-3.5 font-bold text-ink"
+              className="mt-5 flex items-center justify-center gap-2 rounded-lg bg-navy py-3.5 font-bold text-white"
             >
               <Phone size={16} strokeWidth={2.5} />
               <span className="font-mono">{BUSINESS.phoneDisplay}</span>

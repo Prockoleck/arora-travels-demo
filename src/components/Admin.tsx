@@ -18,8 +18,8 @@ import { clearBookings, loadBookings, removeBooking, whatsappSendLink, type Save
 const ADMIN_PIN = "12345678";
 const AUTH_KEY = "arora_admin_auth";
 
-const labelCls = "font-mono text-[10px] font-semibold uppercase tracking-[0.25em] text-steel";
-const cellCls = "mt-1 text-[13.5px] font-medium leading-snug text-paper";
+const labelCls = "font-mono text-[10px] font-semibold uppercase tracking-[0.25em] text-fog";
+const cellCls = "mt-1 text-[13.5px] font-medium leading-snug text-ink";
 
 function fmtWhen(iso: string): string {
   const d = new Date(iso);
@@ -51,18 +51,18 @@ function Gate({ onUnlock }: { onUnlock: () => void }) {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-ink px-5">
+    <div className="flex min-h-screen items-center justify-center bg-paper px-5">
       <motion.form
         initial={{ opacity: 0, y: 18 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
         onSubmit={submit}
-        className="w-full max-w-sm border border-paper/12 bg-navy-800 p-8"
+        className="w-full max-w-sm rounded-2xl border border-paper-2 bg-white p-8"
       >
         <div className="mb-6 flex justify-center">
           <Logo />
         </div>
-        <p className="text-center font-mono text-[10px] font-semibold uppercase tracking-[0.3em] text-gold">
+        <p className="text-center font-mono text-[10px] font-semibold uppercase tracking-[0.3em] text-gold-deep">
           Dispatch Console
         </p>
         <label htmlFor="admin-pin" className={`${labelCls} mt-6 block`}>
@@ -79,24 +79,24 @@ function Gate({ onUnlock }: { onUnlock: () => void }) {
             setBad(false);
           }}
           placeholder="••••••••"
-          className="mt-2 w-full border-2 border-paper/15 bg-ink px-4 py-3 text-center font-mono text-lg tracking-[0.4em] text-paper outline-none transition-colors focus:border-gold"
+          className="mt-2 w-full rounded-lg border border-paper-2 bg-white px-4 py-3 text-center font-mono text-lg tracking-[0.4em] text-ink outline-none transition-colors focus:border-gold"
         />
         <p
-          className={`mt-2 h-4 text-center text-xs ${bad ? "text-red-400" : "text-transparent"}`}
+          className={`mt-2 h-4 text-center text-xs ${bad ? "text-red-500" : "text-transparent"}`}
           role={bad ? "alert" : undefined}
         >
           Wrong passcode — try again.
         </p>
         <button
           type="submit"
-          className="mt-3 flex w-full items-center justify-center gap-2 bg-gold px-5 py-3.5 font-display text-base uppercase tracking-wider text-ink transition-all duration-300 hover:brightness-110"
+          className="mt-3 flex w-full items-center justify-center gap-2 rounded-lg bg-navy px-5 py-3.5 text-sm font-bold text-white transition-all duration-300 hover:bg-navy-800"
         >
           <KeyRound size={16} strokeWidth={2.5} />
           Unlock
         </button>
         <a
           href="#home"
-          className="mt-5 flex items-center justify-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.18em] text-steel transition-colors hover:text-gold"
+          className="mt-5 flex items-center justify-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.18em] text-steel transition-colors hover:text-gold-deep"
         >
           <ArrowLeft size={13} /> Back to site
         </a>
@@ -127,11 +127,11 @@ function BookingCard({ b, onDelete }: { b: SavedBooking; onDelete: () => void })
       initial={{ opacity: 0, y: 14 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.97 }}
-      className="border border-paper/12 bg-navy-800 p-5"
+      className="rounded-xl border border-paper-2 bg-white p-5"
     >
-      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-paper/10 pb-3">
+      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-paper-2 pb-3">
         <div className="flex items-center gap-2.5">
-          <span className="bg-gold px-2 py-0.5 font-mono text-[10.5px] font-bold tracking-wider text-ink">
+          <span className="rounded-md bg-gold px-2 py-0.5 font-mono text-[10.5px] font-bold tracking-wider text-white">
             {b.id}
           </span>
           <span className="flex items-center gap-1 font-mono text-[10.5px] text-steel">
@@ -141,7 +141,7 @@ function BookingCard({ b, onDelete }: { b: SavedBooking; onDelete: () => void })
         <button
           onClick={onDelete}
           aria-label={`Delete booking ${b.id}`}
-          className="p-1 text-steel transition-colors hover:text-red-400"
+          className="p-1 text-fog transition-colors hover:text-red-500"
         >
           <Trash2 size={15} />
         </button>
@@ -159,7 +159,7 @@ function BookingCard({ b, onDelete }: { b: SavedBooking; onDelete: () => void })
             {b.phone && (
               <button
                 onClick={copyPhone}
-                className="text-steel transition-colors hover:text-gold"
+                className="text-steel transition-colors hover:text-gold-deep"
                 aria-label="Copy phone number"
                 title="Copy"
               >
@@ -175,8 +175,8 @@ function BookingCard({ b, onDelete }: { b: SavedBooking; onDelete: () => void })
         <div className="sm:col-span-2">
           <span className={labelCls}>Trip</span>
           <p className={cellCls}>
-            <span className="text-gold">▸</span> {b.pickup || "—"}{" "}
-            <span className="text-gold">→</span> {b.drop || "—"}
+            <span className="text-gold-deep">▸</span> {b.pickup || "—"}{" "}
+            <span className="text-gold-deep">→</span> {b.drop || "—"}
           </p>
         </div>
         <div>
@@ -189,7 +189,7 @@ function BookingCard({ b, onDelete }: { b: SavedBooking; onDelete: () => void })
         {b.phone && (
           <a
             href={`tel:+${waNumber || digits}`}
-            className="flex items-center gap-1.5 border border-gold/40 px-3 py-1.5 font-mono text-[10.5px] font-semibold uppercase tracking-[0.14em] text-gold transition-colors hover:bg-gold hover:text-ink"
+            className="flex items-center gap-1.5 rounded-md border border-gold/40 px-3 py-1.5 font-mono text-[10.5px] font-semibold uppercase tracking-[0.14em] text-gold-deep transition-colors hover:bg-gold hover:text-white"
           >
             <Phone size={12} /> Call
           </a>
@@ -198,7 +198,7 @@ function BookingCard({ b, onDelete }: { b: SavedBooking; onDelete: () => void })
           href={whatsappSendLink(b)}
           target="_blank"
           rel="noreferrer"
-          className="flex items-center gap-1.5 border border-wa/50 px-3 py-1.5 font-mono text-[10.5px] font-semibold uppercase tracking-[0.14em] text-wa transition-colors hover:bg-wa hover:text-ink"
+          className="flex items-center gap-1.5 rounded-md border border-wa/50 px-3 py-1.5 font-mono text-[10.5px] font-semibold uppercase tracking-[0.14em] text-wa transition-colors hover:bg-wa hover:text-white"
         >
           <MessageCircle size={12} /> Reopen trip
         </a>
@@ -229,14 +229,14 @@ export default function Admin() {
   };
 
   return (
-    <div className="min-h-screen bg-ink px-5 py-10 text-paper sm:px-8">
+    <div className="min-h-screen bg-paper px-5 py-10 text-ink sm:px-8">
       <div className="mx-auto max-w-5xl">
-        <header className="flex flex-wrap items-center justify-between gap-4 border-b border-paper/15 pb-6">
+        <header className="flex flex-wrap items-center justify-between gap-4 border-b border-paper-2 pb-6">
           <div className="flex items-center gap-4">
             <Logo />
-            <div className="border-l border-paper/15 pl-4">
-              <h1 className="font-display text-2xl uppercase tracking-wide text-paper">
-                Dispatch <span className="text-gold">Console</span>
+            <div className="border-l border-paper-2 pl-4">
+              <h1 className="font-display text-2xl text-navy">
+                Dispatch <span className="text-gold-deep">Console</span>
               </h1>
               <p className="mt-0.5 flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.2em] text-steel">
                 <ShieldCheck size={11} className="text-wa" /> Authenticated session
@@ -244,28 +244,28 @@ export default function Admin() {
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <span className="border border-gold/40 px-3 py-1.5 font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-gold">
+            <span className="rounded-md border border-gold/40 px-3 py-1.5 font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-gold-deep">
               {bookings.length} booking{bookings.length === 1 ? "" : "s"}
             </span>
             <a
               href="#home"
-              className="flex items-center gap-1.5 px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.16em] text-steel transition-colors hover:text-gold"
+              className="flex items-center gap-1.5 px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.16em] text-steel transition-colors hover:text-gold-deep"
             >
               <ArrowLeft size={13} /> Site
             </a>
           </div>
         </header>
 
-        <p className="mt-5 border-l-2 border-gold/50 bg-navy-800/60 px-4 py-3 text-[12.5px] leading-relaxed text-fog">
-          Live bookings arrive on the business <strong className="text-paper">WhatsApp</strong> and{" "}
-          <strong className="text-paper">email</strong> regardless of device. This console logs
+        <p className="mt-5 rounded-lg border-l-2 border-gold bg-white px-4 py-3 text-[12.5px] leading-relaxed text-steel">
+          Live bookings arrive on the business <strong className="text-navy">WhatsApp</strong> and{" "}
+          <strong className="text-navy">email</strong> regardless of device. This console logs
           bookings made on <em>this</em> device for review and quick callbacks.
         </p>
 
         {bookings.length === 0 ? (
           <div className="mt-14 flex flex-col items-center gap-3 py-10 text-center">
-            <KeyRound size={30} className="text-steel" />
-            <p className="font-display text-xl uppercase tracking-wide text-steel">No bookings yet</p>
+            <KeyRound size={30} className="text-fog" />
+            <p className="font-display text-xl text-steel">No bookings yet</p>
             <p className="max-w-sm text-sm text-fog">
               Submit a test ride from the contact form — it will appear here instantly.
             </p>
@@ -287,7 +287,7 @@ export default function Admin() {
                   setTick((t) => t + 1);
                 }
               }}
-              className="flex items-center gap-1.5 border border-red-400/40 px-4 py-2 font-mono text-[11px] uppercase tracking-[0.16em] text-red-400 transition-colors hover:bg-red-400/10"
+              className="flex items-center gap-1.5 rounded-md border border-red-300 px-4 py-2 font-mono text-[11px] uppercase tracking-[0.16em] text-red-500 transition-colors hover:bg-red-50"
             >
               <X size={13} /> Clear device log
             </button>

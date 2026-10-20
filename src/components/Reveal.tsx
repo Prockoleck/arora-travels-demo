@@ -73,12 +73,12 @@ export function CountUp({
   );
 }
 
-/** Section eyebrow tag with the taxi-checker accent. */
+/** Section eyebrow tag — a short gold rule + mono label. */
 export function SectionTag({ children, light = false }: { children: ReactNode; light?: boolean }) {
   return (
     <span className="inline-flex items-center gap-3 font-mono text-[11px] font-semibold uppercase tracking-[0.3em]">
-      <span className={`checker inline-block h-3.5 w-10 ${light ? "checker-light" : ""}`} />
-      <span className={light ? "text-navy" : "text-gold"}>{children}</span>
+      <span className="inline-block h-[2px] w-9 bg-gold" aria-hidden="true" />
+      <span className={light ? "text-navy" : "text-gold-deep"}>{children}</span>
     </span>
   );
 }

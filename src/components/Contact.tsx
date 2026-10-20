@@ -25,17 +25,17 @@ import { notifyServer, saveBooking, whatsappSendLink } from "../lib/booking";
 const labelCls =
   "mb-1.5 block font-mono text-[10px] font-semibold uppercase tracking-[0.25em] text-steel";
 const inputCls =
-  "w-full border-2 border-paper-2 bg-white px-4 py-3 text-[15px] font-medium text-ink outline-none transition-colors duration-200 placeholder:text-steel/50 focus:border-gold";
+  "w-full rounded-lg border border-paper-2 bg-white px-4 py-3 text-[15px] text-ink outline-none transition-colors duration-200 placeholder:text-fog focus:border-gold";
 
 type Errors = Partial<Record<"name" | "phone" | "pickup" | "drop", string>>;
 
 /* Stylised map of Gol Bagh — placeholder for the live Google embed */
 function MapPlaceholder() {
   return (
-    <div className="relative mt-14 h-80 overflow-hidden border border-paper/12 bg-navy-800">
+    <div className="relative mt-14 h-80 overflow-hidden rounded-2xl border border-paper-2 bg-paper">
       <svg viewBox="0 0 900 360" className="h-full w-full" preserveAspectRatio="xMidYMid slice" aria-label="Map showing Arora Travels at Gol Bagh, Amritsar">
         {/* city blocks */}
-        <g fill="#0e1a4d">
+        <g fill="#e7edf4">
           <rect x="0" y="0" width="250" height="120" />
           <rect x="290" y="0" width="280" height="90" />
           <rect x="610" y="0" width="290" height="140" />
@@ -45,7 +45,7 @@ function MapPlaceholder() {
           <rect x="300" y="280" width="320" height="80" />
         </g>
         {/* roads */}
-        <g stroke="#050c26" strokeWidth="26" strokeLinecap="round">
+        <g stroke="#ffffff" strokeWidth="26" strokeLinecap="round">
           <path d="M0 140 H 900" />
           <path d="M230 0 V 360" />
           <path d="M650 0 V 360" />
@@ -57,7 +57,7 @@ function MapPlaceholder() {
           <path d="M650 0 V 360" />
         </g>
         {/* street labels */}
-        <g fill="#99a6cf" fontFamily="IBM Plex Mono, monospace" fontSize="13" letterSpacing="3">
+        <g fill="#8a94a3" fontFamily="IBM Plex Mono, monospace" fontSize="13" letterSpacing="3">
           <text x="330" y="128">GT ROAD</text>
           <text x="244" y="60" transform="rotate(90 244 60)">MALL ROAD</text>
           <text x="700" y="330">CIRCULAR ROAD</text>
@@ -65,29 +65,29 @@ function MapPlaceholder() {
         {/* landmark */}
         <g transform="translate(760 60)">
           <path d="M0 -26 L 14 0 L 0 6 L -14 0 Z" fill="var(--color-gold)" opacity="0.9" />
-          <circle cx="0" cy="-8" r="4" fill="#050c26" />
-          <text x="22" y="2" fill="#ffc85c" fontFamily="IBM Plex Mono, monospace" fontSize="12" letterSpacing="2">GOLDEN TEMPLE →</text>
+          <circle cx="0" cy="-8" r="4" fill="#ffffff" />
+          <text x="22" y="2" fill="#a1690b" fontFamily="IBM Plex Mono, monospace" fontSize="12" letterSpacing="2">GOLDEN TEMPLE →</text>
         </g>
         {/* pin for Arora Travels */}
         <g transform="translate(450 140)">
           <circle r="46" fill="var(--color-gold)" opacity="0.12" />
-          <circle r="26" fill="var(--color-gold)" opacity="0.2" className="ring-ping" style={{ transformBox: "fill-box", transformOrigin: "center" }} />
-          <path d="M0 6 C -16 -12 -16 -34 0 -34 C 16 -34 16 -12 0 6 Z" fill="var(--color-gold)" stroke="#050c26" strokeWidth="2.5" />
-          <circle cy="-20" r="6" fill="#050c26" />
+          <circle r="26" fill="var(--color-gold)" opacity="0.25" className="ring-ping" style={{ transformBox: "fill-box", transformOrigin: "center" }} />
+          <path d="M0 6 C -16 -12 -16 -34 0 -34 C 16 -34 16 -12 0 6 Z" fill="var(--color-gold)" stroke="#ffffff" strokeWidth="2.5" />
+          <circle cy="-20" r="6" fill="#ffffff" />
         </g>
       </svg>
 
       {/* label chip */}
-      <div className="absolute left-1/2 top-[58%] w-max -translate-x-1/2 border-l-4 border-gold bg-ink/92 px-4 py-2.5 shadow-xl backdrop-blur-sm">
-        <p className="font-mono text-[10px] font-bold uppercase tracking-[0.22em] text-gold">Arora Travels</p>
-        <p className="mt-0.5 text-xs text-paper/85">Shop No. 46, Gol Bagh Taxi Stand Market</p>
+      <div className="absolute left-1/2 top-[58%] w-max -translate-x-1/2 rounded-lg border border-paper-2 bg-white px-4 py-2.5 shadow-md">
+        <p className="font-mono text-[10px] font-bold uppercase tracking-[0.22em] text-gold-deep">Arora Travels</p>
+        <p className="mt-0.5 text-xs text-steel">Shop No. 46, Gol Bagh Taxi Stand Market</p>
       </div>
 
       <a
         href={BUSINESS.mapsUrl}
         target="_blank"
         rel="noreferrer"
-        className="group absolute bottom-4 right-4 flex items-center gap-2 bg-gold px-4 py-2.5 text-xs font-bold uppercase tracking-[0.14em] text-ink transition-all duration-300 hover:bg-gold-soft hover:shadow-[0_10px_26px_-8px_rgba(246,162,27,0.7)]"
+        className="group absolute bottom-4 right-4 flex items-center gap-2 rounded-lg bg-navy px-4 py-2.5 text-xs font-bold text-white transition-all duration-300 hover:bg-navy-800"
       >
         Open in Google Maps
         <ArrowUpRight size={14} strokeWidth={2.5} className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -161,26 +161,23 @@ export default function Contact({
   };
 
   return (
-    <section id="contact" className="relative scroll-mt-20 overflow-hidden bg-ink py-24 lg:py-32">
-      <div className="grid-lines absolute inset-0" />
-      <div className="absolute -left-40 bottom-0 h-[460px] w-[460px] rounded-full bg-gold/8 blur-[120px]" />
-
+    <section id="contact" className="relative scroll-mt-20 overflow-hidden bg-white py-24 lg:py-32">
       <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
         <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
           <div>
             <SectionTag>Book a ride</SectionTag>
             <Reveal>
-              <h2 className="mt-5 font-display text-4xl uppercase leading-[1.02] text-paper sm:text-5xl xl:text-6xl">
+              <h2 className="mt-5 text-3xl leading-[1.12] text-navy sm:text-4xl xl:text-5xl">
                 Tell us where.
                 <br />
-                <span className="text-gold">We’ll be there.</span>
+                <span className="text-gold-deep">We’ll be there.</span>
               </h2>
             </Reveal>
           </div>
           <Reveal delay={0.12}>
-            <p className="max-w-md leading-relaxed text-fog lg:justify-self-end">
+            <p className="max-w-md leading-relaxed text-steel lg:justify-self-end">
               Request a callback and our dispatcher will confirm your car and fare within{" "}
-              <strong className="text-paper">10 minutes</strong> — or skip the form and call the
+              <strong className="text-navy">10 minutes</strong> — or skip the form and call the
               stand directly.
             </p>
           </Reveal>
@@ -200,21 +197,21 @@ export default function Contact({
                     key={`${r.from}-${r.to}`}
                     type="button"
                     onClick={() => patch({ pickup: r.from, drop: r.to })}
-                    className={`group flex items-center justify-between gap-3 border px-4 py-3 text-left transition-all duration-300 hover:-translate-y-0.5 ${
+                    className={`group flex items-center justify-between gap-3 rounded-lg border px-4 py-3 text-left transition-all duration-300 hover:-translate-y-0.5 ${
                       active
-                        ? "border-gold bg-gold/10 shadow-[0_10px_26px_-14px_rgba(246,162,27,0.5)]"
-                        : "border-paper/14 bg-navy/40 hover:border-gold/60"
+                        ? "border-gold bg-gold/10"
+                        : "border-paper-2 bg-white hover:border-gold"
                     }`}
                   >
-                    <span className="text-[13px] leading-snug text-paper/90">
-                      {r.from} <span className="text-gold">→</span> {r.to}
+                    <span className="text-[13px] leading-snug text-ink">
+                      {r.from} <span className="text-gold-deep">→</span> {r.to}
                     </span>
-                    <span className="shrink-0 font-mono text-xs font-bold text-gold">{r.fare}</span>
+                    <span className="shrink-0 font-mono text-xs font-bold text-gold-deep">{r.fare}</span>
                   </button>
                 );
               })}
             </div>
-            <p className="mt-3 font-mono text-[10px] tracking-wide text-fog/70">
+            <p className="mt-3 font-mono text-[10px] tracking-wide text-fog">
               * Starting fares for a compact sedan, incl. chauffeur. Tolls &amp; state taxes at actuals.
             </p>
           </div>
@@ -223,26 +220,26 @@ export default function Contact({
         <div className="mt-14 grid gap-6 lg:grid-cols-[0.95fr_1.05fr]">
           {/* ── info panel ── */}
           <Reveal>
-            <aside className="flex h-full flex-col border border-paper/12 bg-navy/50 p-8 backdrop-blur-sm sm:p-10">
-              <h3 className="font-display text-2xl uppercase tracking-wide text-paper">
-                The stand is <span className="text-gold">always open.</span>
+            <aside className="flex h-full flex-col rounded-2xl border border-paper-2 bg-paper p-8 sm:p-10">
+              <h3 className="text-xl font-bold text-navy sm:text-2xl">
+                The stand is <span className="text-gold-deep">always open.</span>
               </h3>
 
               <div className="mt-8 space-y-7">
                 <div className="flex gap-4">
-                  <span className="mt-0.5 grid h-10 w-10 shrink-0 place-items-center border border-gold/35 bg-navy-800 text-gold">
+                  <span className="mt-0.5 grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-paper-2 bg-white text-navy">
                     <MapPin size={17} />
                   </span>
                   <div>
                     <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.25em] text-fog">
                       Find us
                     </p>
-                    <p className="mt-1.5 text-sm leading-relaxed text-paper/85">{BUSINESS.address}</p>
+                    <p className="mt-1.5 text-sm leading-relaxed text-steel">{BUSINESS.address}</p>
                     <a
                       href={BUSINESS.mapsUrl}
                       target="_blank"
                       rel="noreferrer"
-                      className="mt-2 inline-block font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-gold underline-offset-4 hover:underline"
+                      className="mt-2 inline-block font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-gold-deep underline-offset-4 hover:underline"
                     >
                       Get directions →
                     </a>
@@ -250,7 +247,7 @@ export default function Contact({
                 </div>
 
                 <div className="flex gap-4">
-                  <span className="mt-0.5 grid h-10 w-10 shrink-0 place-items-center border border-gold/35 bg-navy-800 text-gold">
+                  <span className="mt-0.5 grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-paper-2 bg-white text-navy">
                     <Phone size={17} />
                   </span>
                   <div>
@@ -259,16 +256,16 @@ export default function Contact({
                     </p>
                     <a
                       href={BUSINESS.phoneTel}
-                      className="mt-1 block font-display text-2xl tracking-wide text-gold transition-colors hover:text-gold-soft sm:text-3xl"
+                      className="mt-1 block font-display text-2xl text-navy transition-colors hover:text-gold-deep sm:text-3xl"
                     >
                       {BUSINESS.phoneDisplay}
                     </a>
-                    <p className="mt-2 flex flex-wrap gap-x-4 gap-y-1 font-mono text-[12px] text-paper/70">
+                    <p className="mt-2 flex flex-wrap gap-x-4 gap-y-1 font-mono text-[12px] text-steel">
                       {BUSINESS.phones.slice(1).map((p) => (
                         <a
                           key={p.tel}
                           href={p.tel}
-                          className="transition-colors hover:text-gold"
+                          className="transition-colors hover:text-gold-deep"
                         >
                           {p.display}
                         </a>
@@ -278,7 +275,7 @@ export default function Contact({
                 </div>
 
                 <div className="flex gap-4">
-                  <span className="mt-0.5 grid h-10 w-10 shrink-0 place-items-center border border-gold/35 bg-navy-800 text-gold">
+                  <span className="mt-0.5 grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-paper-2 bg-white text-navy">
                     <Mail size={17} />
                   </span>
                   <div>
@@ -287,7 +284,7 @@ export default function Contact({
                     </p>
                     <a
                       href={`mailto:${BUSINESS.email}`}
-                      className="mt-1.5 block break-all text-sm font-semibold text-gold transition-colors hover:text-gold-soft"
+                      className="mt-1.5 block break-all text-sm font-semibold text-navy transition-colors hover:text-gold-deep"
                     >
                       {BUSINESS.email}
                     </a>
@@ -295,15 +292,15 @@ export default function Contact({
                 </div>
 
                 <div className="flex gap-4">
-                  <span className="mt-0.5 grid h-10 w-10 shrink-0 place-items-center border border-gold/35 bg-navy-800 text-gold">
+                  <span className="mt-0.5 grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-paper-2 bg-white text-navy">
                     <Clock size={17} />
                   </span>
                   <div>
                     <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.25em] text-fog">
                       Hours
                     </p>
-                    <p className="mt-1.5 flex items-center gap-2.5 text-sm text-paper/85">
-                      <span className="dot-live h-2 w-2 rounded-full bg-gold" />
+                    <p className="mt-1.5 flex items-center gap-2.5 text-sm text-steel">
+                      <span className="dot-live h-2 w-2 rounded-full bg-wa" />
                       Open now — 24 hours, 365 days
                     </p>
                   </div>
@@ -314,14 +311,14 @@ export default function Contact({
                 href={BUSINESS.whatsapp}
                 target="_blank"
                 rel="noreferrer"
-                className="mt-8 flex w-max items-center gap-2.5 border border-wa/60 px-5 py-3 text-sm font-bold text-wa transition-all duration-300 hover:-translate-y-0.5 hover:bg-wa hover:text-ink"
+                className="mt-8 flex w-max items-center gap-2.5 rounded-lg border border-wa/60 px-5 py-3 text-sm font-bold text-wa transition-all duration-300 hover:-translate-y-0.5 hover:bg-wa hover:text-white"
               >
                 <MessageCircle size={17} />
                 WhatsApp us instead
               </a>
 
               {/* how booking works */}
-              <div className="mt-10 border-t border-paper/12 pt-8">
+              <div className="mt-10 border-t border-paper-2 pt-8">
                 <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.28em] text-fog">
                   How booking works
                 </p>
@@ -332,10 +329,10 @@ export default function Contact({
                     "Your chauffeur arrives 10 minutes early. Every time.",
                   ].map((step, i) => (
                     <li key={step} className="flex items-start gap-4">
-                      <span className="grid h-7 w-7 shrink-0 place-items-center bg-gold font-mono text-xs font-bold text-ink">
+                      <span className="grid h-7 w-7 shrink-0 place-items-center rounded-md bg-gold font-mono text-xs font-bold text-white">
                         {i + 1}
                       </span>
-                      <span className="text-sm leading-relaxed text-paper/85">{step}</span>
+                      <span className="text-sm leading-relaxed text-steel">{step}</span>
                     </li>
                   ))}
                 </ol>
@@ -349,12 +346,11 @@ export default function Contact({
               ref={formRef}
               onSubmit={onSubmit}
               noValidate
-              className="border border-t-0 border-paper/10 bg-paper text-ink shadow-[0_40px_90px_-40px_rgba(0,0,0,0.9)]"
+              className="overflow-hidden rounded-2xl border border-paper-2 bg-white shadow-[0_24px_60px_-45px_rgba(16,35,63,0.4)]"
             >
-              <div className="hazard h-2.5 w-full" />
               <div className="p-7 sm:p-9">
                 <div className="flex items-baseline justify-between gap-4">
-                  <h3 className="font-display text-2xl uppercase tracking-wide text-navy sm:text-3xl">
+                  <h3 className="text-xl font-bold text-navy sm:text-2xl">
                     Request a callback
                   </h3>
                   <span className="font-mono text-[9px] font-semibold tracking-[0.25em] text-gold-deep">
@@ -444,7 +440,7 @@ export default function Contact({
                 <button
                   type="submit"
                   disabled={sending}
-                  className="group mt-7 flex w-full items-center justify-center gap-3 bg-gold py-4 text-sm font-bold uppercase tracking-[0.16em] text-ink transition-all duration-300 hover:bg-gold-soft hover:shadow-[0_16px_40px_-12px_rgba(246,162,27,0.6)] disabled:cursor-wait disabled:opacity-80"
+                  className="group mt-7 flex w-full items-center justify-center gap-3 rounded-lg bg-navy py-4 text-sm font-bold text-white transition-all duration-300 hover:bg-navy-800 disabled:cursor-wait disabled:opacity-80"
                 >
                   {sending ? (
                     <>
@@ -452,7 +448,7 @@ export default function Contact({
                       Dispatching request…
                     </>
                   ) : (
-                    "Request Callback"
+                    "Request callback"
                   )}
                 </button>
 
@@ -482,21 +478,21 @@ export default function Contact({
             exit={reduce ? undefined : { opacity: 0, y: 24, scale: 0.97 }}
             transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
             role={toast === "ok" ? "status" : "alert"}
-            className={`fixed bottom-6 right-5 z-[70] w-[min(92vw,400px)] overflow-hidden bg-navy shadow-[0_30px_70px_-20px_rgba(0,0,0,0.8)] ${
-              toast === "ok" ? "border border-gold/50" : "border border-red-500/60"
+            className={`fixed bottom-6 right-5 z-[70] w-[min(92vw,400px)] overflow-hidden rounded-2xl border bg-white shadow-[0_24px_60px_-25px_rgba(16,35,63,0.35)] ${
+              toast === "ok" ? "border-paper-2" : "border-red-300"
             }`}
           >
             <div className="flex items-start gap-3.5 p-5 pr-12">
               {toast === "ok" ? (
                 <>
-                  <CheckCircle2 size={26} className="mt-0.5 shrink-0 text-gold" />
+                  <CheckCircle2 size={26} className="mt-0.5 shrink-0 text-wa" />
                   <div>
-                    <p className="font-display text-lg uppercase tracking-wide text-paper">
+                    <p className="font-display text-lg text-ink">
                       Booking request received!
                     </p>
-                    <p className="mt-1 text-sm leading-snug text-fog">
+                    <p className="mt-1 text-sm leading-snug text-steel">
                       Our dispatcher has your trip details and will call you back within{" "}
-                      <strong className="text-paper">10 minutes</strong>. Prefer to keep it on
+                      <strong className="text-navy">10 minutes</strong>. Prefer to keep it on
                       WhatsApp? Your trip is ready to send:
                     </p>
                     {waLink && (
@@ -504,7 +500,7 @@ export default function Contact({
                         href={waLink}
                         target="_blank"
                         rel="noreferrer"
-                        className="mt-3 inline-flex items-center gap-2 bg-wa px-4 py-2 text-[11px] font-bold uppercase tracking-[0.16em] text-ink transition-all duration-300 hover:brightness-110"
+                        className="mt-3 inline-flex items-center gap-2 rounded-lg bg-wa px-4 py-2 text-[11px] font-bold uppercase tracking-[0.16em] text-white transition-all duration-300 hover:brightness-110"
                       >
                         <MessageCircle size={14} strokeWidth={2.5} />
                         Continue on WhatsApp
@@ -514,12 +510,12 @@ export default function Contact({
                 </>
               ) : (
                 <>
-                  <AlertTriangle size={26} className="mt-0.5 shrink-0 text-red-400" />
+                  <AlertTriangle size={26} className="mt-0.5 shrink-0 text-red-500" />
                   <div>
-                    <p className="font-display text-lg uppercase tracking-wide text-paper">
+                    <p className="font-display text-lg text-ink">
                       Saved — but our email didn’t send
                     </p>
-                    <p className="mt-1 text-sm leading-snug text-fog">
+                    <p className="mt-1 text-sm leading-snug text-steel">
                       The connection dropped before the dispatcher was notified. Please call us
                       or send the trip on WhatsApp — don’t let it slip:
                     </p>
@@ -529,7 +525,7 @@ export default function Contact({
                           href={waLink}
                           target="_blank"
                           rel="noreferrer"
-                          className="inline-flex items-center gap-2 bg-wa px-4 py-2 text-[11px] font-bold uppercase tracking-[0.16em] text-ink transition-all duration-300 hover:brightness-110"
+                          className="inline-flex items-center gap-2 rounded-lg bg-wa px-4 py-2 text-[11px] font-bold uppercase tracking-[0.16em] text-white transition-all duration-300 hover:brightness-110"
                         >
                           <MessageCircle size={14} strokeWidth={2.5} />
                           Send on WhatsApp
@@ -537,7 +533,7 @@ export default function Contact({
                       )}
                       <a
                         href={BUSINESS.phoneTel}
-                        className="inline-flex items-center gap-2 border border-gold px-4 py-2 text-[11px] font-bold uppercase tracking-[0.16em] text-gold transition-all duration-300 hover:bg-gold hover:text-ink"
+                        className="inline-flex items-center gap-2 rounded-lg border border-navy px-4 py-2 text-[11px] font-bold uppercase tracking-[0.16em] text-navy transition-all duration-300 hover:bg-navy hover:text-white"
                       >
                         <Phone size={14} strokeWidth={2.5} />
                         Call us
@@ -550,12 +546,12 @@ export default function Contact({
             <button
               onClick={() => setToast(null)}
               aria-label="Dismiss notification"
-              className="absolute right-3 top-3 grid h-8 w-8 place-items-center text-fog transition-colors hover:bg-paper/10 hover:text-paper"
+              className="absolute right-3 top-3 grid h-8 w-8 place-items-center rounded-md text-fog transition-colors hover:bg-paper hover:text-ink"
             >
               <X size={16} />
             </button>
             <div
-              className={`h-1 w-full ${toast === "ok" ? "toast-bar bg-gold" : "bg-red-500"}`}
+              className={`h-1 w-full ${toast === "ok" ? "toast-bar bg-gold" : "bg-red-400"}`}
             />
           </motion.div>
         )}

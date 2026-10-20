@@ -1,22 +1,25 @@
 @import "tailwindcss";
 
 @theme {
-  /* ── Arora Travels palette — anchored on the logo's classic navy #000080 ── */
-  --color-ink: #050c26;
-  --color-navy: #0a1236;
-  --color-navy-800: #0e1a4d;
-  --color-navy-700: #16276b;
-  --color-steel: #253a78;
-  --color-fog: #99a6cf;
-  --color-paper: #f3f6fa;
-  --color-paper-2: #e7edf4;
-  --color-gold: #f6a21b;
-  --color-gold-soft: #ffc85c;
-  --color-gold-deep: #a86e04;
+  /* ── Arora Travels — clean white theme ──────────────────────
+     Brand navy #10233f carries headings & primary buttons; gold
+     is a small accent only (rules, chips, prices, underlines). */
+  --color-ink: #10233f;
+  --color-navy: #10233f;
+  --color-navy-800: #1d3557;
+  --color-navy-700: #27456e;
+  --color-steel: #4b5563;
+  --color-fog: #8a94a3;
+  --color-paper: #f6f8fa;
+  --color-paper-2: #e5e9f0;
+  --color-gold: #c9962e;
+  --color-gold-soft: #e0b354;
+  --color-gold-deep: #a1690b;
   --color-wa: #22c15e;
 
-  /* ── Type system: Anton (display) + Instrument Sans (body) + IBM Plex Mono (plates/meters) ── */
-  --font-display: "Anton", "Arial Narrow", Impact, sans-serif;
+  /* ── Type system: Instrument Sans (everything) + IBM Plex Mono
+        for plates, meters and micro-labels ── */
+  --font-display: "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
   --font-sans: "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", monospace;
 }
@@ -26,13 +29,19 @@ html {
 }
 
 body {
-  @apply bg-ink text-paper font-sans antialiased;
+  @apply bg-white text-steel font-sans antialiased;
   overflow-x: hidden;
+}
+
+/* display voice: bold, tight — no condensed poster type */
+.font-display {
+  font-weight: 700;
+  letter-spacing: -0.015em;
 }
 
 ::selection {
   background: var(--color-gold);
-  color: var(--color-ink);
+  color: #ffffff;
 }
 
 /* scrollbar */
@@ -40,58 +49,22 @@ body {
   width: 10px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--color-ink);
+  background: var(--color-paper);
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--color-navy-700);
+  background: #c9d2de;
   border-radius: 6px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-gold-deep);
+  background: var(--color-fog);
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-gold);
+  outline: 2px solid var(--color-navy);
   outline-offset: 2px;
 }
 
 /* ── Signature motifs ────────────────────────────────────── */
-
-/* taxi hazard stripes */
-.hazard {
-  background-image: repeating-linear-gradient(
-    -45deg,
-    var(--color-gold) 0 12px,
-    var(--color-ink) 12px 24px
-  );
-}
-
-/* taxi checkerboard band */
-.checker {
-  background-image: conic-gradient(
-    var(--color-ink) 25%,
-    var(--color-gold) 0 50%,
-    var(--color-ink) 0 75%,
-    var(--color-gold) 0
-  );
-  background-size: 14px 14px;
-}
-.checker-light {
-  background-image: conic-gradient(
-    var(--color-navy) 25%,
-    var(--color-paper) 0 50%,
-    var(--color-navy) 0 75%,
-    var(--color-paper) 0
-  );
-  background-size: 14px 14px;
-}
-
-/* fine blueprint grid for dark sections */
-.grid-lines {
-  background-image: linear-gradient(rgba(157, 177, 202, 0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(157, 177, 202, 0.06) 1px, transparent 1px);
-  background-size: 44px 44px;
-}
 
 /* dashed road centre-line, endlessly driving */
 .road-line {
@@ -160,11 +133,11 @@ body {
   0%,
   100% {
     opacity: 1;
-    box-shadow: 0 0 0 0 rgba(246, 162, 27, 0.55);
+    box-shadow: 0 0 0 0 rgba(34, 193, 94, 0.45);
   }
   50% {
     opacity: 0.55;
-    box-shadow: 0 0 0 7px rgba(246, 162, 27, 0);
+    box-shadow: 0 0 0 7px rgba(34, 193, 94, 0);
   }
 }
 
@@ -180,11 +153,6 @@ body {
   to {
     transform: scaleX(0);
   }
-}
-
-/* number-plate screws */
-.plate-screw {
-  background: radial-gradient(circle at 35% 35%, #e8edf4, #6b7c93 70%);
 }
 
 /* ── Accessibility: honour reduced motion ────────────────── */

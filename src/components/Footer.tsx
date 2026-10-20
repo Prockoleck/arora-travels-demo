@@ -12,18 +12,16 @@ const SOCIALS = [
 export default function Footer() {
   const year = new Date().getFullYear();
   return (
-    <footer className="relative bg-ink">
-      <div className="hazard h-2.5 w-full" aria-hidden="true" />
-
+    <footer className="relative border-t border-paper-2 bg-paper">
       <div className="mx-auto grid max-w-7xl gap-12 px-5 py-16 sm:px-8 md:grid-cols-2 lg:grid-cols-[1.35fr_0.75fr_0.95fr_1fr]">
         {/* brand */}
         <div>
           <Logo />
-          <p className="mt-6 max-w-xs text-sm leading-relaxed text-fog">
+          <p className="mt-6 max-w-xs text-sm leading-relaxed text-steel">
             Premium car rental &amp; taxi hire in Amritsar since {BUSINESS.est}. Executive
             transportation, corporate tariffs and 24×7 airport transfers — the tailor-made way.
           </p>
-          <p className="mt-6 inline-block border border-gold/40 bg-gold/10 px-3 py-1.5 font-mono text-[10px] font-bold uppercase tracking-[0.3em] text-gold">
+          <p className="mt-6 inline-block rounded-md border border-gold/40 bg-gold/10 px-3 py-1.5 font-mono text-[10px] font-bold uppercase tracking-[0.3em] text-gold-deep">
             Est. {BUSINESS.est} · Amritsar
           </p>
         </div>
@@ -38,7 +36,7 @@ export default function Footer() {
               <li key={l.href}>
                 <a
                   href={l.href}
-                  className="group flex items-center gap-2 text-sm text-paper/75 transition-colors hover:text-gold"
+                  className="group flex items-center gap-2 text-sm text-steel transition-colors hover:text-navy"
                 >
                   <span className="h-px w-4 bg-gold/40 transition-all duration-300 group-hover:w-6 group-hover:bg-gold" />
                   {l.label}
@@ -58,7 +56,7 @@ export default function Footer() {
               <li key={s.n}>
                 <a
                   href="#services"
-                  className="group flex items-center gap-2 text-sm text-paper/75 transition-colors hover:text-gold"
+                  className="group flex items-center gap-2 text-sm text-steel transition-colors hover:text-navy"
                 >
                   <span className="h-px w-4 bg-gold/40 transition-all duration-300 group-hover:w-6 group-hover:bg-gold" />
                   {s.title}
@@ -73,25 +71,25 @@ export default function Footer() {
           <h3 className="font-mono text-[10px] font-bold uppercase tracking-[0.3em] text-fog">
             Contact
           </h3>
-          <p className="mt-5 text-sm leading-relaxed text-paper/75">{BUSINESS.addressShort}</p>
+          <p className="mt-5 text-sm leading-relaxed text-steel">{BUSINESS.addressShort}</p>
           <a
             href={BUSINESS.phoneTel}
-            className="mt-3 block font-display text-2xl tracking-wide text-gold transition-colors hover:text-gold-soft"
+            className="mt-3 block font-display text-2xl text-navy transition-colors hover:text-gold-deep"
           >
             {BUSINESS.phoneDisplay}
           </a>
-          <p className="mt-2 flex flex-wrap gap-x-4 gap-y-1 font-mono text-[11px] text-paper/65">
+          <p className="mt-2 flex flex-wrap gap-x-4 gap-y-1 font-mono text-[11px] text-steel">
             {BUSINESS.phones.slice(1).map((p) => (
-              <a key={p.tel} href={p.tel} className="transition-colors hover:text-gold">
+              <a key={p.tel} href={p.tel} className="transition-colors hover:text-gold-deep">
                 {p.display}
               </a>
             ))}
           </p>
           <a
             href={`mailto:${BUSINESS.email}`}
-            className="mt-3 flex items-center gap-2 text-sm text-paper/75 transition-colors hover:text-gold"
+            className="mt-3 flex items-center gap-2 text-sm text-steel transition-colors hover:text-navy"
           >
-            <Mail size={14} className="shrink-0 text-gold/70" />
+            <Mail size={14} className="shrink-0 text-gold-deep" />
             {BUSINESS.email}
           </a>
           <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.22em] text-fog">
@@ -106,7 +104,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noreferrer"
                 aria-label={label}
-                className="grid h-10 w-10 place-items-center border border-paper/15 text-fog transition-all duration-300 hover:-translate-y-1 hover:border-gold hover:bg-gold hover:text-ink"
+                className="grid h-10 w-10 place-items-center rounded-lg border border-paper-2 bg-white text-steel transition-all duration-300 hover:-translate-y-1 hover:border-navy hover:bg-navy hover:text-white"
               >
                 <Icon size={16} />
               </a>
@@ -115,14 +113,14 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="border-t border-paper/10">
+      <div className="border-t border-paper-2">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-5 py-6 sm:px-8">
-          <p className="font-mono text-[11px] tracking-wide text-fog/70">
+          <p className="font-mono text-[11px] tracking-wide text-fog">
             © {year} {BUSINESS.name}. All rights reserved.
           </p>
-          <p className="font-mono text-[11px] tracking-wide text-fog/70">
+          <p className="font-mono text-[11px] tracking-wide text-fog">
             Gol Bagh Taxi Stand Market · Amritsar, Punjab ·{" "}
-            <span className="text-gold/80">on the road since {BUSINESS.est}</span>
+            <span className="text-gold-deep">on the road since {BUSINESS.est}</span>
           </p>
         </div>
       </div>
