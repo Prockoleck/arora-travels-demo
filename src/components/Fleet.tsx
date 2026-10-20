@@ -36,7 +36,7 @@ export default function Fleet({
           {FLEET.map((v, i) => (
             <Reveal key={v.name} delay={i * 0.08}>
               <article className="group flex h-full flex-col border border-navy/12 bg-white transition-all duration-500 hover:-translate-y-2 hover:border-gold hover:shadow-[0_30px_60px_-25px_rgba(11,30,51,0.35)]">
-                <div className="relative h-44 overflow-hidden">
+                <div className="relative aspect-[16/9] overflow-hidden">
                   <img
                     src={v.img}
                     alt={`${v.name} — ${v.models}`}
@@ -118,13 +118,11 @@ export default function Fleet({
           <p className="mt-3 font-mono text-[9px] leading-relaxed tracking-wide text-steel/60">
             Fleet photography: Dzire —{" "}
             <a href="https://commons.wikimedia.org/wiki/File:Maruti_Suzuki_Dzire_VXi_VVT_(front).JPG" target="_blank" rel="noreferrer" className="underline-offset-2 hover:underline">Biswarup Ganguly</a>
-            {" · "}Amaze —{" "}
-            <a href="https://commons.wikimedia.org/wiki/File:2024_Honda_Amaze_ZX.png" target="_blank" rel="noreferrer" className="underline-offset-2 hover:underline">Ashwin’s Garage</a>
-            {" "}(<a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noreferrer" className="underline-offset-2 hover:underline">CC BY 3.0</a>); Innova Crysta —{" "}
+            {" "}(<a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noreferrer" className="underline-offset-2 hover:underline">CC BY 3.0</a>) · Amaze —{" "}
+            <a href="https://commons.wikimedia.org/wiki/File:Honda_Amaze_India_Side_View.jpg" target="_blank" rel="noreferrer" className="underline-offset-2 hover:underline">Saiphani02</a>
+            {" "}(CC0); Innova Crysta —{" "}
             <a href="https://commons.wikimedia.org/wiki/File:Toyota_Innova_Crysta.jpg" target="_blank" rel="noreferrer" className="underline-offset-2 hover:underline">Abhishekptlbbk</a>
-            {" · "}Fortuner —{" "}
-            <a href="https://commons.wikimedia.org/wiki/File:2021_Toyota_Fortuner_SRZ_2.7_4x2_(Indonesia)_front_view_01.jpg" target="_blank" rel="noreferrer" className="underline-offset-2 hover:underline">Andra Febrian</a>
-            {" "}(<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer" className="underline-offset-2 hover:underline">CC BY-SA 4.0</a>) via Wikimedia Commons · Traveller &amp; minibus via{" "}
+            {" "}(<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer" className="underline-offset-2 hover:underline">CC BY-SA 4.0</a>) via Wikimedia Commons · Fortuner, Traveller &amp; minibus via{" "}
             <a href="https://www.pexels.com/" target="_blank" rel="noreferrer" className="underline-offset-2 hover:underline">Pexels</a>.
           </p>
         </Reveal>
