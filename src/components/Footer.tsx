@@ -1,4 +1,4 @@
-import { Facebook, Instagram, MessageCircle, Twitter } from "lucide-react";
+import { Facebook, Instagram, Mail, MessageCircle, Twitter } from "lucide-react";
 import { BUSINESS, NAV_LINKS, SERVICES } from "../data";
 import { Logo } from "./Navbar";
 
@@ -79,6 +79,20 @@ export default function Footer() {
             className="mt-3 block font-display text-2xl tracking-wide text-gold transition-colors hover:text-gold-soft"
           >
             {BUSINESS.phoneDisplay}
+          </a>
+          <p className="mt-2 flex flex-wrap gap-x-4 gap-y-1 font-mono text-[11px] text-paper/65">
+            {BUSINESS.phones.slice(1).map((p) => (
+              <a key={p.tel} href={p.tel} className="transition-colors hover:text-gold">
+                {p.display}
+              </a>
+            ))}
+          </p>
+          <a
+            href={`mailto:${BUSINESS.email}`}
+            className="mt-3 flex items-center gap-2 text-sm text-paper/75 transition-colors hover:text-gold"
+          >
+            <Mail size={14} className="shrink-0 text-gold/70" />
+            {BUSINESS.email}
           </a>
           <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.22em] text-fog">
             Available 24×7 · 365 days

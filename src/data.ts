@@ -18,6 +18,12 @@ export const BUSINESS = {
   est: 1997,
   phoneDisplay: "+91 99144 04090",
   phoneTel: "tel:+919914404090",
+  phones: [
+    { display: "+91 99144 04090", tel: "tel:+919914404090" },
+    { display: "+91 99150 70856", tel: "tel:+919915070856" },
+    { display: "+91 98143 70856", tel: "tel:+919814370856" },
+  ],
+  email: "aroratravels46@rediffmail.com",
   whatsapp: "https://wa.me/919914404090",
   address:
     "Shop No. 46, Gol Bagh, Taxi Stand Market, Narain Nagar, Goal Bagh, Amritsar, Punjab 143001, India",
@@ -34,10 +40,6 @@ export const IMAGES = {
     "https://image.qwenlm.ai/generated-images/6a46dbb6-cee2-43fe-a9b4-ca6d3671ad15/_result.png",
   chauffeur:
     "https://image.qwenlm.ai/generated-images/c0446841-ea5f-45d4-9258-ae90a9088f23/_result.png",
-  sedan:
-    "https://image.qwenlm.ai/generated-images/ac681900-8dc4-4f8c-aa35-87da03343bea/_result.png",
-  suv: "https://image.qwenlm.ai/generated-images/837fad27-c2b3-4994-8371-073442d3c1cf/_result.png",
-  van: "https://image.qwenlm.ai/generated-images/65b94e9f-9bf2-4cd9-8d24-99fb9c0dfd88/_result.png",
 };
 
 /* ── Booking form model (shared between Hero widget & Contact form) ── */
@@ -52,10 +54,11 @@ export type Booking = {
 
 export const VEHICLE_OPTIONS = [
   "Any vehicle — you decide for me",
-  "Compact Sedan (Dzire / City)",
+  "Compact Sedan (Dzire / Amaze)",
   "Family SUV (Innova Crysta)",
-  "Premium MPV (Innova Hycross)",
+  "Premium SUV (Toyota Fortuner)",
   "Tempo Traveller (12-seater)",
+  "Mini Bus (25–30 seats)",
 ];
 
 export const defaultDatetime = () => {
@@ -138,19 +141,20 @@ export type Vehicle = {
   name: string;
   models: string;
   img: string;
-  seats: number;
-  bags: number;
-  perKm: number;
-  perDay: string;
+  seats: number | string;
+  bags: number | string;
+  /* null = quoted per trip — no public tariff for this class yet */
+  perKm: number | null;
+  perDay: string | null;
   tag?: string;
 };
 
 export const FLEET: Vehicle[] = [
   {
     key: VEHICLE_OPTIONS[1],
-    name: "Compact Sedan",
-    models: "Maruti Dzire · Honda City",
-    img: IMAGES.sedan,
+    name: "Suzuki Dzire",
+    models: "Maruti Suzuki Dzire · compact sedan",
+    img: "/fleet/dzire.jpg",
     seats: 4,
     bags: 2,
     perKm: 12,
@@ -158,10 +162,20 @@ export const FLEET: Vehicle[] = [
     tag: "MOST BOOKED",
   },
   {
+    key: VEHICLE_OPTIONS[1],
+    name: "Honda Amaze",
+    models: "Honda Amaze · compact sedan",
+    img: "/fleet/amaze.jpg",
+    seats: 4,
+    bags: 2,
+    perKm: 12,
+    perDay: "₹1,500",
+  },
+  {
     key: VEHICLE_OPTIONS[2],
-    name: "Family SUV",
-    models: "Toyota Innova Crysta",
-    img: IMAGES.suv,
+    name: "Innova Crysta",
+    models: "Toyota Innova Crysta · family SUV",
+    img: "/fleet/innova.jpg",
     seats: 7,
     bags: 4,
     perKm: 16,
@@ -169,9 +183,9 @@ export const FLEET: Vehicle[] = [
   },
   {
     key: VEHICLE_OPTIONS[3],
-    name: "Premium MPV",
-    models: "Toyota Innova Hycross",
-    img: IMAGES.suv,
+    name: "Toyota Fortuner",
+    models: "Toyota Fortuner · premium SUV",
+    img: "/fleet/fortuner.jpg",
     seats: 7,
     bags: 4,
     perKm: 20,
@@ -181,13 +195,24 @@ export const FLEET: Vehicle[] = [
   {
     key: VEHICLE_OPTIONS[4],
     name: "Tempo Traveller",
-    models: "Force Traveller · 12 Seater",
-    img: IMAGES.van,
+    models: "Force Traveller · 12 seater",
+    img: "/fleet/traveller.jpg",
     seats: 12,
     bags: 10,
     perKm: 22,
     perDay: "₹3,000",
     tag: "GROUPS",
+  },
+  {
+    key: VEHICLE_OPTIONS[5],
+    name: "Mini Bus",
+    models: "Air-conditioned group coach",
+    img: "/fleet/minibus.jpg",
+    seats: "25–30",
+    bags: "20+",
+    perKm: null,
+    perDay: null,
+    tag: "LARGE GROUPS",
   },
 ];
 

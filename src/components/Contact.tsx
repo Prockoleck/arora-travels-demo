@@ -6,6 +6,7 @@ import {
   CheckCircle2,
   Clock,
   Loader2,
+  Mail,
   MapPin,
   MessageCircle,
   Phone,
@@ -261,6 +262,34 @@ export default function Contact({
                       className="mt-1 block font-display text-2xl tracking-wide text-gold transition-colors hover:text-gold-soft sm:text-3xl"
                     >
                       {BUSINESS.phoneDisplay}
+                    </a>
+                    <p className="mt-2 flex flex-wrap gap-x-4 gap-y-1 font-mono text-[12px] text-paper/70">
+                      {BUSINESS.phones.slice(1).map((p) => (
+                        <a
+                          key={p.tel}
+                          href={p.tel}
+                          className="transition-colors hover:text-gold"
+                        >
+                          {p.display}
+                        </a>
+                      ))}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex gap-4">
+                  <span className="mt-0.5 grid h-10 w-10 shrink-0 place-items-center border border-gold/35 bg-navy-800 text-gold">
+                    <Mail size={17} />
+                  </span>
+                  <div>
+                    <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.25em] text-fog">
+                      Email
+                    </p>
+                    <a
+                      href={`mailto:${BUSINESS.email}`}
+                      className="mt-1.5 block break-all text-sm font-semibold text-gold transition-colors hover:text-gold-soft"
+                    >
+                      {BUSINESS.email}
                     </a>
                   </div>
                 </div>
