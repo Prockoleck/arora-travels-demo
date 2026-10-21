@@ -1,4 +1,4 @@
-import { BUSINESS, gmapsLink, type Booking, type Coord } from "../data";
+import { BUSINESS, type Booking } from "../data";
 
 /* Booking records — persisted locally + routed to the client via two
    *independent* paths (see submit flow in Contact.tsx):
@@ -69,12 +69,6 @@ const fmtWhen = (iso: string): string => {
   return d.toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "short" });
 };
 
-/** Google Maps link for a chosen coordinate, formatted for a human. */
-const coordLine = (prefix: string, c?: Coord): string =>
-  c
-    ? `${prefix}: ${c.label} — ${gmapsLink(c)} (${c.lat.toFixed(5)}, ${c.lng.toFixed(5)})`
-    : "";
-
 /** WhatsApp-friendly booking summary (newlines + *bold* render natively). */
 export function bookingMessage(b: SavedBooking): string {
   return [
@@ -85,9 +79,7 @@ export function bookingMessage(b: SavedBooking): string {
     `Phone: ${b.phone || "—"}`,
     `Passengers: ${b.passengers ?? "—"}`,
     `Pickup: ${b.pickup || "—"}`,
-    b.pickupCoords ? coordLine("Pickup pin", b.pickupCoords) : "",
     `Drop: ${b.drop || "—"}`,
-    b.dropCoords ? coordLine("Drop pin", b.dropCoords) : "",
     `When: ${fmtWhen(b.datetime)}`,
     `Vehicle: ${b.vehicle || "Any"}`,
     ``,
@@ -101,16 +93,18 @@ export function whatsappSendLink(b: SavedBooking): string {
   return `${BUSINESS.whatsapp}?text=${encodeURIComponent(bookingMessage(b))}`;
 }
 
-/** Email relay → FormSubmit's *direct* endpoint at the CLIENT's address
- *  (aroratravels46@rediffmail.com) — every booking is emailed there.
- *  One-time caveat: FormSubmit sends a verification link to that inbox on the
- *  FIRST submission; the client must click it once before emails flow. Until
- *  then FormSubmit holds them and answers success:false — which the submit
- *  toast reports truthfully (it never claims delivery it can't confirm).
- *  Dev previews on localhost are gated the same way.
- *  Note: the address is visible in the page source (FormSubmit's slug feature
- *  only hides the original setup inbox, so a slug can't route here). */
-const NOTIFY_ENDPOINT = "formsubmit.co/ajax/aroratravels46@rediffmail.com";
+/** Email relay → FormSubmit's *slug* endpoint at the setup/test inbox
+ *  (proshorts71@gmail.com) — all deliveries & tests go there while the site
+ *  is still being finished, per the standing rule.
+ *  AT HANDOVER, swap the slug below to the client's address
+ *  (formsubmit.co/ajax/aroratravels46@rediffmail.com) — that requires a
+ *  one-time activation click in the client's inbox (FormSubmit emails a
+ *  verification link on the first submission; until clicked it holds the
+ *  emails and answers success:false, which the submit toast reports
+ *  truthfully — it never claims delivery it can't confirm).
+ *  The slug only ever hides the original setup inbox, so routing to a new
+ *  address later is just this one-line swap. */
+const NOTIFY_ENDPOINT = "formsubmit.co/ajax/c0109bb59fa6b041918d5f47b83bdab0";
 
 export async function notifyServer(b: SavedBooking): Promise<boolean> {
   try {

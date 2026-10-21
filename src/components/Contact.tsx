@@ -9,20 +9,11 @@ import {
   Mail,
   MapPin,
   MessageCircle,
-  Navigation,
   Phone,
   X,
 } from "lucide-react";
-import {
-  BUSINESS,
-  ROUTES,
-  VEHICLE_OPTIONS,
-  emptyBooking,
-  gmapsLink,
-  type Booking,
-} from "../data";
+import { BUSINESS, ROUTES, VEHICLE_OPTIONS, emptyBooking, type Booking } from "../data";
 import Reveal, { SectionTag } from "./Reveal";
-import LocationPicker from "./LocationPicker";
 import PassengerStepper from "./PassengerStepper";
 import { notifyServer, saveBooking, whatsappSendLink } from "../lib/booking";
 
@@ -33,69 +24,40 @@ const inputCls =
 
 type Errors = Partial<Record<"name" | "phone" | "pickup" | "drop", string>>;
 
-/* Stylised map of Gol Bagh — placeholder for the live Google embed */
-function MapPlaceholder() {
+/* Show-only Google Maps of the stand — a keyless Google Maps embed, no API
+   key or billing needed. It's for orientation only: pickup & drop are typed
+   by hand in the form, nothing is picked on this map. */
+function StandMap() {
   return (
-    <div className="relative mt-14 h-80 overflow-hidden rounded-2xl border border-paper-2 bg-paper">
-      <svg viewBox="0 0 900 360" className="h-full w-full" preserveAspectRatio="xMidYMid slice" aria-label="Map showing Arora Travels at Gol Bagh, Amritsar">
-        {/* city blocks */}
-        <g fill="#e7edf4">
-          <rect x="0" y="0" width="250" height="120" />
-          <rect x="290" y="0" width="280" height="90" />
-          <rect x="610" y="0" width="290" height="140" />
-          <rect x="0" y="160" width="210" height="200" />
-          <rect x="250" y="130" width="180" height="110" />
-          <rect x="680" y="180" width="220" height="180" />
-          <rect x="300" y="280" width="320" height="80" />
-        </g>
-        {/* roads */}
-        <g stroke="#ffffff" strokeWidth="26" strokeLinecap="round">
-          <path d="M0 140 H 900" />
-          <path d="M230 0 V 360" />
-          <path d="M650 0 V 360" />
-          <path d="M460 140 L 620 360" />
-        </g>
-        <g stroke="var(--color-gold)" strokeWidth="2.5" strokeDasharray="16 14" opacity="0.85">
-          <path d="M0 140 H 900" />
-          <path d="M230 0 V 360" />
-          <path d="M650 0 V 360" />
-        </g>
-        {/* street labels */}
-        <g fill="#8a94a3" fontFamily="IBM Plex Mono, monospace" fontSize="13" letterSpacing="3">
-          <text x="330" y="128">GT ROAD</text>
-          <text x="244" y="60" transform="rotate(90 244 60)">MALL ROAD</text>
-          <text x="700" y="330">CIRCULAR ROAD</text>
-        </g>
-        {/* landmark */}
-        <g transform="translate(760 60)">
-          <path d="M0 -26 L 14 0 L 0 6 L -14 0 Z" fill="var(--color-gold)" opacity="0.9" />
-          <circle cx="0" cy="-8" r="4" fill="#ffffff" />
-          <text x="22" y="2" fill="#a1690b" fontFamily="IBM Plex Mono, monospace" fontSize="12" letterSpacing="2">GOLDEN TEMPLE →</text>
-        </g>
-        {/* pin for Arora Travels */}
-        <g transform="translate(450 140)">
-          <circle r="46" fill="var(--color-gold)" opacity="0.12" />
-          <circle r="26" fill="var(--color-gold)" opacity="0.25" className="ring-ping" style={{ transformBox: "fill-box", transformOrigin: "center" }} />
-          <path d="M0 6 C -16 -12 -16 -34 0 -34 C 16 -34 16 -12 0 6 Z" fill="var(--color-gold)" stroke="#ffffff" strokeWidth="2.5" />
-          <circle cy="-20" r="6" fill="#ffffff" />
-        </g>
-      </svg>
-
-      {/* label chip */}
-      <div className="absolute left-1/2 top-[58%] w-max -translate-x-1/2 rounded-lg border border-paper-2 bg-white px-4 py-2.5 shadow-md">
-        <p className="font-mono text-[10px] font-bold uppercase tracking-[0.22em] text-gold-deep">Arora Travels</p>
-        <p className="mt-0.5 text-xs text-steel">Shop No. 46, Gol Bagh Taxi Stand Market</p>
+    <div className="mt-14 overflow-hidden rounded-2xl border border-paper-2 bg-paper">
+      <iframe
+        title="Google map showing Arora Travels at Gol Bagh, Amritsar"
+        src={`https://maps.google.com/maps?q=${encodeURIComponent(
+          "Arora Travels, Gol Bagh, Amritsar, Punjab 143001",
+        )}&z=15&output=embed&hl=en`}
+        loading="lazy"
+        referrerPolicy="no-referrer-when-downgrade"
+        className="block h-80 w-full border-0"
+      />
+      <div className="flex flex-wrap items-center justify-between gap-2 border-t border-paper-2 bg-white px-5 py-3.5">
+        <p className="text-xs text-steel">
+          <span className="font-bold text-ink">Arora Travels</span> · Shop No. 46, Gol Bagh Taxi
+          Stand Market
+        </p>
+        <a
+          href={BUSINESS.mapsUrl}
+          target="_blank"
+          rel="noreferrer"
+          className="group flex items-center gap-1.5 text-xs font-bold text-gold-deep"
+        >
+          Open in Google Maps
+          <ArrowUpRight
+            size={13}
+            strokeWidth={2.5}
+            className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+          />
+        </a>
       </div>
-
-      <a
-        href={BUSINESS.mapsUrl}
-        target="_blank"
-        rel="noreferrer"
-        className="group absolute bottom-4 right-4 flex items-center gap-2 rounded-lg bg-navy px-4 py-2.5 text-xs font-bold text-white transition-all duration-300 hover:bg-navy-800"
-      >
-        Open in Google Maps
-        <ArrowUpRight size={14} strokeWidth={2.5} className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-      </a>
     </div>
   );
 }
@@ -111,8 +73,6 @@ export default function Contact({
   const [sending, setSending] = useState(false);
   const [toast, setToast] = useState<"ok" | "fail" | null>(null);
   const [waLink, setWaLink] = useState<string | null>(null);
-  /* which map-picker dialog is open (null = closed) */
-  const [picking, setPicking] = useState<null | "pickup" | "drop">(null);
   const formRef = useRef<HTMLFormElement>(null);
   const reduce = useReducedMotion();
 
@@ -394,68 +354,26 @@ export default function Contact({
                   </div>
                   <div>
                     <label htmlFor="c-pickup" className={labelCls}>Pickup location</label>
-                    <div className="flex items-stretch gap-2">
-                      <input
-                        id="c-pickup"
-                        className={`${inputCls} ${errors.pickup ? "border-red-500" : ""}`}
-                        placeholder="e.g. ATQ Airport"
-                        value={booking.pickup}
-                        onChange={(e) => patch({ pickup: e.target.value })}
-                      />
-                      <button
-                        type="button"
-                        onClick={() => setPicking("pickup")}
-                        aria-label="Pick exact pickup point on map"
-                        title="Pick exact point on map"
-                        className={`grid w-12 shrink-0 place-items-center rounded-lg border transition-all ${
-                          booking.pickupCoords
-                            ? "border-gold bg-gold/10 text-gold-deep"
-                            : "border-paper-2 bg-white text-steel hover:border-gold hover:text-gold-deep"
-                        }`}
-                      >
-                        <Navigation size={17} />
-                      </button>
-                    </div>
-                    {booking.pickupCoords && (
-                      <p className="mt-1.5 flex items-center gap-1.5 text-[11px] text-gold-deep">
-                        <MapPin size={11} className="shrink-0" />
-                        Exact point pinned on map
-                      </p>
-                    )}
+                    <input
+                      id="c-pickup"
+                      className={`${inputCls} ${errors.pickup ? "border-red-500" : ""}`}
+                      placeholder="e.g. ATQ Airport"
+                      value={booking.pickup}
+                      onChange={(e) => patch({ pickup: e.target.value })}
+                    />
                     {errors.pickup && (
                       <p className="mt-1.5 text-xs font-semibold text-red-600">{errors.pickup}</p>
                     )}
                   </div>
                   <div>
                     <label htmlFor="c-drop" className={labelCls}>Drop location</label>
-                    <div className="flex items-stretch gap-2">
-                      <input
-                        id="c-drop"
-                        className={`${inputCls} ${errors.drop ? "border-red-500" : ""}`}
-                        placeholder="e.g. Golden Temple"
-                        value={booking.drop}
-                        onChange={(e) => patch({ drop: e.target.value })}
-                      />
-                      <button
-                        type="button"
-                        onClick={() => setPicking("drop")}
-                        aria-label="Pick exact drop point on map"
-                        title="Pick exact point on map"
-                        className={`grid w-12 shrink-0 place-items-center rounded-lg border transition-all ${
-                          booking.dropCoords
-                            ? "border-gold bg-gold/10 text-gold-deep"
-                            : "border-paper-2 bg-white text-steel hover:border-gold hover:text-gold-deep"
-                        }`}
-                      >
-                        <Navigation size={17} />
-                      </button>
-                    </div>
-                    {booking.dropCoords && (
-                      <p className="mt-1.5 flex items-center gap-1.5 text-[11px] text-gold-deep">
-                        <MapPin size={11} className="shrink-0" />
-                        Exact point pinned on map
-                      </p>
-                    )}
+                    <input
+                      id="c-drop"
+                      className={`${inputCls} ${errors.drop ? "border-red-500" : ""}`}
+                      placeholder="e.g. Golden Temple"
+                      value={booking.drop}
+                      onChange={(e) => patch({ drop: e.target.value })}
+                    />
                     {errors.drop && (
                       <p className="mt-1.5 text-xs font-semibold text-red-600">{errors.drop}</p>
                     )}
@@ -519,7 +437,7 @@ export default function Contact({
         </div>
 
         <Reveal delay={0.1} className="order-4">
-          <MapPlaceholder />
+          <StandMap />
         </Reveal>
       </div>
 
@@ -610,28 +528,6 @@ export default function Contact({
           </motion.div>
         )}
       </AnimatePresence>
-
-      {/* exact-location map pickers */}
-      <LocationPicker
-        open={picking === "pickup"}
-        title="Choose exact pickup point"
-        initial={booking.pickupCoords}
-        onCancel={() => setPicking(null)}
-        onConfirm={(c) => {
-          patch({ pickupCoords: c, pickup: c.label });
-          setPicking(null);
-        }}
-      />
-      <LocationPicker
-        open={picking === "drop"}
-        title="Choose exact drop point"
-        initial={booking.dropCoords}
-        onCancel={() => setPicking(null)}
-        onConfirm={(c) => {
-          patch({ dropCoords: c, drop: c.label });
-          setPicking(null);
-        }}
-      />
     </section>
   );
 }
