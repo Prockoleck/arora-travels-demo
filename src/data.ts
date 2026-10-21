@@ -50,7 +50,26 @@ export type Booking = {
   drop: string;
   datetime: string;
   vehicle: string;
+  passengers: number;
+  /** Optional precise coordinates chosen on the map (WGS84), if used. */
+  pickupCoords?: Coord;
+  dropCoords?: Coord;
 };
+
+/** A chosen point on the map. `label` is the human-readable address. */
+export type Coord = {
+  lat: number;
+  lng: number;
+  label: string;
+};
+
+/** Passenger-count bounds (matches the fleet's smallest & largest seats). */
+export const PASSENGERS_MIN = 1;
+export const PASSENGERS_MAX = 30;
+
+/** Build a tappable Google Maps link from a coordinate (dispatcher handoff). */
+export const gmapsLink = (c: Coord) =>
+  `https://www.google.com/maps?q=${c.lat},${c.lng}`;
 
 export const VEHICLE_OPTIONS = [
   "Any vehicle — you decide for me",
@@ -77,6 +96,9 @@ export const emptyBooking = (): Booking => ({
   drop: "",
   datetime: defaultDatetime(),
   vehicle: VEHICLE_OPTIONS[0],
+  passengers: 2,
+  pickupCoords: undefined,
+  dropCoords: undefined,
 });
 
 /* ── Destination board (marquee) ─────────────────────────── */

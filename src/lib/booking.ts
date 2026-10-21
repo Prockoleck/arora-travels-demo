@@ -1,4 +1,4 @@
-import { BUSINESS, type Booking } from "../data";
+import { BUSINESS, gmapsLink, type Booking, type Coord } from "../data";
 
 /* Booking records — persisted locally + routed to the client via two
    *independent* paths (see submit flow in Contact.tsx):
@@ -69,6 +69,12 @@ const fmtWhen = (iso: string): string => {
   return d.toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "short" });
 };
 
+/** Google Maps link for a chosen coordinate, formatted for a human. */
+const coordLine = (prefix: string, c?: Coord): string =>
+  c
+    ? `${prefix}: ${c.label} — ${gmapsLink(c)} (${c.lat.toFixed(5)}, ${c.lng.toFixed(5)})`
+    : "";
+
 /** WhatsApp-friendly booking summary (newlines + *bold* render natively). */
 export function bookingMessage(b: SavedBooking): string {
   return [
@@ -77,13 +83,18 @@ export function bookingMessage(b: SavedBooking): string {
     ``,
     `Name: ${b.name || "—"}`,
     `Phone: ${b.phone || "—"}`,
+    `Passengers: ${b.passengers ?? "—"}`,
     `Pickup: ${b.pickup || "—"}`,
+    b.pickupCoords ? coordLine("Pickup pin", b.pickupCoords) : "",
     `Drop: ${b.drop || "—"}`,
+    b.dropCoords ? coordLine("Drop pin", b.dropCoords) : "",
     `When: ${fmtWhen(b.datetime)}`,
     `Vehicle: ${b.vehicle || "Any"}`,
     ``,
     `_Booked via aroratravels.vercel.app_`,
-  ].join("\n");
+  ]
+    .filter((line) => line !== "")
+    .join("\n");
 }
 
 export function whatsappSendLink(b: SavedBooking): string {

@@ -5,12 +5,14 @@ import {
   Clock,
   Copy,
   KeyRound,
+  MapPin,
   MessageCircle,
   Phone,
   ShieldCheck,
   Trash2,
   X,
 } from "lucide-react";
+import { gmapsLink } from "../data";
 import { Logo } from "./Navbar";
 import { clearBookings, loadBookings, removeBooking, whatsappSendLink, type SavedBooking } from "../lib/booking";
 
@@ -149,7 +151,7 @@ function BookingCard({ b, onDelete }: { b: SavedBooking; onDelete: () => void })
 
       <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <div>
-          <span className={labelCls}>Passenger</span>
+          <span className={labelCls}>Name</span>
           <p className={cellCls}>{b.name || "—"}</p>
         </div>
         <div>
@@ -172,12 +174,40 @@ function BookingCard({ b, onDelete }: { b: SavedBooking; onDelete: () => void })
           <span className={labelCls}>Vehicle</span>
           <p className={cellCls}>{b.vehicle || "Any"}</p>
         </div>
+        <div>
+          <span className={labelCls}>Passengers</span>
+          <p className={cellCls}>{b.passengers ?? "—"}</p>
+        </div>
         <div className="sm:col-span-2">
           <span className={labelCls}>Trip</span>
           <p className={cellCls}>
             <span className="text-gold-deep">▸</span> {b.pickup || "—"}{" "}
             <span className="text-gold-deep">→</span> {b.drop || "—"}
           </p>
+          {(b.pickupCoords || b.dropCoords) && (
+            <p className="mt-1.5 flex flex-wrap gap-3 text-[11.5px]">
+              {b.pickupCoords && (
+                <a
+                  href={gmapsLink(b.pickupCoords)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1 text-gold-deep underline-offset-2 hover:underline"
+                >
+                  <MapPin size={11} /> Pickup pin on map
+                </a>
+              )}
+              {b.dropCoords && (
+                <a
+                  href={gmapsLink(b.dropCoords)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1 text-gold-deep underline-offset-2 hover:underline"
+                >
+                  <MapPin size={11} /> Drop pin on map
+                </a>
+              )}
+            </p>
+          )}
         </div>
         <div>
           <span className={labelCls}>When</span>

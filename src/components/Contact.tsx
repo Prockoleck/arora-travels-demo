@@ -9,6 +9,7 @@ import {
   Mail,
   MapPin,
   MessageCircle,
+  Navigation,
   Phone,
   X,
 } from "lucide-react";
@@ -17,9 +18,12 @@ import {
   ROUTES,
   VEHICLE_OPTIONS,
   emptyBooking,
+  gmapsLink,
   type Booking,
 } from "../data";
 import Reveal, { SectionTag } from "./Reveal";
+import LocationPicker from "./LocationPicker";
+import PassengerStepper from "./PassengerStepper";
 import { notifyServer, saveBooking, whatsappSendLink } from "../lib/booking";
 
 const labelCls =
@@ -107,6 +111,8 @@ export default function Contact({
   const [sending, setSending] = useState(false);
   const [toast, setToast] = useState<"ok" | "fail" | null>(null);
   const [waLink, setWaLink] = useState<string | null>(null);
+  /* which map-picker dialog is open (null = closed) */
+  const [picking, setPicking] = useState<null | "pickup" | "drop">(null);
   const formRef = useRef<HTMLFormElement>(null);
   const reduce = useReducedMotion();
 
@@ -388,29 +394,77 @@ export default function Contact({
                   </div>
                   <div>
                     <label htmlFor="c-pickup" className={labelCls}>Pickup location</label>
-                    <input
-                      id="c-pickup"
-                      className={`${inputCls} ${errors.pickup ? "border-red-500" : ""}`}
-                      placeholder="e.g. ATQ Airport, Terminal 1"
-                      value={booking.pickup}
-                      onChange={(e) => patch({ pickup: e.target.value })}
-                    />
+                    <div className="flex items-stretch gap-2">
+                      <input
+                        id="c-pickup"
+                        className={`${inputCls} ${errors.pickup ? "border-red-500" : ""}`}
+                        placeholder="e.g. ATQ Airport"
+                        value={booking.pickup}
+                        onChange={(e) => patch({ pickup: e.target.value })}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setPicking("pickup")}
+                        aria-label="Pick exact pickup point on map"
+                        title="Pick exact point on map"
+                        className={`grid w-12 shrink-0 place-items-center rounded-lg border transition-all ${
+                          booking.pickupCoords
+                            ? "border-gold bg-gold/10 text-gold-deep"
+                            : "border-paper-2 bg-white text-steel hover:border-gold hover:text-gold-deep"
+                        }`}
+                      >
+                        <Navigation size={17} />
+                      </button>
+                    </div>
+                    {booking.pickupCoords && (
+                      <p className="mt-1.5 flex items-center gap-1.5 text-[11px] text-gold-deep">
+                        <MapPin size={11} className="shrink-0" />
+                        Exact point pinned on map
+                      </p>
+                    )}
                     {errors.pickup && (
                       <p className="mt-1.5 text-xs font-semibold text-red-600">{errors.pickup}</p>
                     )}
                   </div>
                   <div>
                     <label htmlFor="c-drop" className={labelCls}>Drop location</label>
-                    <input
-                      id="c-drop"
-                      className={`${inputCls} ${errors.drop ? "border-red-500" : ""}`}
-                      placeholder="e.g. Hotel near Golden Temple"
-                      value={booking.drop}
-                      onChange={(e) => patch({ drop: e.target.value })}
-                    />
+                    <div className="flex items-stretch gap-2">
+                      <input
+                        id="c-drop"
+                        className={`${inputCls} ${errors.drop ? "border-red-500" : ""}`}
+                        placeholder="e.g. Golden Temple"
+                        value={booking.drop}
+                        onChange={(e) => patch({ drop: e.target.value })}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setPicking("drop")}
+                        aria-label="Pick exact drop point on map"
+                        title="Pick exact point on map"
+                        className={`grid w-12 shrink-0 place-items-center rounded-lg border transition-all ${
+                          booking.dropCoords
+                            ? "border-gold bg-gold/10 text-gold-deep"
+                            : "border-paper-2 bg-white text-steel hover:border-gold hover:text-gold-deep"
+                        }`}
+                      >
+                        <Navigation size={17} />
+                      </button>
+                    </div>
+                    {booking.dropCoords && (
+                      <p className="mt-1.5 flex items-center gap-1.5 text-[11px] text-gold-deep">
+                        <MapPin size={11} className="shrink-0" />
+                        Exact point pinned on map
+                      </p>
+                    )}
                     {errors.drop && (
                       <p className="mt-1.5 text-xs font-semibold text-red-600">{errors.drop}</p>
                     )}
+                  </div>
+                  <div className="sm:col-span-2">
+                    <PassengerStepper
+                      value={booking.passengers}
+                      onChange={(n) => patch({ passengers: n })}
+                    />
                   </div>
                   <div>
                     <label htmlFor="c-when" className={labelCls}>Date &amp; time</label>
@@ -556,6 +610,28 @@ export default function Contact({
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* exact-location map pickers */}
+      <LocationPicker
+        open={picking === "pickup"}
+        title="Choose exact pickup point"
+        initial={booking.pickupCoords}
+        onCancel={() => setPicking(null)}
+        onConfirm={(c) => {
+          patch({ pickupCoords: c, pickup: c.label });
+          setPicking(null);
+        }}
+      />
+      <LocationPicker
+        open={picking === "drop"}
+        title="Choose exact drop point"
+        initial={booking.dropCoords}
+        onCancel={() => setPicking(null)}
+        onConfirm={(c) => {
+          patch({ dropCoords: c, drop: c.label });
+          setPicking(null);
+        }}
+      />
     </section>
   );
 }
