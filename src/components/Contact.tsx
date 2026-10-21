@@ -167,17 +167,17 @@ export default function Contact({
   };
 
   return (
-    <section id="home" className="relative scroll-mt-20 overflow-hidden bg-white pb-24 pt-28 lg:pb-32 lg:pt-36">
+    <section id="contact" className="relative scroll-mt-20 overflow-hidden bg-white py-24 lg:py-32">
       <div className="relative mx-auto flex max-w-7xl flex-col px-5 sm:px-8">
         <div className="order-1 grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
           <div>
             <SectionTag>Book a ride</SectionTag>
             <Reveal>
-              <h1 className="mt-5 text-3xl leading-[1.12] text-navy sm:text-4xl xl:text-5xl">
+              <h2 className="mt-5 text-3xl leading-[1.12] text-navy sm:text-4xl xl:text-5xl">
                 Tell us where.
                 <br />
                 <span className="text-gold-deep">We’ll be there.</span>
-              </h1>
+              </h2>
             </Reveal>
           </div>
           <Reveal delay={0.12}>
@@ -224,12 +224,9 @@ export default function Contact({
         </Reveal>
 
         <div className="order-2 mt-14 grid gap-6 lg:order-3 lg:grid-cols-[0.95fr_1.05fr]">
-          {/* ── info panel (below the form on phones) ── */}
+          {/* ── info panel ── */}
           <Reveal className="order-2 lg:order-1">
-            <aside
-              id="contact"
-              className="flex h-full scroll-mt-24 flex-col rounded-2xl border border-paper-2 bg-paper p-8 sm:p-10"
-            >
+            <aside className="flex h-full scroll-mt-24 flex-col rounded-2xl border border-paper-2 bg-paper p-8 sm:p-10">
               <h3 className="text-xl font-bold text-navy sm:text-2xl">
                 The stand is <span className="text-gold-deep">always open.</span>
               </h3>
