@@ -42,7 +42,7 @@ export const IMAGES = {
     "https://image.qwenlm.ai/generated-images/c0446841-ea5f-45d4-9258-ae90a9088f23/_result.png",
 };
 
-/* ── Booking form model (shared between Hero widget & Contact form) ── */
+/* ── Booking form model (shared between hero CTA & booking form) ── */
 export type Booking = {
   name: string;
   phone: string;
@@ -70,6 +70,17 @@ export const PASSENGERS_MAX = 30;
 /** Build a tappable Google Maps link from a coordinate (dispatcher handoff). */
 export const gmapsLink = (c: Coord) =>
   `https://www.google.com/maps?q=${c.lat},${c.lng}`;
+
+/** Google Maps key for the *interactive* location picker.
+ *  Paste the key between the quotes below, or set the `VITE_GOOGLE_MAPS_KEY`
+ *  env var (Vercel → Project → Settings → Environment Variables) and rebuild.
+ *  While empty, the picker runs on the keyless OpenStreetMap engine — and if a
+ *  provided key is rejected by Google (billing off, wrong domain), the picker
+ *  falls back to OpenStreetMap automatically instead of breaking. */
+export const GOOGLE_MAPS_KEY = (
+  (import.meta as unknown as { env?: Record<string, string | undefined> }).env
+    ?.VITE_GOOGLE_MAPS_KEY ?? ""
+).trim();
 
 export const VEHICLE_OPTIONS = [
   "Any vehicle — you decide for me",

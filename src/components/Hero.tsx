@@ -1,7 +1,7 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { motion, useReducedMotion } from "framer-motion";
-import { ArrowRight, CheckCircle2, Phone } from "lucide-react";
-import { BUSINESS, STATS, type Booking } from "../data";
+import { ArrowRight, CheckCircle2, Luggage, Phone, Users } from "lucide-react";
+import { BUSINESS, FLEET, STATS, type Booking } from "../data";
 import { CountUp } from "./Reveal";
 
 /* Live clock pinned to Indian Standard Time */
@@ -44,18 +44,14 @@ function MaskedLine({ children, delay }: { children: ReactNode; delay: number })
   );
 }
 
-const PICKUP_CHIPS = ["ATQ Airport", "Golden Temple", "Railway Station", "Wagah Border"];
-const DROP_CHIPS = ["ATQ Airport", "City Hotel", "Delhi", "Chandigarh"];
-
-const inputCls =
-  "w-full rounded-lg border border-paper-2 bg-white px-4 py-3 text-[15px] text-ink outline-none transition-colors duration-200 placeholder:text-fog focus:border-gold";
+/* Featured car for the hero card — the flagship SUV (executive class).
+   Its photo is the client's own; fares are the published tariff only. */
+const FEATURED = FLEET.find((v) => v.tag === "EXECUTIVE") ?? FLEET[0];
 
 export default function Hero({
-  booking,
   patch,
   goBook,
 }: {
-  booking: Booking;
   patch: (p: Partial<Booking>) => void;
   goBook: () => void;
 }) {
@@ -132,7 +128,7 @@ export default function Hero({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.95, duration: 0.8 }}
-            className="mt-14 grid grid-cols-2 gap-x-6 gap-y-8 border-t border-paper-2 pt-8 md:grid-cols-4"
+            className="mt-14 grid grid-cols-2 gap-x-6 gap-y-8 border-t border-paper-2 pt-8 md:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4"
           >
             {STATS.map((s) => (
               <div key={s.label} className="flex flex-col">
@@ -147,7 +143,7 @@ export default function Hero({
           </motion.dl>
         </div>
 
-        {/* ── Right: instant booking widget ── */}
+        {/* ── Right: featured fleet card ── */}
         <motion.aside
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
@@ -157,101 +153,83 @@ export default function Hero({
           <div className="overflow-hidden rounded-2xl border border-paper-2 bg-white shadow-[0_24px_60px_-40px_rgba(16,35,63,0.35)]">
             <div className="flex items-center justify-between border-b border-paper-2 bg-paper px-6 py-4">
               <span className="font-display text-lg text-ink">
-                Instant <span className="text-gold-deep">booking</span>
+                Meet the <span className="text-gold-deep">fleet</span>
               </span>
-              <span className="font-mono text-[9px] font-semibold tracking-[0.25em] text-gold-deep">
-                NO APP NEEDED
+              <a
+                href="#fleet"
+                className="group flex items-center gap-1.5 font-mono text-[9px] font-semibold tracking-[0.25em] text-gold-deep"
+              >
+                ALL FARES
+                <ArrowRight
+                  size={11}
+                  strokeWidth={2.5}
+                  className="transition-transform duration-300 group-hover:translate-x-1"
+                />
+              </a>
+            </div>
+
+            {/* client's flagship car photo */}
+            <div className="relative">
+              <img
+                src={FEATURED.img}
+                alt={`${FEATURED.name} — ${FEATURED.models}`}
+                className="aspect-[16/9] w-full object-cover"
+              />
+              <span className="absolute left-4 top-4 rounded-md bg-navy px-2.5 py-1 font-mono text-[9px] font-semibold tracking-[0.2em] text-white">
+                {FEATURED.tag ?? "THE FLEET"}
+              </span>
+              <span className="absolute bottom-3 right-3 flex items-center gap-1.5 rounded-full bg-white/95 px-3 py-1.5 font-mono text-[9px] font-semibold tracking-[0.16em] text-steel shadow-sm">
+                <span className="dot-live h-1.5 w-1.5 rounded-full bg-wa" />
+                LIVE DISPATCH
               </span>
             </div>
 
-            <div className="space-y-4 px-6 py-6">
-              <div>
-                <label htmlFor="w-pickup" className="mb-1.5 block font-mono text-[10px] font-semibold uppercase tracking-[0.25em] text-steel">
-                  Pickup point
-                </label>
-                <input
-                  id="w-pickup"
-                  className={inputCls}
-                  placeholder="e.g. ATQ Airport, Terminal 1"
-                  value={booking.pickup}
-                  onChange={(e) => patch({ pickup: e.target.value })}
-                />
-                <div className="mt-2 flex flex-wrap gap-1.5">
-                  {PICKUP_CHIPS.map((c) => (
-                    <button
-                      key={c}
-                      type="button"
-                      onClick={() => patch({ pickup: c })}
-                      className={`rounded-md border px-2.5 py-1 font-mono text-[10px] font-medium tracking-wide transition-all duration-200 hover:-translate-y-0.5 ${
-                        booking.pickup === c
-                          ? "border-navy bg-navy text-white"
-                          : "border-paper-2 bg-white text-steel hover:border-gold hover:text-ink"
-                      }`}
-                    >
-                      {c}
-                    </button>
-                  ))}
-                </div>
+            {/* car details + quick book */}
+            <div className="px-6 py-5">
+              <div className="flex items-baseline justify-between gap-3">
+                <h2 className="font-display text-xl text-ink">{FEATURED.name}</h2>
+                <span className="shrink-0 font-mono text-[11px] font-semibold tracking-wide text-gold-deep">
+                  ₹{FEATURED.perKm}/km · {FEATURED.perDay}/day
+                </span>
               </div>
 
-              <div>
-                <label htmlFor="w-drop" className="mb-1.5 block font-mono text-[10px] font-semibold uppercase tracking-[0.25em] text-steel">
-                  Drop point
-                </label>
-                <input
-                  id="w-drop"
-                  className={inputCls}
-                  placeholder="e.g. Hotel near Golden Temple"
-                  value={booking.drop}
-                  onChange={(e) => patch({ drop: e.target.value })}
-                />
-                <div className="mt-2 flex flex-wrap gap-1.5">
-                  {DROP_CHIPS.map((c) => (
-                    <button
-                      key={c}
-                      type="button"
-                      onClick={() => patch({ drop: c })}
-                      className={`rounded-md border px-2.5 py-1 font-mono text-[10px] font-medium tracking-wide transition-all duration-200 hover:-translate-y-0.5 ${
-                        booking.drop === c
-                          ? "border-navy bg-navy text-white"
-                          : "border-paper-2 bg-white text-steel hover:border-gold hover:text-ink"
-                      }`}
-                    >
-                      {c}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              <div>
-                <label htmlFor="w-when" className="mb-1.5 block font-mono text-[10px] font-semibold uppercase tracking-[0.25em] text-steel">
-                  Date &amp; time
-                </label>
-                <input
-                  id="w-when"
-                  type="datetime-local"
-                  className={inputCls}
-                  value={booking.datetime}
-                  onChange={(e) => patch({ datetime: e.target.value })}
-                />
+              <div className="mt-3 flex flex-wrap items-center gap-2">
+                <span className="flex items-center gap-1.5 rounded-md border border-paper-2 px-2.5 py-1 text-[11px] text-steel">
+                  <Users size={12} className="text-gold-deep" /> {FEATURED.seats} seats
+                </span>
+                <span className="flex items-center gap-1.5 rounded-md border border-paper-2 px-2.5 py-1 text-[11px] text-steel">
+                  <Luggage size={12} className="text-gold-deep" /> {FEATURED.bags} bags
+                </span>
+                <span className="rounded-md border border-paper-2 px-2.5 py-1 text-[11px] text-steel">
+                  Chauffeur-driven
+                </span>
               </div>
 
               <button
-                onClick={goBook}
-                className="group flex w-full items-center justify-center gap-3 rounded-lg bg-navy py-4 text-sm font-bold text-white transition-all duration-300 hover:bg-navy-800"
+                onClick={() => {
+                  patch({ vehicle: FEATURED.key });
+                  goBook();
+                }}
+                className="group mt-5 flex w-full items-center justify-center gap-3 rounded-lg bg-navy py-3.5 text-sm font-bold text-white transition-all duration-300 hover:bg-navy-800"
               >
-                Confirm my ride
-                <ArrowRight size={16} strokeWidth={2.5} className="transition-transform duration-300 group-hover:translate-x-1.5" />
+                Book this car
+                <ArrowRight
+                  size={16}
+                  strokeWidth={2.5}
+                  className="transition-transform duration-300 group-hover:translate-x-1.5"
+                />
               </button>
 
-              <div className="flex items-center justify-between border-t border-paper-2 pt-3.5">
+              <div className="mt-3.5 flex items-center justify-between gap-2 border-t border-paper-2 pt-3.5">
                 <span className="flex items-center gap-1.5 font-mono text-[10px] text-steel">
                   <CheckCircle2 size={13} className="text-gold-deep" /> Free cancellation till 1 hr
                 </span>
-                <span className="flex items-center gap-1.5 font-mono text-[10px] text-steel">
-                  <span className="h-3 w-1 animate-pulse rounded-sm bg-gold-deep" />
-                  METER ARMED
-                </span>
+                <a
+                  href={BUSINESS.phoneTel}
+                  className="flex shrink-0 items-center gap-1.5 font-mono text-[10px] text-steel transition-colors hover:text-gold-deep"
+                >
+                  <Phone size={12} /> {BUSINESS.phoneDisplay}
+                </a>
               </div>
             </div>
           </div>

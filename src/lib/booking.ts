@@ -101,15 +101,16 @@ export function whatsappSendLink(b: SavedBooking): string {
   return `${BUSINESS.whatsapp}?text=${encodeURIComponent(bookingMessage(b))}`;
 }
 
-/** Email relay → FormSubmit's *slug* endpoint (their "invisible email"
- *  feature): the receiving address never appears in the bundle, and the
- *  slug is the endpoint FormSubmit confirms at setup. Activation is
- *  scoped per ORIGIN — every production visitor sends the same Origin
- *  header (already confirmed), so bookings deliver with no manual clicks.
- *  Dev previews on localhost are gated by their activation email (expected).
- *  Slug currently maps to the setup inbox: proshorts71@gmail.com
- *  (swap together with the address when handing over to the client). */
-const NOTIFY_ENDPOINT = "formsubmit.co/ajax/c0109bb59fa6b041918d5f47b83bdab0";
+/** Email relay → FormSubmit's *direct* endpoint at the CLIENT's address
+ *  (aroratravels46@rediffmail.com) — every booking is emailed there.
+ *  One-time caveat: FormSubmit sends a verification link to that inbox on the
+ *  FIRST submission; the client must click it once before emails flow. Until
+ *  then FormSubmit holds them and answers success:false — which the submit
+ *  toast reports truthfully (it never claims delivery it can't confirm).
+ *  Dev previews on localhost are gated the same way.
+ *  Note: the address is visible in the page source (FormSubmit's slug feature
+ *  only hides the original setup inbox, so a slug can't route here). */
+const NOTIFY_ENDPOINT = "formsubmit.co/ajax/aroratravels46@rediffmail.com";
 
 export async function notifyServer(b: SavedBooking): Promise<boolean> {
   try {
