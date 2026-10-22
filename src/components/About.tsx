@@ -80,7 +80,7 @@ export default function About() {
                 <img
                   src={IMAGES.heritage}
                   alt="An Arora Travels car in company livery"
-                  className="kenburns h-[380px] w-full object-cover sm:h-[480px]"
+                  className="block h-auto w-full"
                   loading="lazy"
                 />
               </div>
