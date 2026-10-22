@@ -79,7 +79,7 @@ export default function About() {
               <div className="overflow-hidden rounded-2xl border border-paper-2">
                 <img
                   src={IMAGES.heritage}
-                  alt="A classic yellow Punjab taxi at the Gol Bagh stand, 1990s"
+                  alt="An Arora Travels car in company livery"
                   className="kenburns h-[380px] w-full object-cover sm:h-[480px]"
                   loading="lazy"
                 />

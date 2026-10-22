@@ -168,12 +168,12 @@ export default function Hero({
               </a>
             </div>
 
-            {/* client's flagship car photo */}
+            {/* brand logo panel (client's request — replaces the car photo) */}
             <div className="relative">
               <img
-                src={FEATURED.img}
-                alt={`${FEATURED.name} — ${FEATURED.models}`}
-                className="aspect-[16/9] w-full object-cover"
+                src="/logo.jpg"
+                alt="Arora Travels logo"
+                className="aspect-[16/9] w-full object-contain p-6 sm:p-8"
               />
               <span className="absolute left-4 top-4 rounded-md bg-navy px-2.5 py-1 font-mono text-[9px] font-semibold tracking-[0.2em] text-white">
                 {FEATURED.tag ?? "THE FLEET"}

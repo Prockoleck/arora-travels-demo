@@ -36,8 +36,8 @@ export const HERO_IMG =
   "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?auto=format&fit=crop&w=1920&q=80";
 
 export const IMAGES = {
-  heritage:
-    "https://image.qwenlm.ai/generated-images/6a46dbb6-cee2-43fe-a9b4-ca6d3671ad15/_result.png",
+  /* client's own photo of a branded Arora Travels car (About section) */
+  heritage: "/about.jpg",
   chauffeur:
     "https://image.qwenlm.ai/generated-images/c0446841-ea5f-45d4-9258-ae90a9088f23/_result.png",
 };
