@@ -1,7 +1,7 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { motion, useReducedMotion } from "framer-motion";
-import { ArrowRight, CheckCircle2, Luggage, Phone, Users } from "lucide-react";
-import { BUSINESS, FLEET, STATS, type Booking } from "../data";
+import { ArrowRight, Phone } from "lucide-react";
+import { BUSINESS, STATS } from "../data";
 import { CountUp } from "./Reveal";
 
 /* Live clock pinned to Indian Standard Time */
@@ -44,17 +44,10 @@ function MaskedLine({ children, delay }: { children: ReactNode; delay: number })
   );
 }
 
-/* Featured car for the hero card — the flagship SUV (executive class).
-   Its photo is the client's own; fares are the published tariff only. */
-const FEATURED = FLEET.find((v) => v.tag === "EXECUTIVE") ?? FLEET[0];
+/* Right-side featured card removed at client's request — the hero keeps an
+   open, empty right column on desktop. */
 
-export default function Hero({
-  patch,
-  goBook,
-}: {
-  patch: (p: Partial<Booking>) => void;
-  goBook: () => void;
-}) {
+export default function Hero({ goBook }: { goBook: () => void }) {
   return (
     <section id="home" className="relative flex min-h-screen items-center overflow-hidden bg-white">
       <div className="relative mx-auto grid w-full max-w-7xl gap-14 px-5 pb-16 pt-32 sm:px-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-center lg:pt-36">
@@ -143,97 +136,7 @@ export default function Hero({
           </motion.dl>
         </div>
 
-        {/* ── Right: featured fleet card ── */}
-        <motion.aside
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4, duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
-          className="relative mx-auto w-full max-w-md lg:mx-0"
-        >
-          <div className="overflow-hidden rounded-2xl border border-paper-2 bg-white shadow-[0_24px_60px_-40px_rgba(16,35,63,0.35)]">
-            <div className="flex items-center justify-between border-b border-paper-2 bg-paper px-6 py-4">
-              <span className="font-display text-lg text-ink">
-                Meet the <span className="text-gold-deep">fleet</span>
-              </span>
-              <a
-                href="#fleet"
-                className="group flex items-center gap-1.5 font-mono text-[9px] font-semibold tracking-[0.25em] text-gold-deep"
-              >
-                ALL FARES
-                <ArrowRight
-                  size={11}
-                  strokeWidth={2.5}
-                  className="transition-transform duration-300 group-hover:translate-x-1"
-                />
-              </a>
-            </div>
-
-            {/* brand logo panel (client's request — replaces the car photo) */}
-            <div className="relative">
-              <img
-                src="/logo.jpg"
-                alt="Arora Travels logo"
-                className="aspect-[16/9] w-full object-contain p-6 sm:p-8"
-              />
-              <span className="absolute left-4 top-4 rounded-md bg-navy px-2.5 py-1 font-mono text-[9px] font-semibold tracking-[0.2em] text-white">
-                {FEATURED.tag ?? "THE FLEET"}
-              </span>
-              <span className="absolute bottom-3 right-3 flex items-center gap-1.5 rounded-full bg-white/95 px-3 py-1.5 font-mono text-[9px] font-semibold tracking-[0.16em] text-steel shadow-sm">
-                <span className="dot-live h-1.5 w-1.5 rounded-full bg-wa" />
-                LIVE DISPATCH
-              </span>
-            </div>
-
-            {/* car details + quick book */}
-            <div className="px-6 py-5">
-              <div className="flex items-baseline justify-between gap-3">
-                <h2 className="font-display text-xl text-ink">{FEATURED.name}</h2>
-                <span className="shrink-0 font-mono text-[11px] font-semibold tracking-wide text-gold-deep">
-                  ₹{FEATURED.perKm}/km · {FEATURED.perDay}/day
-                </span>
-              </div>
-
-              <div className="mt-3 flex flex-wrap items-center gap-2">
-                <span className="flex items-center gap-1.5 rounded-md border border-paper-2 px-2.5 py-1 text-[11px] text-steel">
-                  <Users size={12} className="text-gold-deep" /> {FEATURED.seats} seats
-                </span>
-                <span className="flex items-center gap-1.5 rounded-md border border-paper-2 px-2.5 py-1 text-[11px] text-steel">
-                  <Luggage size={12} className="text-gold-deep" /> {FEATURED.bags} bags
-                </span>
-                <span className="rounded-md border border-paper-2 px-2.5 py-1 text-[11px] text-steel">
-                  Chauffeur-driven
-                </span>
-              </div>
-
-              <button
-                onClick={() => {
-                  patch({ vehicle: FEATURED.key });
-                  goBook();
-                }}
-                className="group mt-5 flex w-full items-center justify-center gap-3 rounded-lg bg-navy py-3.5 text-sm font-bold text-white transition-all duration-300 hover:bg-navy-800"
-              >
-                Book this car
-                <ArrowRight
-                  size={16}
-                  strokeWidth={2.5}
-                  className="transition-transform duration-300 group-hover:translate-x-1.5"
-                />
-              </button>
-
-              <div className="mt-3.5 flex items-center justify-between gap-2 border-t border-paper-2 pt-3.5">
-                <span className="flex items-center gap-1.5 font-mono text-[10px] text-steel">
-                  <CheckCircle2 size={13} className="text-gold-deep" /> Free cancellation till 1 hr
-                </span>
-                <a
-                  href={BUSINESS.phoneTel}
-                  className="flex shrink-0 items-center gap-1.5 font-mono text-[10px] text-steel transition-colors hover:text-gold-deep"
-                >
-                  <Phone size={12} /> {BUSINESS.phoneDisplay}
-                </a>
-              </div>
-            </div>
-          </div>
-        </motion.aside>
+        {/* Right column intentionally empty — hero card removed at client's request */}
       </div>
 
       {/* scroll cue */}

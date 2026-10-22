@@ -43,7 +43,7 @@ export default function App() {
       <Navbar />
 
       <main>
-        <Hero patch={patch} goBook={goBook} />
+        <Hero goBook={goBook} />
         {/* booking section right below the hero */}
         <Contact booking={booking} patch={patch} />
         <Ticker />
