@@ -312,7 +312,7 @@ export default function Contact({
               ref={formRef}
               onSubmit={onSubmit}
               noValidate
-              className="overflow-hidden rounded-2xl border border-paper-2 bg-white shadow-[0_24px_60px_-45px_rgba(16,35,63,0.4)]"
+              className="overflow-hidden rounded-2xl border border-paper-2 bg-white shadow-[0_24px_60px_-45px_rgba(11,31,58,0.4)]"
             >
               <div className="p-7 sm:p-9">
                 <div className="flex items-baseline justify-between gap-4">
@@ -450,7 +450,7 @@ export default function Contact({
             exit={reduce ? undefined : { opacity: 0, y: 24, scale: 0.97 }}
             transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
             role={toast === "ok" ? "status" : "alert"}
-            className={`fixed bottom-6 right-5 z-[70] w-[min(92vw,400px)] overflow-hidden rounded-2xl border bg-white shadow-[0_24px_60px_-25px_rgba(16,35,63,0.35)] ${
+            className={`fixed bottom-6 right-5 z-[70] w-[min(92vw,400px)] overflow-hidden rounded-2xl border bg-white shadow-[0_24px_60px_-25px_rgba(11,31,58,0.35)] ${
               toast === "ok" ? "border-paper-2" : "border-red-300"
             }`}
           >

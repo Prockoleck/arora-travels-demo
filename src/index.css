@@ -1,17 +1,18 @@
 @import "tailwindcss";
 
 @theme {
-  /* ── Arora Travels — clean white theme ──────────────────────
-     Brand navy #10233f carries headings & primary buttons; gold
-     is a small accent only (rules, chips, prices, underlines). */
-  --color-ink: #10233f;
-  --color-navy: #10233f;
-  --color-navy-800: #1d3557;
-  --color-navy-700: #27456e;
-  --color-steel: #4b5563;
-  --color-fog: #8a94a3;
-  --color-paper: #f6f8fa;
-  --color-paper-2: #e5e9f0;
+  /* ── Arora Travels — "Corporate Elegance" theme ─────────────
+     Deep blue #0b1f3a carries headings & primary buttons; soft
+     gray + blue-tinted white for neutrals. Gold stays as the
+     small brand accent (it's in the client's logo & livery). */
+  --color-ink: #0b1f3a;
+  --color-navy: #0b1f3a;
+  --color-navy-800: #132f4f;
+  --color-navy-700: #1c4067;
+  --color-steel: #46536b;
+  --color-fog: #a7b1be;
+  --color-paper: #e6e9ef;
+  --color-paper-2: #d2d9e3;
   --color-gold: #c9962e;
   --color-gold-soft: #e0b354;
   --color-gold-deep: #a1690b;
@@ -52,7 +53,7 @@ body {
   background: var(--color-paper);
 }
 ::-webkit-scrollbar-thumb {
-  background: #c9d2de;
+  background: #c3ccd8;
   border-radius: 6px;
 }
 ::-webkit-scrollbar-thumb:hover {

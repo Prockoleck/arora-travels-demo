@@ -143,7 +143,7 @@ export default function Hero({ goBook }: { goBook: () => void }) {
           transition={{ delay: 0.4, duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
           className="relative mx-auto w-full max-w-md lg:mx-0"
         >
-          <div className="overflow-hidden rounded-2xl border border-paper-2 shadow-[0_24px_60px_-40px_rgba(16,35,63,0.35)]">
+          <div className="overflow-hidden rounded-2xl border border-paper-2 shadow-[0_24px_60px_-40px_rgba(11,31,58,0.35)]">
             <img
               src="/dest/golden-temple.jpg"
               alt="The Golden Temple (Harmandir Sahib) glowing at dusk, reflected in the sarovar"

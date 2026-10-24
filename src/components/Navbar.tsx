@@ -33,7 +33,7 @@ export default function Navbar() {
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 bg-white transition-all duration-300 ${
-        scrolled ? "border-b border-paper-2 shadow-[0_2px_12px_-6px_rgba(16,35,63,0.12)]" : ""
+        scrolled ? "border-b border-paper-2 shadow-[0_2px_12px_-6px_rgba(11,31,58,0.12)]" : ""
       }`}
     >
       <div
