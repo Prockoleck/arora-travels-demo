@@ -136,7 +136,24 @@ export default function Hero({ goBook }: { goBook: () => void }) {
           </motion.dl>
         </div>
 
-        {/* Right column intentionally empty — hero card removed at client's request */}
+        {/* ── Right: the Golden Temple — Amritsar's own signature ── */}
+        <motion.figure
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4, duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
+          className="relative mx-auto w-full max-w-md lg:mx-0"
+        >
+          <div className="overflow-hidden rounded-2xl border border-paper-2 shadow-[0_24px_60px_-40px_rgba(16,35,63,0.35)]">
+            <img
+              src="/dest/golden-temple.jpg"
+              alt="The Golden Temple (Harmandir Sahib) glowing at dusk, reflected in the sarovar"
+              className="aspect-[4/5] w-full object-cover"
+            />
+          </div>
+          <figcaption className="absolute bottom-4 left-4 rounded-md bg-white/95 px-3 py-2 font-mono text-[9px] font-semibold tracking-[0.22em] text-navy shadow-sm">
+            HARMANDIR SAHIB · AMRITSAR
+          </figcaption>
+        </motion.figure>
       </div>
 
       {/* scroll cue */}

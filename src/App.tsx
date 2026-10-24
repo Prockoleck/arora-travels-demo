@@ -7,6 +7,7 @@ import About from "./components/About";
 import Services from "./components/Services";
 import Fleet from "./components/Fleet";
 import WhyUs from "./components/WhyUs";
+import DestinationBand from "./components/DestinationBand";
 import Testimonials from "./components/Testimonials";
 import Footer from "./components/Footer";
 import FloatingWhatsApp from "./components/FloatingWhatsApp";
@@ -51,6 +52,7 @@ export default function App() {
         <Services goBook={goBook} />
         <Fleet patch={patch} goBook={goBook} />
         <WhyUs />
+        <DestinationBand goBook={goBook} />
         <Testimonials />
       </main>
 

@@ -122,6 +122,10 @@ export default function Footer() {
             Gol Bagh Taxi Stand Market · Amritsar, Punjab ·{" "}
             <span className="text-gold-deep">on the road since {BUSINESS.est}</span>
           </p>
+          <p className="w-full font-mono text-[9px] tracking-wide text-fog/80 lg:w-auto">
+            Landmark photos via Wikimedia Commons — Golden Temple © Bernard Gagnon · Wagah
+            Border © Tamjeed Ahmed (CC BY-SA 4.0)
+          </p>
         </div>
       </div>
     </footer>

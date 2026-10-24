@@ -12,7 +12,7 @@ export function Logo() {
         alt="Arora Travels"
         width={428}
         height={118}
-        className="h-7 w-auto md:h-[30px]"
+        className="h-10 w-auto md:h-12"
       />
     </a>
   );
