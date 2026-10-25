@@ -1,0 +1,320 @@
+{
+  "business": {
+    "name": "Arora Travels",
+    "est": 1997,
+    "phoneDisplay": "+91 99144 04090",
+    "phoneTel": "tel:+919914404090",
+    "phones": [
+      {
+        "display": "+91 99144 04090",
+        "tel": "tel:+919914404090"
+      },
+      {
+        "display": "+91 99150 70856",
+        "tel": "tel:+919915070856"
+      },
+      {
+        "display": "+91 98143 70856",
+        "tel": "tel:+919814370856"
+      }
+    ],
+    "email": "aroratravels46@rediffmail.com",
+    "whatsapp": "https://wa.me/919914404090",
+    "address": "Shop No. 46, Gol Bagh, Taxi Stand Market, Narain Nagar, Goal Bagh, Amritsar, Punjab 143001, India",
+    "addressShort": "Shop No. 46, Gol Bagh Taxi Stand Market, Amritsar, Punjab 143001",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Arora+Travels,+Gol+Bagh,+Amritsar,+Punjab+143001"
+  },
+  "hero": {
+    "eyebrow": "Open 24×7 · Gol Bagh Taxi Stand",
+    "line1": "Premium car rental",
+    "line2": "& taxi services in",
+    "accent": "Amritsar",
+    "badge": "SINCE ’97",
+    "subA": "Not just a car — a",
+    "subBold": "complete, tailor-made transportation solution",
+    "subEnd": "for executives, families and guests. Economical rates, reasonable corporate tariffs, professional chauffeurs. Any hour, any road.",
+    "cta": "Book your ride now",
+    "img": "/dest/golden-temple.jpg",
+    "imgAlt": "The Golden Temple (Harmandir Sahib) glowing at dusk, reflected in the sarovar",
+    "caption": "Harmandir Sahib · Amritsar at dusk"
+  },
+  "band": {
+    "eyebrow": "Explore Amritsar",
+    "pre": "From the Golden Temple to the",
+    "accent": "Wagah Border",
+    "text": "Airport drops, city darshan and evening trips to the border retreat ceremony — our chauffeurs have run every one of these roads, at every hour of the night. Tell us where; we’ll take you there.",
+    "cta": "Book your ride",
+    "img": "/dest/wagah.jpg",
+    "imgAlt": "The India gate at the Attari-Wagah border with the tricolour flying over a packed stadium"
+  },
+  "about": {
+    "img": "/about.jpg",
+    "imgAlt": "An Arora Travels car in company livery",
+    "caption": "Gol Bagh Taxi Stand · where it all began — Amritsar, 1997"
+  },
+  "why": {
+    "img": "https://image.qwenlm.ai/generated-images/c0446841-ea5f-45d4-9258-ae90a9088f23/_result.png",
+    "imgAlt": "An Arora Travels chauffeur in uniform beside a sedan",
+    "caption": "Our chauffeurs · verified & uniformed"
+  },
+  "logo": {
+    "src": "/logo.jpg"
+  },
+  "stats": [
+    {
+      "value": 28,
+      "suffix": "+",
+      "label": "Years on the road"
+    },
+    {
+      "value": 100000,
+      "suffix": "+",
+      "label": "Rides completed"
+    },
+    {
+      "value": 40,
+      "suffix": "+",
+      "label": "Vehicles in fleet"
+    },
+    {
+      "value": 50,
+      "suffix": "+",
+      "label": "Corporate clients"
+    }
+  ],
+  "destinations": [
+    "ATQ Airport Transfers",
+    "Golden Temple",
+    "Wagah Border",
+    "Delhi",
+    "Chandigarh",
+    "Katra · Vaishno Devi",
+    "McLeodganj",
+    "Jammu",
+    "Corporate Fleet",
+    "Wedding Cars",
+    "Jallianwala Bagh",
+    "Amritsar City Tour"
+  ],
+  "services": [
+    {
+      "n": "01",
+      "title": "Executive Car Hire",
+      "desc": "Chauffeur-driven sedans and SUVs for board meetings, weddings, and city travel — spotless cars, punctual drivers, zero fuss.",
+      "includes": [
+        "Uniformed chauffeur",
+        "Sanitised cabin",
+        "Hourly & daily packs"
+      ]
+    },
+    {
+      "n": "02",
+      "title": "Corporate Transportation",
+      "desc": "One call, one monthly invoice, zero headaches. Fixed corporate tariffs, GST billing and priority cars for your teams and guests.",
+      "includes": [
+        "Monthly billing",
+        "GST invoices",
+        "Dedicated manager"
+      ]
+    },
+    {
+      "n": "03",
+      "title": "Outstation Taxi Services",
+      "desc": "One-way or round trips to Delhi, Chandigarh, Katra, McLeodganj and beyond — drivers who know every highway and every hill route.",
+      "includes": [
+        "One-way & round trips",
+        "Experienced hill drivers",
+        "Multi-day packages"
+      ]
+    },
+    {
+      "n": "04",
+      "title": "24/7 Airport Pickup & Drop",
+      "desc": "Sri Guru Ram Dass Jee International (ATQ), any hour. We track your flight, hold a name placard, and wait — the first 30 minutes free.",
+      "includes": [
+        "Flight tracking",
+        "Meet & greet placard",
+        "30-min free waiting"
+      ]
+    }
+  ],
+  "fleet": [
+    {
+      "key": "Compact Sedan (Dzire / Amaze)",
+      "name": "Suzuki Dzire",
+      "models": "Maruti Suzuki Dzire · compact sedan",
+      "img": "/fleet/dzire.jpg",
+      "seats": 4,
+      "bags": 2,
+      "perKm": 12,
+      "perDay": "₹1,500",
+      "tag": "MOST BOOKED"
+    },
+    {
+      "key": "Compact Sedan (Dzire / Amaze)",
+      "name": "Honda Amaze",
+      "models": "Honda Amaze · compact sedan",
+      "img": "/fleet/amaze.jpg",
+      "seats": 4,
+      "bags": 2,
+      "perKm": 12,
+      "perDay": "₹1,500"
+    },
+    {
+      "key": "Family SUV (Innova Crysta)",
+      "name": "Innova Crysta",
+      "models": "Toyota Innova Crysta · family SUV",
+      "img": "/fleet/innova.jpg",
+      "seats": 7,
+      "bags": 4,
+      "perKm": 16,
+      "perDay": "₹2,200"
+    },
+    {
+      "key": "Premium SUV (Toyota Fortuner)",
+      "name": "Toyota Fortuner",
+      "models": "Toyota Fortuner · premium SUV",
+      "img": "/fleet/fortuner.jpg",
+      "seats": 7,
+      "bags": 4,
+      "perKm": 20,
+      "perDay": "₹2,800",
+      "tag": "EXECUTIVE"
+    },
+    {
+      "key": "Tempo Traveller (12-seater)",
+      "name": "Tempo Traveller",
+      "models": "Force Traveller · 12 seater",
+      "img": "/fleet/traveller.jpg",
+      "seats": 12,
+      "bags": 10,
+      "perKm": 22,
+      "perDay": "₹3,000",
+      "tag": "GROUPS"
+    },
+    {
+      "key": "Mini Bus (25–30 seats)",
+      "name": "Mini Bus",
+      "models": "Air-conditioned group coach",
+      "img": "/fleet/minibus.jpg",
+      "seats": "25–30",
+      "bags": "20+",
+      "perKm": null,
+      "perDay": null,
+      "tag": "LARGE GROUPS"
+    }
+  ],
+  "vehicleOptions": [
+    "Any vehicle — you decide for me",
+    "Compact Sedan (Dzire / Amaze)",
+    "Family SUV (Innova Crysta)",
+    "Premium SUV (Toyota Fortuner)",
+    "Tempo Traveller (12-seater)",
+    "Mini Bus (25–30 seats)"
+  ],
+  "routes": [
+    {
+      "from": "ATQ Airport",
+      "to": "Golden Temple / City Hotel",
+      "fare": "₹499"
+    },
+    {
+      "from": "Amritsar",
+      "to": "Wagah Border (round trip)",
+      "fare": "₹1,199"
+    },
+    {
+      "from": "Amritsar",
+      "to": "Delhi (one way)",
+      "fare": "₹4,499"
+    },
+    {
+      "from": "Amritsar",
+      "to": "Chandigarh (one way)",
+      "fare": "₹2,999"
+    },
+    {
+      "from": "Amritsar",
+      "to": "Katra — Vaishno Devi",
+      "fare": "₹3,799"
+    },
+    {
+      "from": "Amritsar",
+      "to": "McLeodganj / Dharamshala",
+      "fare": "₹3,499"
+    },
+    {
+      "from": "Amritsar",
+      "to": "Ludhiana (one way)",
+      "fare": "₹1,999"
+    },
+    {
+      "from": "Amritsar",
+      "to": "Golden Temple City Tour",
+      "fare": "₹899"
+    }
+  ],
+  "reasons": [
+    {
+      "title": "Economical Rates",
+      "desc": "Honest per-kilometre pricing agreed before the wheel turns. No surge nonsense, no meter drama, no surprise line items."
+    },
+    {
+      "title": "Reasonable Corporate Tariffs",
+      "desc": "Fixed monthly packages, GST-compliant invoicing and priority vehicles for businesses that move people every single week."
+    },
+    {
+      "title": "Professional Chauffeurs",
+      "desc": "Uniformed, verified drivers who speak Punjabi, Hindi and English — and know every shortcut from Gol Bagh to the GT Road."
+    },
+    {
+      "title": "24/7 Availability",
+      "desc": "A 3:40 AM flight? A wedding baraat at midnight? One call and a driver is already warming the engine at the stand."
+    }
+  ],
+  "timeline": [
+    {
+      "year": "1997",
+      "title": "One taxi, one stand",
+      "text": "The first Arora taxi takes its place at the Gol Bagh taxi stand. One car, one promise: reach on time."
+    },
+    {
+      "year": "2003",
+      "title": "The airport runs begin",
+      "text": "Word spreads. Regular pickups from Raja Sansi airfield turn into Amritsar's most trusted airport service."
+    },
+    {
+      "year": "2011",
+      "title": "Corporate contracts",
+      "text": "Local businesses hand us their guest movement — monthly billing and fixed tariffs are born."
+    },
+    {
+      "year": "2019",
+      "title": "A modern fleet",
+      "text": "Every vehicle GPS-tracked, every chauffeur trained and uniformed. The standards go up; the rates stay honest."
+    },
+    {
+      "year": "Today",
+      "title": "40+ vehicles, one promise",
+      "text": "Sedans, SUVs and travellers on call 24×7 — still family-run, still answering the phone at 3 AM."
+    }
+  ],
+  "testimonials": [
+    {
+      "quote": "Booked an airport pickup for 3:40 in the morning. The driver was waiting with my name board before I even cleared baggage. That's 27 years of practice.",
+      "name": "Simran Kaur",
+      "role": "NRI guest · Toronto, Canada"
+    },
+    {
+      "quote": "Arora Travels has handled all our guest movement in Amritsar for six years. One call, one invoice, zero headaches. The corporate tariff is genuinely fair.",
+      "name": "Rajesh Malhotra",
+      "role": "AGM Operations · Ludhiana"
+    },
+    {
+      "quote": "Took the family to Vaishno Devi in their Innova. Spotless car, sure-footed driving on the hills, and a fare exactly as quoted. Our hotel now recommends them too.",
+      "name": "Col. A. S. Gill (Retd.)",
+      "role": "Family traveller · Amritsar"
+    }
+  ],
+  "photoCredit": "Landmark photos via Wikimedia Commons — Golden Temple © Bernard Gagnon · Wagah Border © Tamjeed Ahmed (CC BY-SA 4.0)"
+}
