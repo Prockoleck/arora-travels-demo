@@ -1,8 +1,10 @@
 import { ArrowRight } from "lucide-react";
-import { SERVICES } from "../data";
+import { SERVICE_ICONS } from "../data";
+import { useContent } from "../lib/content";
 import Reveal, { SectionTag } from "./Reveal";
 
 export default function Services({ goBook }: { goBook: () => void }) {
+  const content = useContent();
   return (
     <section id="services" className="relative scroll-mt-20 overflow-hidden bg-white py-24 lg:py-32">
       <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
@@ -28,8 +30,8 @@ export default function Services({ goBook }: { goBook: () => void }) {
 
         {/* service grid */}
         <div className="mt-14 grid gap-5 md:grid-cols-2">
-          {SERVICES.map((s, i) => {
-            const Icon = s.icon;
+          {content.services.map((s, i) => {
+            const Icon = SERVICE_ICONS[i] ?? SERVICE_ICONS[SERVICE_ICONS.length - 1];
             return (
               <Reveal key={s.n} delay={i * 0.08}>
                 <article className="group relative h-full rounded-2xl border border-paper-2 bg-white p-8 transition-all duration-500 hover:-translate-y-1.5 hover:border-gold sm:p-10">

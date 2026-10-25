@@ -1,8 +1,11 @@
 import { ArrowRight, Phone } from "lucide-react";
-import { BUSINESS, IMAGES, REASONS } from "../data";
+import { REASON_ICONS } from "../data";
+import { telHref, useContent } from "../lib/content";
 import Reveal, { SectionTag } from "./Reveal";
 
 export default function WhyUs() {
+  const content = useContent();
+  const { business } = content;
   return (
     <section id="why" className="relative scroll-mt-20 overflow-hidden bg-white py-24 lg:py-32">
       <div className="relative mx-auto grid max-w-7xl gap-16 px-5 sm:px-8 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
@@ -27,21 +30,21 @@ export default function WhyUs() {
             <figure className="mt-10 max-w-xs">
               <div className="overflow-hidden rounded-2xl border border-paper-2">
                 <img
-                  src={IMAGES.chauffeur}
-                  alt="An Arora Travels chauffeur in uniform beside a sedan"
+                  src={content.why.img}
+                  alt={content.why.imgAlt}
                   className="h-80 w-full object-cover transition-transform duration-700 hover:scale-105"
                   loading="lazy"
                 />
               </div>
               <figcaption className="mt-3 font-mono text-[10px] uppercase tracking-[0.25em] text-fog">
-                Our chauffeurs · verified &amp; uniformed
+                {content.why.caption}
               </figcaption>
             </figure>
           </Reveal>
 
           <Reveal delay={0.24}>
             <a
-              href={BUSINESS.phoneTel}
+              href={telHref(business.phoneDisplay)}
               className="group mt-10 inline-flex items-center gap-4 transition-colors"
             >
               <span className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-navy text-white transition-transform duration-300 group-hover:-rotate-6">
@@ -52,7 +55,7 @@ export default function WhyUs() {
                   One call, 24×7
                 </span>
                 <span className="block font-display text-2xl text-navy transition-colors group-hover:text-gold-deep sm:text-3xl">
-                  {BUSINESS.phoneDisplay}
+                  {business.phoneDisplay}
                 </span>
               </span>
             </a>
@@ -61,8 +64,8 @@ export default function WhyUs() {
 
         {/* reason ledger */}
         <div>
-          {REASONS.map((r, i) => {
-            const Icon = r.icon;
+          {content.reasons.map((r, i) => {
+            const Icon = REASON_ICONS[i] ?? REASON_ICONS[REASON_ICONS.length - 1];
             return (
               <Reveal key={r.title} delay={i * 0.07}>
                 <div className="group -mx-4 grid grid-cols-[auto_1fr] items-start gap-5 border-t border-paper-2 px-4 py-8 transition-all duration-500 last:border-b hover:bg-paper sm:grid-cols-[auto_auto_1fr] sm:gap-7">

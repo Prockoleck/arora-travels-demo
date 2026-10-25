@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Menu, Phone, X } from "lucide-react";
-import { BUSINESS, NAV_LINKS } from "../data";
+import { NAV_LINKS } from "../data";
+import { telHref, useContent } from "../lib/content";
 
 /* Brand logo: official Arora Travels artwork */
 export function Logo() {
+  const { logo } = useContent();
   return (
     <a href="#home" className="group flex items-center" aria-label="Arora Travels — home">
       <img
-        src="/logo.jpg"
+        src={logo.src}
         alt="Arora Travels"
         width={428}
         height={118}
@@ -19,6 +21,7 @@ export function Logo() {
 }
 
 export default function Navbar() {
+  const { business } = useContent();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const reduce = useReducedMotion();
@@ -59,14 +62,14 @@ export default function Navbar() {
 
         <div className="flex items-center gap-3">
           <a
-            href={BUSINESS.phoneTel}
+            href={telHref(business.phoneDisplay)}
             className="hidden items-center gap-2 rounded-lg bg-navy px-5 py-2.5 text-sm font-bold text-white transition-all duration-300 hover:bg-navy-800 md:flex"
           >
             <Phone size={15} strokeWidth={2.5} />
-            <span className="font-mono text-[13px] tracking-tight">{BUSINESS.phoneDisplay}</span>
+            <span className="font-mono text-[13px] tracking-tight">{business.phoneDisplay}</span>
           </a>
           <a
-            href={BUSINESS.phoneTel}
+            href={telHref(business.phoneDisplay)}
             aria-label="Call Arora Travels"
             className="grid h-10 w-10 place-items-center rounded-lg bg-navy text-white transition-colors hover:bg-navy-800 md:hidden"
           >
@@ -109,11 +112,11 @@ export default function Navbar() {
               </motion.a>
             ))}
             <a
-              href={BUSINESS.phoneTel}
+              href={telHref(business.phoneDisplay)}
               className="mt-5 flex items-center justify-center gap-2 rounded-lg bg-navy py-3.5 font-bold text-white"
             >
               <Phone size={16} strokeWidth={2.5} />
-              <span className="font-mono">{BUSINESS.phoneDisplay}</span>
+              <span className="font-mono">{business.phoneDisplay}</span>
             </a>
           </motion.nav>
         )}

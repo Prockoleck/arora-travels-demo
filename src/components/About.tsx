@@ -1,8 +1,9 @@
 import { ArrowRight } from "lucide-react";
-import { IMAGES, STATS, TIMELINE } from "../data";
+import { useContent } from "../lib/content";
 import Reveal, { CountUp, SectionTag } from "./Reveal";
 
 export default function About() {
+  const content = useContent();
   return (
     <section id="about" className="relative scroll-mt-20 bg-paper py-24 lg:py-32">
       <div className="relative mx-auto grid max-w-7xl gap-16 px-5 sm:px-8 lg:grid-cols-[0.92fr_1.08fr] lg:gap-20">
@@ -45,7 +46,7 @@ export default function About() {
           {/* counters */}
           <Reveal delay={0.24}>
             <dl className="mt-10 grid grid-cols-2 gap-3">
-              {STATS.map((s) => (
+              {content.stats.map((s) => (
                 <div
                   key={s.label}
                   className="group rounded-xl border border-paper-2 bg-white p-5 transition-all duration-300 hover:-translate-y-1 hover:border-gold"
@@ -78,21 +79,21 @@ export default function About() {
             <figure>
               <div className="overflow-hidden rounded-2xl border border-paper-2">
                 <img
-                  src={IMAGES.heritage}
-                  alt="An Arora Travels car in company livery"
+                  src={content.about.img}
+                  alt={content.about.imgAlt}
                   className="block h-auto w-full"
                   loading="lazy"
                 />
               </div>
               <figcaption className="mt-3 font-mono text-[10px] uppercase tracking-[0.25em] text-fog">
-                Gol Bagh Taxi Stand · where it all began — Amritsar, 1997
+                {content.about.caption}
               </figcaption>
             </figure>
           </Reveal>
 
           {/* timeline */}
           <ol className="relative mt-16 space-y-9 border-l-2 border-paper-2 pl-7">
-            {TIMELINE.map((t, i) => (
+            {content.timeline.map((t, i) => (
               <li key={t.year} className="relative">
                 <span
                   className="absolute -left-[37px] top-1.5 h-3.5 w-3.5 rounded-full border-[3px] border-white bg-gold ring-1 ring-paper-2"

@@ -1,5 +1,6 @@
 import { ArrowRight, Luggage, Snowflake, Users } from "lucide-react";
-import { BUSINESS, FLEET, type Booking } from "../data";
+import { type Booking } from "../data";
+import { telHref, useContent } from "../lib/content";
 import Reveal, { SectionTag } from "./Reveal";
 
 export default function Fleet({
@@ -9,6 +10,8 @@ export default function Fleet({
   patch: (p: Partial<Booking>) => void;
   goBook: () => void;
 }) {
+  const content = useContent();
+  const { business } = content;
   return (
     <section id="fleet" className="relative scroll-mt-20 bg-paper py-24 lg:py-32">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
@@ -33,7 +36,7 @@ export default function Fleet({
         </div>
 
         <div className="mt-14 grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
-          {FLEET.map((v, i) => (
+          {content.fleet.map((v, i) => (
             <Reveal key={v.name} delay={i * 0.08}>
               <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-paper-2 bg-white transition-all duration-500 hover:-translate-y-2 hover:border-gold">
                 <div className="relative aspect-[16/9] overflow-hidden">
@@ -107,8 +110,8 @@ export default function Fleet({
             <span className="inline-block h-[2px] w-10 bg-gold" aria-hidden="true" />
             All fares include chauffeur · fuel &amp; tolls at actuals · GST invoices for corporate
             accounts · monthly tariffs on request —{" "}
-            <a href={BUSINESS.phoneTel} className="font-bold text-gold-deep underline-offset-4 hover:underline">
-              {BUSINESS.phoneDisplay}
+            <a href={telHref(business.phoneDisplay)} className="font-bold text-gold-deep underline-offset-4 hover:underline">
+              {business.phoneDisplay}
             </a>
           </p>
           <p className="mt-3 font-mono text-[9px] leading-relaxed tracking-wide text-fog">

@@ -12,7 +12,8 @@ import {
   Phone,
   X,
 } from "lucide-react";
-import { BUSINESS, ROUTES, VEHICLE_OPTIONS, emptyBooking, type Booking } from "../data";
+import { emptyBooking, type Booking } from "../data";
+import { telHref, useContent } from "../lib/content";
 import Reveal, { SectionTag } from "./Reveal";
 import PassengerStepper from "./PassengerStepper";
 import { notifyServer, saveBooking, whatsappSendLink } from "../lib/booking";
@@ -28,6 +29,7 @@ type Errors = Partial<Record<"name" | "phone" | "pickup" | "drop", string>>;
    key or billing needed. It's for orientation only: pickup & drop are typed
    by hand in the form, nothing is picked on this map. */
 function StandMap() {
+  const { business } = useContent();
   return (
     <div className="mt-14 overflow-hidden rounded-2xl border border-paper-2 bg-paper">
       <iframe
@@ -45,7 +47,7 @@ function StandMap() {
           Stand Market
         </p>
         <a
-          href={BUSINESS.mapsUrl}
+          href={business.mapsUrl}
           target="_blank"
           rel="noreferrer"
           className="group flex items-center gap-1.5 text-xs font-bold text-gold-deep"
@@ -69,6 +71,8 @@ export default function Contact({
   booking: Booking;
   patch: (p: Partial<Booking>) => void;
 }) {
+  const content = useContent();
+  const { business } = content;
   const [errors, setErrors] = useState<Errors>({});
   const [sending, setSending] = useState(false);
   const [toast, setToast] = useState<"ok" | "fail" | null>(null);
@@ -113,14 +117,14 @@ export default function Contact({
           ~1s; the cap only matters under their per-IP throttle) so the
           toast can tell the truth about delivery instead of guessing */
     const emailDelivered = await Promise.race([
-      notifyServer(record),
+      notifyServer(record, business),
       new Promise<boolean>((r) => setTimeout(() => r(false), 6000)),
     ]);
 
     /* 3. OPTIONAL channel — hand the visitor a prefilled WhatsApp link in
           the toast. No force-opened popup: a real link is both better
           mannered and immune to popup blockers (Safari/iOS especially) */
-    setWaLink(whatsappSendLink(record));
+    setWaLink(whatsappSendLink(record, business));
     setSending(false);
     setToast(emailDelivered ? "ok" : "fail");
     patch({ ...emptyBooking(), ...keep, name: "", phone: "" });
@@ -156,7 +160,7 @@ export default function Contact({
               Popular routes — tap to fill the form
             </p>
             <div className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-4">
-              {ROUTES.map((r) => {
+              {content.routes.map((r) => {
                 const active = booking.pickup === r.from && booking.drop === r.to;
                 return (
                   <button
@@ -200,9 +204,9 @@ export default function Contact({
                     <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.25em] text-fog">
                       Find us
                     </p>
-                    <p className="mt-1.5 text-sm leading-relaxed text-steel">{BUSINESS.address}</p>
+                    <p className="mt-1.5 text-sm leading-relaxed text-steel">{business.address}</p>
                     <a
-                      href={BUSINESS.mapsUrl}
+                      href={business.mapsUrl}
                       target="_blank"
                       rel="noreferrer"
                       className="mt-2 inline-block font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-gold-deep underline-offset-4 hover:underline"
@@ -221,16 +225,16 @@ export default function Contact({
                       Call — answered 24×7
                     </p>
                     <a
-                      href={BUSINESS.phoneTel}
+                      href={telHref(business.phoneDisplay)}
                       className="mt-1 block font-display text-2xl text-navy transition-colors hover:text-gold-deep sm:text-3xl"
                     >
-                      {BUSINESS.phoneDisplay}
+                      {business.phoneDisplay}
                     </a>
                     <p className="mt-2 flex flex-wrap gap-x-4 gap-y-1 font-mono text-[12px] text-steel">
-                      {BUSINESS.phones.slice(1).map((p) => (
+                      {business.phones.slice(1).map((p) => (
                         <a
                           key={p.tel}
-                          href={p.tel}
+                          href={telHref(p.display)}
                           className="transition-colors hover:text-gold-deep"
                         >
                           {p.display}
@@ -249,10 +253,10 @@ export default function Contact({
                       Email
                     </p>
                     <a
-                      href={`mailto:${BUSINESS.email}`}
+                      href={`mailto:${business.email}`}
                       className="mt-1.5 block break-all text-sm font-semibold text-navy transition-colors hover:text-gold-deep"
                     >
-                      {BUSINESS.email}
+                      {business.email}
                     </a>
                   </div>
                 </div>
@@ -274,7 +278,7 @@ export default function Contact({
               </div>
 
               <a
-                href={BUSINESS.whatsapp}
+                href={business.whatsapp}
                 target="_blank"
                 rel="noreferrer"
                 className="mt-8 flex w-max items-center gap-2.5 rounded-lg border border-wa/60 px-5 py-3 text-sm font-bold text-wa transition-all duration-300 hover:-translate-y-0.5 hover:bg-wa hover:text-white"
@@ -402,7 +406,7 @@ export default function Contact({
                       value={booking.vehicle}
                       onChange={(e) => patch({ vehicle: e.target.value })}
                     >
-                      {VEHICLE_OPTIONS.map((v) => (
+                      {content.vehicleOptions.map((v) => (
                         <option key={v} value={v}>{v}</option>
                       ))}
                     </select>
@@ -426,8 +430,8 @@ export default function Contact({
 
                 <p className="mt-4 text-center font-mono text-[11px] text-steel">
                   Prefer talking?{" "}
-                  <a href={BUSINESS.phoneTel} className="font-bold text-gold-deep underline-offset-4 hover:underline">
-                    {BUSINESS.phoneDisplay}
+                  <a href={telHref(business.phoneDisplay)} className="font-bold text-gold-deep underline-offset-4 hover:underline">
+                    {business.phoneDisplay}
                   </a>{" "}
                   — answered round the clock.
                 </p>
@@ -504,7 +508,7 @@ export default function Contact({
                         </a>
                       )}
                       <a
-                        href={BUSINESS.phoneTel}
+                        href={telHref(business.phoneDisplay)}
                         className="inline-flex items-center gap-2 rounded-lg border border-navy px-4 py-2 text-[11px] font-bold uppercase tracking-[0.16em] text-navy transition-all duration-300 hover:bg-navy hover:text-white"
                       >
                         <Phone size={14} strokeWidth={2.5} />

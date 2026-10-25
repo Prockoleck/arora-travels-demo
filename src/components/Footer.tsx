@@ -1,15 +1,19 @@
 import { Facebook, Instagram, Mail, MessageCircle, Twitter } from "lucide-react";
-import { BUSINESS, NAV_LINKS, SERVICES } from "../data";
+import { NAV_LINKS } from "../data";
+import { telHref, useContent } from "../lib/content";
 import { Logo } from "./Navbar";
 
-const SOCIALS = [
-  { label: "Facebook", href: "https://www.facebook.com", Icon: Facebook },
-  { label: "Instagram", href: "https://www.instagram.com", Icon: Instagram },
-  { label: "X (Twitter)", href: "https://www.x.com", Icon: Twitter },
-  { label: "WhatsApp", href: BUSINESS.whatsapp, Icon: MessageCircle },
-];
-
 export default function Footer() {
+  const content = useContent();
+  const { business } = content;
+
+  const SOCIALS = [
+    { label: "Facebook", href: "https://www.facebook.com", Icon: Facebook },
+    { label: "Instagram", href: "https://www.instagram.com", Icon: Instagram },
+    { label: "X (Twitter)", href: "https://www.x.com", Icon: Twitter },
+    { label: "WhatsApp", href: business.whatsapp, Icon: MessageCircle },
+  ];
+
   const year = new Date().getFullYear();
   return (
     <footer className="relative border-t border-paper-2 bg-paper">
@@ -18,11 +22,11 @@ export default function Footer() {
         <div>
           <Logo />
           <p className="mt-6 max-w-xs text-sm leading-relaxed text-steel">
-            Premium car rental &amp; taxi hire in Amritsar since {BUSINESS.est}. Executive
+            Premium car rental &amp; taxi hire in Amritsar since {business.est}. Executive
             transportation, corporate tariffs and 24×7 airport transfers — the tailor-made way.
           </p>
           <p className="mt-6 inline-block rounded-md border border-gold/40 bg-gold/10 px-3 py-1.5 font-mono text-[10px] font-bold uppercase tracking-[0.3em] text-gold-deep">
-            Est. {BUSINESS.est} · Amritsar
+            Est. {business.est} · Amritsar
           </p>
         </div>
 
@@ -52,7 +56,7 @@ export default function Footer() {
             Services
           </h3>
           <ul className="mt-5 space-y-3">
-            {SERVICES.map((s) => (
+            {content.services.map((s) => (
               <li key={s.n}>
                 <a
                   href="#services"
@@ -71,26 +75,26 @@ export default function Footer() {
           <h3 className="font-mono text-[10px] font-bold uppercase tracking-[0.3em] text-fog">
             Contact
           </h3>
-          <p className="mt-5 text-sm leading-relaxed text-steel">{BUSINESS.addressShort}</p>
+          <p className="mt-5 text-sm leading-relaxed text-steel">{business.addressShort}</p>
           <a
-            href={BUSINESS.phoneTel}
+            href={telHref(business.phoneDisplay)}
             className="mt-3 block font-display text-2xl text-navy transition-colors hover:text-gold-deep"
           >
-            {BUSINESS.phoneDisplay}
+            {business.phoneDisplay}
           </a>
           <p className="mt-2 flex flex-wrap gap-x-4 gap-y-1 font-mono text-[11px] text-steel">
-            {BUSINESS.phones.slice(1).map((p) => (
-              <a key={p.tel} href={p.tel} className="transition-colors hover:text-gold-deep">
+            {business.phones.slice(1).map((p) => (
+              <a key={p.tel} href={telHref(p.display)} className="transition-colors hover:text-gold-deep">
                 {p.display}
               </a>
             ))}
           </p>
           <a
-            href={`mailto:${BUSINESS.email}`}
+            href={`mailto:${business.email}`}
             className="mt-3 flex items-center gap-2 text-sm text-steel transition-colors hover:text-navy"
           >
             <Mail size={14} className="shrink-0 text-gold-deep" />
-            {BUSINESS.email}
+            {business.email}
           </a>
           <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.22em] text-fog">
             Available 24×7 · 365 days
@@ -116,15 +120,14 @@ export default function Footer() {
       <div className="border-t border-paper-2">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-5 py-6 sm:px-8">
           <p className="font-mono text-[11px] tracking-wide text-fog">
-            © {year} {BUSINESS.name}. All rights reserved.
+            © {year} {business.name}. All rights reserved.
           </p>
           <p className="font-mono text-[11px] tracking-wide text-fog">
             Gol Bagh Taxi Stand Market · Amritsar, Punjab ·{" "}
-            <span className="text-gold-deep">on the road since {BUSINESS.est}</span>
+            <span className="text-gold-deep">on the road since {business.est}</span>
           </p>
           <p className="w-full font-mono text-[9px] tracking-wide text-fog/80 lg:w-auto">
-            Landmark photos via Wikimedia Commons — Golden Temple © Bernard Gagnon · Wagah
-            Border © Tamjeed Ahmed (CC BY-SA 4.0)
+            {content.photoCredit}
           </p>
         </div>
       </div>

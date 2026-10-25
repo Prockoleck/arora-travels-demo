@@ -1,4 +1,4 @@
-import { BUSINESS, type Booking } from "../data";
+import { type Booking, type Business } from "../data";
 
 /* Booking records — persisted locally + routed to the client via two
    *independent* paths (see submit flow in Contact.tsx):
@@ -70,9 +70,9 @@ const fmtWhen = (iso: string): string => {
 };
 
 /** WhatsApp-friendly booking summary (newlines + *bold* render natively). */
-export function bookingMessage(b: SavedBooking): string {
+export function bookingMessage(b: SavedBooking, business: Business): string {
   return [
-    `*NEW RIDE REQUEST* — ${BUSINESS.name}`,
+    `*NEW RIDE REQUEST* — ${business.name}`,
     `Ref: ${b.id}`,
     ``,
     `Name: ${b.name || "—"}`,
@@ -89,8 +89,8 @@ export function bookingMessage(b: SavedBooking): string {
     .join("\n");
 }
 
-export function whatsappSendLink(b: SavedBooking): string {
-  return `${BUSINESS.whatsapp}?text=${encodeURIComponent(bookingMessage(b))}`;
+export function whatsappSendLink(b: SavedBooking, business: Business): string {
+  return `${business.whatsapp}?text=${encodeURIComponent(bookingMessage(b, business))}`;
 }
 
 /** Email relay → FormSubmit's *direct* endpoint at the CLIENT's address
@@ -104,7 +104,10 @@ export function whatsappSendLink(b: SavedBooking): string {
  *  only hides the original setup inbox, so a slug can't route here). */
 const NOTIFY_ENDPOINT = "formsubmit.co/ajax/aroratravels46@rediffmail.com";
 
-export async function notifyServer(b: SavedBooking): Promise<boolean> {
+export async function notifyServer(
+  b: SavedBooking,
+  business: Business,
+): Promise<boolean> {
   try {
     const res = await fetch(`https://${NOTIFY_ENDPOINT}`, {
       method: "POST",
@@ -112,7 +115,7 @@ export async function notifyServer(b: SavedBooking): Promise<boolean> {
       body: JSON.stringify({
         _subject: `New ride request — ${b.name || "website visitor"}${b.phone ? ` (${b.phone})` : ""}`,
         /* plain text for email — strip WhatsApp's *bold* /_italic_ markers */
-        message: bookingMessage(b).replace(/[*_]/g, ""),
+        message: bookingMessage(b, business).replace(/[*_]/g, ""),
       }),
       /* let the request outlive any immediate navigation */
       keepalive: true,

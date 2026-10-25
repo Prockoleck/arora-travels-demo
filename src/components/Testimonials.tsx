@@ -1,9 +1,11 @@
 import { Star } from "lucide-react";
-import { TESTIMONIALS } from "../data";
+import { TESTIMONIAL_ROTATIONS } from "../data";
+import { useContent } from "../lib/content";
 import Reveal, { SectionTag } from "./Reveal";
 
 /* Word-of-mouth cards — flat, quiet, no gimmicks */
 export default function Testimonials() {
+  const content = useContent();
   return (
     <section className="relative overflow-hidden bg-paper py-24 lg:py-32">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
@@ -23,9 +25,13 @@ export default function Testimonials() {
         </div>
 
         <div className="mt-16 grid items-start gap-7 md:grid-cols-3 lg:gap-10">
-          {TESTIMONIALS.map((t, i) => (
+          {content.testimonials.map((t, i) => (
             <Reveal key={t.name} delay={i * 0.12}>
-              <figure className="relative h-full rounded-2xl border border-paper-2 bg-white p-7 transition-all duration-500 hover:-translate-y-1.5 hover:border-gold">
+              <figure
+                className={`relative h-full rounded-2xl border border-paper-2 bg-white p-7 transition-all duration-500 hover:-translate-y-1.5 hover:border-gold ${
+                  TESTIMONIAL_ROTATIONS[i % TESTIMONIAL_ROTATIONS.length]
+                }`}
+              >
                 <span
                   className="pointer-events-none absolute right-4 top-1 font-display text-7xl leading-none text-gold/20"
                   aria-hidden="true"

@@ -32,8 +32,7 @@ export const BUSINESS = {
     "https://www.google.com/maps/search/?api=1&query=Arora+Travels,+Gol+Bagh,+Amritsar,+Punjab+143001",
 };
 
-export const HERO_IMG =
-  "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?auto=format&fit=crop&w=1920&q=80";
+export type Business = typeof BUSINESS;
 
 export const IMAGES = {
   /* client's own photo of a branded Arora Travels car (About section) */
@@ -104,37 +103,35 @@ export const DESTINATIONS = [
 /* ── Services ────────────────────────────────────────────── */
 export type Service = {
   n: string;
-  icon: LucideIcon;
   title: string;
   desc: string;
   includes: string[];
 };
 
+/* Icons are positional (not serializable) — matched by index in the UI. */
+export const SERVICE_ICONS: LucideIcon[] = [Car, Briefcase, MapIcon, Plane];
+
 export const SERVICES: Service[] = [
   {
     n: "01",
-    icon: Car,
     title: "Executive Car Hire",
     desc: "Chauffeur-driven sedans and SUVs for board meetings, weddings, and city travel — spotless cars, punctual drivers, zero fuss.",
     includes: ["Uniformed chauffeur", "Sanitised cabin", "Hourly & daily packs"],
   },
   {
     n: "02",
-    icon: Briefcase,
     title: "Corporate Transportation",
     desc: "One call, one monthly invoice, zero headaches. Fixed corporate tariffs, GST billing and priority cars for your teams and guests.",
     includes: ["Monthly billing", "GST invoices", "Dedicated manager"],
   },
   {
     n: "03",
-    icon: MapIcon,
     title: "Outstation Taxi Services",
     desc: "One-way or round trips to Delhi, Chandigarh, Katra, McLeodganj and beyond — drivers who know every highway and every hill route.",
     includes: ["One-way & round trips", "Experienced hill drivers", "Multi-day packages"],
   },
   {
     n: "04",
-    icon: Plane,
     title: "24/7 Airport Pickup & Drop",
     desc: "Sri Guru Ram Dass Jee International (ATQ), any hour. We track your flight, hold a name placard, and wait — the first 30 minutes free.",
     includes: ["Flight tracking", "Meet & greet placard", "30-min free waiting"],
@@ -238,29 +235,27 @@ export const ROUTES: RouteFare[] = [
 
 /* ── Why choose us ───────────────────────────────────────── */
 export type Reason = {
-  icon: LucideIcon;
   title: string;
   desc: string;
 };
 
+/* Icons are positional — matched by index in the UI. */
+export const REASON_ICONS: LucideIcon[] = [IndianRupee, Receipt, ShieldCheck, Clock];
+
 export const REASONS: Reason[] = [
   {
-    icon: IndianRupee,
     title: "Economical Rates",
     desc: "Honest per-kilometre pricing agreed before the wheel turns. No surge nonsense, no meter drama, no surprise line items.",
   },
   {
-    icon: Receipt,
     title: "Reasonable Corporate Tariffs",
     desc: "Fixed monthly packages, GST-compliant invoicing and priority vehicles for businesses that move people every single week.",
   },
   {
-    icon: ShieldCheck,
     title: "Professional Chauffeurs",
     desc: "Uniformed, verified drivers who speak Punjabi, Hindi and English — and know every shortcut from Gol Bagh to the GT Road.",
   },
   {
-    icon: Clock,
     title: "24/7 Availability",
     desc: "A 3:40 AM flight? A wedding baraat at midnight? One call and a driver is already warming the engine at the stand.",
   },
@@ -296,27 +291,27 @@ export const TIMELINE = [
 ];
 
 /* ── Testimonials ────────────────────────────────────────── */
+/* Rotation is positional (not serializable) — matched by index. */
+export const TESTIMONIAL_ROTATIONS = ["-rotate-2", "rotate-1", "-rotate-1"];
+
 export const TESTIMONIALS = [
   {
     quote:
       "Booked an airport pickup for 3:40 in the morning. The driver was waiting with my name board before I even cleared baggage. That's 27 years of practice.",
     name: "Simran Kaur",
     role: "NRI guest · Toronto, Canada",
-    rotate: "-rotate-2",
   },
   {
     quote:
       "Arora Travels has handled all our guest movement in Amritsar for six years. One call, one invoice, zero headaches. The corporate tariff is genuinely fair.",
     name: "Rajesh Malhotra",
     role: "AGM Operations · Ludhiana",
-    rotate: "rotate-1",
   },
   {
     quote:
       "Took the family to Vaishno Devi in their Innova. Spotless car, sure-footed driving on the hills, and a fare exactly as quoted. Our hotel now recommends them too.",
     name: "Col. A. S. Gill (Retd.)",
     role: "Family traveller · Amritsar",
-    rotate: "-rotate-1",
   },
 ];
 

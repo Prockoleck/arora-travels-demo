@@ -12,6 +12,7 @@ import Testimonials from "./components/Testimonials";
 import Footer from "./components/Footer";
 import FloatingWhatsApp from "./components/FloatingWhatsApp";
 import Admin from "./components/Admin";
+import { ContentProvider } from "./lib/content";
 import { emptyBooking, type Booking } from "./data";
 
 export default function App() {
@@ -37,27 +38,31 @@ export default function App() {
     el?.scrollIntoView({ behavior: reduce ? "auto" : "smooth" });
   }, []);
 
-  if (isAdmin) return <Admin />;
-
   return (
-    <div className="relative">
-      <Navbar />
+    <ContentProvider>
+      {isAdmin ? (
+        <Admin />
+      ) : (
+        <div className="relative">
+          <Navbar />
 
-      <main>
-        <Hero goBook={goBook} />
-        {/* booking section right below the hero */}
-        <Contact booking={booking} patch={patch} />
-        <Ticker />
-        <About />
-        <Services goBook={goBook} />
-        <Fleet patch={patch} goBook={goBook} />
-        <WhyUs />
-        <DestinationBand goBook={goBook} />
-        <Testimonials />
-      </main>
+          <main>
+            <Hero goBook={goBook} />
+            {/* booking section right below the hero */}
+            <Contact booking={booking} patch={patch} />
+            <Ticker />
+            <About />
+            <Services goBook={goBook} />
+            <Fleet patch={patch} goBook={goBook} />
+            <WhyUs />
+            <DestinationBand goBook={goBook} />
+            <Testimonials />
+          </main>
 
-      <Footer />
-      <FloatingWhatsApp />
-    </div>
+          <Footer />
+          <FloatingWhatsApp />
+        </div>
+      )}
+    </ContentProvider>
   );
 }

@@ -7,3 +7,6 @@ build/
 .vercel
 .env*
 .gitignore img-hunt/
+scripts/*.bundle.mjs
+scripts/site.json
+scripts/last-publish.json

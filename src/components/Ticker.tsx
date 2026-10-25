@@ -1,8 +1,9 @@
-import { DESTINATIONS } from "../data";
+import { useContent } from "../lib/content";
 
 /* Destination-board marquee — a quiet strip of everywhere we drive */
 export default function Ticker() {
-  const items = [...DESTINATIONS, ...DESTINATIONS];
+  const content = useContent();
+  const items = [...content.destinations, ...content.destinations];
   return (
     <div
       className="relative overflow-hidden border-y border-paper-2 bg-paper py-3.5"
