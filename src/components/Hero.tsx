@@ -21,27 +21,16 @@ function MaskedLine({ children, delay }: { children: ReactNode; delay: number })
   );
 }
 
-/* Navy hero with the Golden Temple washed into the background — the same
-   photo-behind-navy treatment as the Wagah band, so landmarks carry the page. */
+/* Solid-navy hero with the Golden Temple framed beside the copy — the
+   landmark stands on its own instead of sitting behind the text. */
 export default function Hero({ goBook }: { goBook: () => void }) {
   const { hero, business, stats } = useContent();
 
   return (
     <section id="home" className="relative flex min-h-screen items-center overflow-hidden bg-navy">
-      {/* landmark backdrop — full brightness; the scrim does the isolating */}
-      <img
-        src={hero.img}
-        alt=""
-        aria-hidden="true"
-        className="absolute inset-0 h-full w-full object-cover object-[center_38%]"
-      />
-      {/* navy scrim — solid behind the copy, then clearing so the temple shows */}
-      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(11,31,58,0.96)_0%,rgba(11,31,58,0.9)_42%,rgba(11,31,58,0.52)_100%)] lg:bg-[linear-gradient(90deg,rgba(11,31,58,0.95)_0%,rgba(11,31,58,0.88)_28%,rgba(11,31,58,0.52)_50%,rgba(11,31,58,0.12)_73%,rgba(11,31,58,0)_100%)]" />
-      {/* bottom scrim grounds the stats strip */}
-      <div className="absolute inset-0 bg-[linear-gradient(0deg,rgba(11,31,58,0.9)_0%,rgba(11,31,58,0.45)_20%,rgba(11,31,58,0)_50%)]" />
-
-      <div className="relative mx-auto w-full max-w-7xl px-5 pb-20 pt-32 sm:px-8 lg:pt-40">
-        <div className="max-w-3xl">
+      <div className="relative mx-auto grid w-full max-w-7xl gap-14 px-5 pb-16 pt-32 sm:px-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-center">
+        {/* ── Left: statement ── */}
+        <div className="lg:col-start-1 lg:row-start-1">
           <div className="mb-7 flex flex-wrap items-center gap-3">
             <span className="flex items-center gap-2.5 rounded-lg border border-white/20 bg-white/10 px-3.5 py-2 backdrop-blur-sm">
               <span className="dot-live h-2 w-2 rounded-full bg-wa" />
@@ -51,7 +40,7 @@ export default function Hero({ goBook }: { goBook: () => void }) {
             </span>
           </div>
 
-          <h1 className="font-display text-[2.4rem] leading-[1.04] text-white [text-shadow:0_2px_24px_rgba(11,31,58,0.55)] sm:text-5xl xl:text-6xl">
+          <h1 className="font-display text-[2.4rem] leading-[1.04] text-white sm:text-5xl xl:text-6xl">
             <MaskedLine delay={0.05}>{hero.line1}</MaskedLine>
             <MaskedLine delay={0.18}>{hero.line2}</MaskedLine>
             <MaskedLine delay={0.31}>
@@ -72,7 +61,7 @@ export default function Hero({ goBook }: { goBook: () => void }) {
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.55, duration: 0.7 }}
-            className="mt-7 max-w-xl text-lg leading-relaxed text-white/80 [text-shadow:0_1px_16px_rgba(11,31,58,0.55)]"
+            className="mt-7 max-w-xl text-lg leading-relaxed text-white/80"
           >
             {hero.subA}{" "}
             {hero.subBold && <span className="font-semibold text-white">{hero.subBold}</span>}{" "}
@@ -100,34 +89,48 @@ export default function Hero({ goBook }: { goBook: () => void }) {
               <span className="font-mono tracking-tight">{business.phoneDisplay}</span>
             </a>
           </motion.div>
-
-          {/* stats strip */}
-          <motion.dl
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.95, duration: 0.8 }}
-            className="mt-14 grid grid-cols-2 gap-x-6 gap-y-8 border-t border-white/15 pt-8 md:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4"
-          >
-            {stats.map((s) => (
-              <div key={s.label} className="flex flex-col">
-                <dd className="order-1 font-display text-3xl text-white sm:text-4xl">
-                  <CountUp to={s.value} suffix={s.suffix} />
-                </dd>
-                <dt className="order-2 mt-1.5 font-mono text-[10px] uppercase tracking-[0.22em] text-fog">
-                  {s.label}
-                </dt>
-              </div>
-            ))}
-          </motion.dl>
         </div>
-      </div>
 
-      {/* photo credit, bottom-right over the wash */}
-      {hero.caption && (
-        <span className="absolute bottom-24 right-8 hidden font-mono text-[9px] uppercase tracking-[0.25em] text-white/70 [text-shadow:0_1px_10px_rgba(11,31,58,0.8)] lg:block">
-          {hero.caption}
-        </span>
-      )}
+        {/* ── Right: the Golden Temple, framed like a signature print ── */}
+        <motion.figure
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4, duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
+          className="relative mx-auto w-full max-w-md lg:col-start-2 lg:row-span-2 lg:mx-0 lg:max-w-none"
+        >
+          <div className="overflow-hidden rounded-2xl border border-white/10 shadow-[0_40px_100px_-40px_rgba(0,0,0,0.85)]">
+            <img
+              src={hero.img}
+              alt={hero.imgAlt}
+              className="aspect-[4/5] w-full object-cover"
+            />
+          </div>
+          {hero.caption && (
+            <figcaption className="absolute bottom-4 left-4 rounded-md bg-white/95 px-3 py-2 font-mono text-[9px] font-semibold uppercase tracking-[0.22em] text-navy shadow-sm">
+              {hero.caption}
+            </figcaption>
+          )}
+        </motion.figure>
+
+        {/* stats strip — under the photo on mobile, back in the left column on desktop */}
+        <motion.dl
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.95, duration: 0.8 }}
+          className="mt-14 grid grid-cols-2 gap-x-6 gap-y-8 border-t border-white/15 pt-8 md:grid-cols-4 lg:col-start-1 lg:row-start-2 lg:mt-0 lg:grid-cols-2"
+        >
+          {stats.map((s) => (
+            <div key={s.label} className="flex flex-col">
+              <dd className="order-1 font-display text-3xl text-white sm:text-4xl">
+                <CountUp to={s.value} suffix={s.suffix} />
+              </dd>
+              <dt className="order-2 mt-1.5 font-mono text-[10px] uppercase tracking-[0.22em] text-fog">
+                {s.label}
+              </dt>
+            </div>
+          ))}
+        </motion.dl>
+      </div>
 
       {/* scroll cue */}
       <motion.a
