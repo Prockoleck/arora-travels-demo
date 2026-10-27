@@ -2,34 +2,28 @@ import { ArrowRight, Phone } from "lucide-react";
 import { telHref, useContent } from "../lib/content";
 import Reveal from "./Reveal";
 
-/* Full-bleed Wagah Border band — the evening border retreat ceremony is the
-   other Amritsar landmark every guest asks about. Navy overlay keeps the copy
-   legible at every width. Copy/photo are editable from the admin console. */
+/* Solid-navy Wagah Border feature — the framed photo of the Attari–Wagah
+   flag ceremony sits beside the copy, mirroring the hero's Golden Temple
+   print. Copy, photo and caption are editable from the admin console. */
 export default function DestinationBand({ goBook }: { goBook: () => void }) {
   const { band, business } = useContent();
+
   return (
     <section className="relative overflow-hidden bg-navy">
-      <img
-        src={band.img}
-        alt={band.imgAlt}
-        loading="lazy"
-        className="absolute inset-0 h-full w-full object-cover object-[center_35%]"
-      />
-      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(11,31,58,0.95)_0%,rgba(11,31,58,0.88)_45%,rgba(11,31,58,0.6)_100%)] lg:bg-[linear-gradient(90deg,rgba(11,31,58,0.95)_0%,rgba(11,31,58,0.82)_30%,rgba(11,31,58,0.45)_52%,rgba(11,31,58,0.08)_78%,rgba(11,31,58,0)_100%)]" />
-
-      <div className="relative mx-auto max-w-7xl px-5 py-24 sm:px-8 lg:py-32">
-        <Reveal className="max-w-2xl">
+      <div className="mx-auto grid w-full max-w-7xl gap-12 px-5 py-20 sm:px-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-16 lg:py-28">
+        {/* ── Copy (right on desktop, first on mobile) ── */}
+        <Reveal className="lg:col-start-2 lg:row-start-1">
           <span className="inline-flex items-center gap-3 font-mono text-[11px] font-semibold uppercase tracking-[0.3em]">
             <span className="inline-block h-[2px] w-9 bg-gold" aria-hidden="true" />
             <span className="text-gold">{band.eyebrow}</span>
           </span>
 
-          <h2 className="mt-6 font-display text-3xl leading-[1.12] text-white [text-shadow:0_2px_22px_rgba(11,31,58,0.55)] sm:text-4xl xl:text-5xl">
+          <h2 className="mt-6 font-display text-3xl leading-[1.12] text-white sm:text-4xl xl:text-5xl">
             {band.pre}{" "}
             <span className="text-gold">{band.accent}</span>
           </h2>
 
-          <p className="mt-6 max-w-xl leading-relaxed text-white/90 [text-shadow:0_1px_14px_rgba(11,31,58,0.6)]">{band.text}</p>
+          <p className="mt-6 max-w-xl leading-relaxed text-white/80">{band.text}</p>
 
           <div className="mt-9 flex flex-wrap items-center gap-4">
             <button
@@ -51,6 +45,25 @@ export default function DestinationBand({ goBook }: { goBook: () => void }) {
               <span className="font-mono text-[13px] tracking-tight">{business.phoneDisplay}</span>
             </a>
           </div>
+        </Reveal>
+
+        {/* ── Framed print (left on desktop, after the copy on mobile) ── */}
+        <Reveal delay={0.1} className="mx-auto w-full max-w-xl lg:col-start-1 lg:row-start-1 lg:mx-0 lg:max-w-none">
+          <figure className="relative">
+            <div className="overflow-hidden rounded-2xl border border-white/10 shadow-[0_40px_100px_-40px_rgba(0,0,0,0.85)]">
+              <img
+                src={band.img}
+                alt={band.imgAlt}
+                loading="lazy"
+                className="aspect-[4/3] w-full object-cover object-[center_35%]"
+              />
+            </div>
+            {band.caption && (
+              <figcaption className="absolute bottom-4 left-4 rounded-md bg-white/95 px-3 py-2 font-mono text-[9px] font-semibold uppercase tracking-[0.22em] text-navy shadow-sm">
+                {band.caption}
+              </figcaption>
+            )}
+          </figure>
         </Reveal>
       </div>
     </section>

@@ -112,9 +112,9 @@ export default function MediaEditor({ draft, update, media }: DraftProps & { med
       />
 
       <MediaCard
-        title="Hero background —"
+        title="Hero —"
         accent="Golden Temple"
-        desc="Full-screen opening image behind the headline."
+        desc="The framed Golden Temple print beside the opening headline."
         path={draft.hero.img}
         alt={draft.hero.imgAlt}
         caption={draft.hero.caption}
@@ -126,14 +126,16 @@ export default function MediaEditor({ draft, update, media }: DraftProps & { med
       />
 
       <MediaCard
-        title="Wagah band"
-        accent="background"
-        desc="The wide “Explore Amritsar” band between the hero and the fleet."
+        title="Wagah section —"
+        accent="border photo"
+        desc="The framed Wagah Border picture beside the “Explore Amritsar” copy."
         path={draft.band.img}
         alt={draft.band.imgAlt}
+        caption={draft.band.caption}
         media={media}
         onPath={(p) => setBand(() => ({ img: p }))}
         onAlt={(v) => setBand(() => ({ imgAlt: v }))}
+        onCaption={(v) => setBand(() => ({ caption: v }))}
         onFile={upload((p) => setBand(() => ({ img: p })))}
       />
 

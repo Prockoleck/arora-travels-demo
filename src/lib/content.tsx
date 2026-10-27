@@ -50,6 +50,7 @@ export type BandContent = {
   cta: string;
   img: string;
   imgAlt: string;
+  caption: string;
 };
 
 export type AboutContent = { img: string; imgAlt: string; caption: string };
@@ -105,6 +106,7 @@ export function defaultContent(): SiteContent {
       img: "/dest/wagah.jpg",
       imgAlt:
         "The India gate at the Attari-Wagah border with the tricolour flying over a packed stadium",
+      caption: "Attari–Wagah Border · retreat ceremony",
     },
     about: {
       img: IMAGES.heritage,
