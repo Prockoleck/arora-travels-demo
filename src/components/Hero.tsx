@@ -28,16 +28,17 @@ export default function Hero({ goBook }: { goBook: () => void }) {
 
   return (
     <section id="home" className="relative flex min-h-screen items-center overflow-hidden bg-navy">
-      {/* landmark backdrop */}
+      {/* landmark backdrop — full brightness; the scrim does the isolating */}
       <img
         src={hero.img}
         alt=""
         aria-hidden="true"
-        className="absolute inset-0 h-full w-full object-cover object-[center_38%] opacity-60"
+        className="absolute inset-0 h-full w-full object-cover object-[center_38%]"
       />
-      {/* navy wash — horizontal keeps the copy side dark, vertical grounds the stats */}
-      <div className="absolute inset-0 bg-gradient-to-r from-navy via-navy/88 to-navy/35" />
-      <div className="absolute inset-0 bg-gradient-to-t from-navy/85 via-transparent to-navy/55" />
+      {/* navy scrim — solid behind the copy, then clearing so the temple shows */}
+      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(11,31,58,0.96)_0%,rgba(11,31,58,0.9)_42%,rgba(11,31,58,0.52)_100%)] lg:bg-[linear-gradient(90deg,rgba(11,31,58,0.95)_0%,rgba(11,31,58,0.88)_28%,rgba(11,31,58,0.52)_50%,rgba(11,31,58,0.12)_73%,rgba(11,31,58,0)_100%)]" />
+      {/* bottom scrim grounds the stats strip */}
+      <div className="absolute inset-0 bg-[linear-gradient(0deg,rgba(11,31,58,0.9)_0%,rgba(11,31,58,0.45)_20%,rgba(11,31,58,0)_50%)]" />
 
       <div className="relative mx-auto w-full max-w-7xl px-5 pb-20 pt-32 sm:px-8 lg:pt-40">
         <div className="max-w-3xl">
@@ -50,7 +51,7 @@ export default function Hero({ goBook }: { goBook: () => void }) {
             </span>
           </div>
 
-          <h1 className="font-display text-[2.4rem] leading-[1.04] text-white sm:text-5xl xl:text-6xl">
+          <h1 className="font-display text-[2.4rem] leading-[1.04] text-white [text-shadow:0_2px_24px_rgba(11,31,58,0.55)] sm:text-5xl xl:text-6xl">
             <MaskedLine delay={0.05}>{hero.line1}</MaskedLine>
             <MaskedLine delay={0.18}>{hero.line2}</MaskedLine>
             <MaskedLine delay={0.31}>
@@ -71,7 +72,7 @@ export default function Hero({ goBook }: { goBook: () => void }) {
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.55, duration: 0.7 }}
-            className="mt-7 max-w-xl text-lg leading-relaxed text-white/75"
+            className="mt-7 max-w-xl text-lg leading-relaxed text-white/80 [text-shadow:0_1px_16px_rgba(11,31,58,0.55)]"
           >
             {hero.subA}{" "}
             {hero.subBold && <span className="font-semibold text-white">{hero.subBold}</span>}{" "}
@@ -123,7 +124,7 @@ export default function Hero({ goBook }: { goBook: () => void }) {
 
       {/* photo credit, bottom-right over the wash */}
       {hero.caption && (
-        <span className="absolute bottom-24 right-8 hidden font-mono text-[9px] uppercase tracking-[0.25em] text-white/50 lg:block">
+        <span className="absolute bottom-24 right-8 hidden font-mono text-[9px] uppercase tracking-[0.25em] text-white/70 [text-shadow:0_1px_10px_rgba(11,31,58,0.8)] lg:block">
           {hero.caption}
         </span>
       )}
@@ -135,7 +136,7 @@ export default function Hero({ goBook }: { goBook: () => void }) {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.4 }}
-        className="absolute bottom-6 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-white/60 transition-colors hover:text-gold md:flex"
+        className="absolute bottom-6 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-white/70 transition-colors hover:text-gold md:flex"
       >
         <span className="font-mono text-[9px] tracking-[0.4em]">SCROLL</span>
         <span className="road-line block h-[3px] w-16" />
