@@ -247,6 +247,17 @@
       "perKm": null,
       "perDay": null,
       "tag": ""
+    },
+    {
+      "key": "Compact Sedan (Dzire / Amaze)",
+      "name": "New vehicle",
+      "models": "",
+      "img": "",
+      "seats": 4,
+      "bags": 2,
+      "perKm": null,
+      "perDay": null,
+      "tag": ""
     }
   ],
   "vehicleOptions": [
@@ -262,42 +273,17 @@
     {
       "from": "ATQ Airport",
       "to": "Golden Temple / City Hotel",
-      "fare": "₹499"
+      "fare": "₹799"
     },
     {
       "from": "Amritsar",
       "to": "Wagah Border (round trip)",
-      "fare": "₹1,199"
-    },
-    {
-      "from": "Amritsar",
-      "to": "Delhi (one way)",
-      "fare": "₹4,499"
-    },
-    {
-      "from": "Amritsar",
-      "to": "Chandigarh (one way)",
-      "fare": "₹2,999"
+      "fare": "₹1500"
     },
     {
       "from": "Amritsar",
       "to": "Katra — Vaishno Devi",
-      "fare": "₹3,799"
-    },
-    {
-      "from": "Amritsar",
-      "to": "McLeodganj / Dharamshala",
-      "fare": "₹3,499"
-    },
-    {
-      "from": "Amritsar",
-      "to": "Ludhiana (one way)",
-      "fare": "₹1,999"
-    },
-    {
-      "from": "Amritsar",
-      "to": "Golden Temple City Tour",
-      "fare": "₹899"
+      "fare": "Call back"
     }
   ],
   "reasons": [
