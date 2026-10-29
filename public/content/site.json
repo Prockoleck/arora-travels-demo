@@ -146,9 +146,9 @@
       "models": "Maruti Suzuki Dzire · compact sedan",
       "img": "/fleet/dzire.jpg",
       "seats": 4,
-      "bags": 2,
-      "perKm": 12,
-      "perDay": "₹1,500",
+      "bags": 3,
+      "perKm": 14,
+      "perDay": "₹2199",
       "tag": "MOST BOOKED"
     },
     {
@@ -157,9 +157,9 @@
       "models": "Honda Amaze · compact sedan",
       "img": "/fleet/amaze.jpg",
       "seats": 4,
-      "bags": 2,
-      "perKm": 12,
-      "perDay": "₹1,500"
+      "bags": 3,
+      "perKm": 13,
+      "perDay": "₹2199"
     },
     {
       "key": "Family SUV (Innova Crysta)",
@@ -167,9 +167,9 @@
       "models": "Toyota Innova Crysta · family SUV",
       "img": "/fleet/innova.jpg",
       "seats": 7,
-      "bags": 4,
-      "perKm": 16,
-      "perDay": "₹2,200"
+      "bags": 5,
+      "perKm": 20,
+      "perDay": "₹3499"
     },
     {
       "key": "Premium SUV (Toyota Fortuner)",
@@ -178,15 +178,15 @@
       "img": "/fleet/fortuner.jpg",
       "seats": 7,
       "bags": 4,
-      "perKm": 20,
-      "perDay": "₹2,800",
+      "perKm": 30,
+      "perDay": "₹4500",
       "tag": "EXECUTIVE"
     },
     {
       "key": "Tempo Traveller (12-seater)",
       "name": "Tempo Traveller",
-      "models": "Force Traveller · 12 seater",
-      "img": "/fleet/traveller.jpg",
+      "models": "Force Traveller · 17 Seater",
+      "img": "/img/uploads/img-8444-mvte8vcm.jpg",
       "seats": 12,
       "bags": 10,
       "perKm": 22,
@@ -210,7 +210,7 @@
     "Compact Sedan (Dzire / Amaze)",
     "Family SUV (Innova Crysta)",
     "Premium SUV (Toyota Fortuner)",
-    "Tempo Traveller (12-seater)",
+    "Tempo Traveller (17-Seater)",
     "Mini Bus (25–30 seats)",
     ""
   ],
