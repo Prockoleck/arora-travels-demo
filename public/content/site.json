@@ -214,6 +214,39 @@
       "perKm": null,
       "perDay": null,
       "tag": ""
+    },
+    {
+      "key": "Compact Sedan (Dzire / Amaze)",
+      "name": "New vehicle",
+      "models": "",
+      "img": "",
+      "seats": 4,
+      "bags": 2,
+      "perKm": null,
+      "perDay": null,
+      "tag": ""
+    },
+    {
+      "key": "Compact Sedan (Dzire / Amaze)",
+      "name": "New vehicle",
+      "models": "",
+      "img": "",
+      "seats": 4,
+      "bags": 2,
+      "perKm": null,
+      "perDay": null,
+      "tag": ""
+    },
+    {
+      "key": "Compact Sedan (Dzire / Amaze)",
+      "name": "New vehicle",
+      "models": "",
+      "img": "",
+      "seats": 4,
+      "bags": 2,
+      "perKm": null,
+      "perDay": null,
+      "tag": ""
     }
   ],
   "vehicleOptions": [
@@ -222,7 +255,8 @@
     "Family SUV (Innova Crysta)",
     "Premium SUV (Toyota Fortuner)",
     "Tempo Traveller (12-seater)",
-    "Mini Bus (25–30 seats)"
+    "Mini Bus (25–30 seats)",
+    ""
   ],
   "routes": [
     {
