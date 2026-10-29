@@ -45,7 +45,8 @@
     "text": "Airport drops, city darshan and evening trips to the border retreat ceremony — our chauffeurs have run every one of these roads, at every hour of the night. Tell us where; we’ll take you there.",
     "cta": "Book your ride",
     "img": "/dest/wagah.jpg",
-    "imgAlt": "The India gate at the Attari-Wagah border with the tricolour flying over a packed stadium"
+    "imgAlt": "The India gate at the Attari-Wagah border with the tricolour flying over a packed stadium",
+    "caption": "Attari–Wagah Border · retreat ceremony"
   },
   "about": {
     "img": "/about.jpg",
@@ -202,6 +203,17 @@
       "perKm": null,
       "perDay": null,
       "tag": "LARGE GROUPS"
+    },
+    {
+      "key": "Compact Sedan (Dzire / Amaze)",
+      "name": "New vehicle",
+      "models": "",
+      "img": "",
+      "seats": 4,
+      "bags": 2,
+      "perKm": null,
+      "perDay": null,
+      "tag": ""
     }
   ],
   "vehicleOptions": [
