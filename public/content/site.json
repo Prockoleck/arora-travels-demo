@@ -155,7 +155,7 @@
       "key": "Compact Sedan (Dzire / Amaze)",
       "name": "Honda Amaze",
       "models": "Honda Amaze · compact sedan",
-      "img": "/fleet/amaze.jpg",
+      "img": "/img/uploads/img-6747-mvtep6v8.jpg",
       "seats": 4,
       "bags": 3,
       "perKm": 13,
@@ -194,15 +194,15 @@
       "tag": "GROUPS"
     },
     {
-      "key": "Mini Bus (25–30 seats)",
-      "name": "Mini Bus",
+      "key": "Mini Bus",
+      "name": "Force Urbania",
       "models": "Air-conditioned group coach",
-      "img": "/fleet/minibus.jpg",
-      "seats": "25–30",
-      "bags": "20+",
+      "img": "/img/uploads/img-6749-mvtesw8j.webp",
+      "seats": 16,
+      "bags": 16,
       "perKm": null,
-      "perDay": null,
-      "tag": "LARGE GROUPS"
+      "perDay": "7500/-",
+      "tag": " GROUPS"
     }
   ],
   "vehicleOptions": [
@@ -211,7 +211,7 @@
     "Family SUV (Innova Crysta)",
     "Premium SUV (Toyota Fortuner)",
     "Tempo Traveller (17-Seater)",
-    "Mini Bus (25–30 seats)",
+    "Urbania (16-Seater)",
     ""
   ],
   "routes": [
