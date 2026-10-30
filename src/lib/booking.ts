@@ -93,23 +93,37 @@ export function whatsappSendLink(b: SavedBooking, business: Business): string {
   return `${business.whatsapp}?text=${encodeURIComponent(bookingMessage(b, business))}`;
 }
 
-/** Email relay → FormSubmit's *direct* endpoint at the CLIENT's address
- *  (aroratravels46@rediffmail.com) — every booking is emailed there.
- *  One-time activation caveat: FormSubmit sends a verification link to that
- *  inbox on the FIRST submission; the client must click it once before
- *  emails flow. Until then FormSubmit holds them and answers success:false —
- *  which the submit toast reports truthfully (it never claims delivery it
- *  can't confirm). Dev previews on localhost are gated the same way.
- *  Note: the address is visible in the page source (FormSubmit's slug feature
- *  only hides the original setup inbox, so a slug can't route here). */
-const NOTIFY_ENDPOINT = "formsubmit.co/ajax/aroratravels46@rediffmail.com";
+/** Email relay → FormSubmit's *direct* endpoints at the dispatcher's
+ *  addresses. Every address on the booking-notification list gets its own
+ *  copy of each trip; one confirmed delivery marks the booking as emailed.
+ *
+ *  One-time activation caveat: FormSubmit sends a verification link to a new
+ *  address on the FIRST submission routed to it; until that inbox clicks the
+ *  link, FormSubmit holds those emails and answers success:false — the submit
+ *  toast reports delivery honestly (it never claims a delivery it can't
+ *  confirm). Dev previews on localhost are gated the same way.
+ *  Note: the addresses are visible in the page source (FormSubmit's slug
+ *  feature only hides the original setup inbox, so a slug can't route here). */
+const FALLBACK_RECIPIENT = "aroratravels46@rediffmail.com";
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
-export async function notifyServer(
+/** Addresses that receive bookings — admin-managed, defensively filtered. */
+export function notifyRecipients(business: Business): string[] {
+  const listed = Array.isArray(business.notifyEmails) ? business.notifyEmails : [];
+  const candidates = (listed.length ? listed : [business.email || FALLBACK_RECIPIENT])
+    .map((e) => e.trim())
+    .filter((e) => EMAIL_RE.test(e));
+  const unique = [...new Set(candidates.map((e) => e.toLowerCase()))];
+  return unique.length ? unique : [FALLBACK_RECIPIENT];
+}
+
+async function postToFormSubmit(
+  email: string,
   b: SavedBooking,
   business: Business,
 ): Promise<boolean> {
   try {
-    const res = await fetch(`https://${NOTIFY_ENDPOINT}`, {
+    const res = await fetch(`https://formsubmit.co/ajax/${email}`, {
       method: "POST",
       headers: { "Content-Type": "application/json", Accept: "application/json" },
       body: JSON.stringify({
@@ -131,4 +145,16 @@ export async function notifyServer(
     /* offline / blocked */
     return false;
   }
+}
+
+export async function notifyServer(
+  b: SavedBooking,
+  business: Business,
+): Promise<boolean> {
+  /* fan out in parallel — a single confirmed delivery means the booking
+     reached the dispatcher, even while another address awaits activation */
+  const results = await Promise.all(
+    notifyRecipients(business).map((email) => postToFormSubmit(email, b, business)),
+  );
+  return results.some(Boolean);
 }

@@ -66,6 +66,28 @@ export default function BusinessEditor({ draft, update }: DraftProps) {
 
       <Card>
         <SectionTitle
+          title="Booking"
+          accent="notifications"
+          desc="Every website booking is emailed to each address below. A new address gets a one-time activation link from the mail service with the first booking — click it once and that inbox is live."
+        />
+        <TextAreaField
+          label="Notification emails"
+          rows={3}
+          value={(b.notifyEmails ?? []).join("\n")}
+          onChange={(v) =>
+            set({
+              notifyEmails: v
+                .split(/[\n,;]+/)
+                .map((s) => s.trim())
+                .filter(Boolean),
+            })
+          }
+          hint="One per line. Leave empty to fall back to the public email above."
+        />
+      </Card>
+
+      <Card>
+        <SectionTitle
           title="Phone"
           accent="numbers"
           desc="Each number becomes a tappable line — the tel: link is generated automatically."

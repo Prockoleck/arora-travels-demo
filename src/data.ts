@@ -24,6 +24,9 @@ export const BUSINESS = {
     { display: "+91 98143 70856", tel: "tel:+919814370856" },
   ],
   email: "aroratravels46@rediffmail.com",
+  /* Every address here receives a copy of each website booking.
+     Editable in the admin console (Business → Booking notifications). */
+  notifyEmails: ["aroratravels46@rediffmail.com"],
   whatsapp: "https://wa.me/919914404090",
   address:
     "Shop No. 46, Gol Bagh, Taxi Stand Market, Narain Nagar, Goal Bagh, Amritsar, Punjab 143001, India",
