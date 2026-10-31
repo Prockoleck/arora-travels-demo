@@ -22,6 +22,7 @@ export const BUSINESS = {
     { display: "+91 99144 04090", tel: "tel:+919914404090" },
     { display: "+91 99150 70856", tel: "tel:+919915070856" },
     { display: "+91 98143 70856", tel: "tel:+919814370856" },
+    { display: "0183-2531720", tel: "tel:+01832531720" },
   ],
   email: "aroraishu@icloud.com",
   /* Every address here receives a copy of each website booking.
