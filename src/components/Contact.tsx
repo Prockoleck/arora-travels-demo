@@ -192,7 +192,7 @@ export default function Contact({
                     >
                       {business.phoneDisplay}
                     </a>
-                    <p className="mt-2 flex flex-wrap gap-x-4 gap-y-1 font-mono text-[12px] text-steel">
+                    <p className="mt-2 flex flex-col gap-y-1 font-mono text-[12px] text-steel">
                       {business.phones.slice(1).map((p) => (
                         <a
                           key={p.tel}
