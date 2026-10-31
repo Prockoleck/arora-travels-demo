@@ -18,14 +18,21 @@
         "tel": "tel:+919814370856"
       }
     ],
-    "email": "aroratravels46@rediffmail.com",
+    "email": "aroraishu@icloud.com",
     "whatsapp": "https://wa.me/919914404090",
     "address": "Shop No. 46, Gol Bagh, Taxi Stand Market, Narain Nagar, Goal Bagh, Amritsar, Punjab 143001, India",
     "addressShort": "Shop No. 46, Gol Bagh Taxi Stand Market, Amritsar, Punjab 143001",
-    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Arora+Travels,+Gol+Bagh,+Amritsar,+Punjab+143001"
+    "mapsUrl": "https://www.google.com/maps/place/?q=place_id:ChIJqbwPpPJlGTkR_cwfs9ocdSI",
+    "notifyEmails": [
+      "aroraishu@icloud.com",
+      "aroratravels46@rediffmail.com"
+    ],
+    "mapCoords": {
+      "lat": 31.6315786,
+      "lng": 74.8686835
+    }
   },
   "hero": {
-    "eyebrow": "Open 24×7 · Gol Bagh Taxi Stand",
     "line1": "Premium car rental",
     "line2": "& taxi services in",
     "accent": "Amritsar",
@@ -34,9 +41,29 @@
     "subBold": "complete, tailor-made transportation solution",
     "subEnd": "for executives, families and guests. Economical rates, reasonable corporate tariffs, professional chauffeurs. Any hour, any road.",
     "cta": "Book your ride now",
-    "img": "/dest/golden-temple.jpg",
-    "imgAlt": "The Golden Temple (Harmandir Sahib) glowing at dusk, reflected in the sarovar",
-    "caption": "Harmandir Sahib · Amritsar at dusk"
+    "slides": [
+      {
+        "src": "/dest/golden-temple.jpg",
+        "alt": "The Golden Temple (Harmandir Sahib) glowing at dusk, reflected in the sarovar",
+        "caption": "Harmandir Sahib · Amritsar at dusk"
+      },
+      {
+        "src": "/dest/wagah.jpg",
+        "alt": "The India gate at the Attari-Wagah border with the tricolour flying over a packed stadium",
+        "caption": "Attari–Wagah Border · retreat ceremony"
+      },
+      {
+        "src": "/dest/jallianwala-bagh.jpg",
+        "alt": "The Jallianwala Bagh memorial wall and bronze statue in Amritsar",
+        "caption": "Jallianwala Bagh · a quiet memorial"
+      },
+      {
+        "src": "/dest/durgiana-temple.jpg",
+        "alt": "Golden domes of Durgiana Temple seen from the marble bridge over its sarovar",
+        "caption": "Durgiana Temple · the lake temple"
+      }
+    ],
+    "slideSeconds": 7
   },
   "band": {
     "eyebrow": "Explore Amritsar",
@@ -82,20 +109,6 @@
       "suffix": "+",
       "label": "Corporate clients"
     }
-  ],
-  "destinations": [
-    "ATQ Airport Transfers",
-    "Golden Temple",
-    "Wagah Border",
-    "Delhi",
-    "Chandigarh",
-    "Katra · Vaishno Devi",
-    "McLeodganj",
-    "Jammu",
-    "Corporate Fleet",
-    "Wedding Cars",
-    "Jallianwala Bagh",
-    "Amritsar City Tour"
   ],
   "services": [
     {
@@ -293,5 +306,69 @@
       "role": "Family traveller · Amritsar"
     }
   ],
-  "photoCredit": "Landmark photos via Wikimedia Commons — Golden Temple © Bernard Gagnon · Wagah Border © Tamjeed Ahmed (CC BY-SA 4.0)"
+  "photoCredit": "Wikimedia Commons — Golden Temple & Jallianwala Bagh © Bernard Gagnon (CC BY-SA) · Durgiana Temple © Jaiprakashsingh (CC BY-SA) · Partition Museum © shankar s. (CC BY 2.0) · Gobindgarh Fort © Gobindgarh Fort (CC BY-SA 4.0) · Ram Bagh © Harvinder Chandigarh (CC BY-SA 4.0) · Wagah Border © Tamjeed Ahmed (CC BY-SA)",
+  "welcome": {
+    "heading": "Welcome to Arora Travels",
+    "text": "For nearly three decades, families, executives and pilgrims have stepped into our Gol Bagh stand and driven away with the same thing: a clean car, a courteous chauffeur and a fare agreed before the wheels turn. That is still the whole idea."
+  },
+  "ticker": {
+    "items": [
+      "Golden Temple darshan",
+      "Wagah Border retreat",
+      "Jallianwala Bagh",
+      "Partition Museum",
+      "Durgiana Temple",
+      "Gobindgarh Fort",
+      "ATQ airport transfers",
+      "Amritsar city tours",
+      "Outstation cabs",
+      "Corporate fleet",
+      "Wedding cars"
+    ],
+    "seconds": 30
+  },
+  "sights": [
+    {
+      "title": "Golden Temple",
+      "kicker": "Harmandir Sahib",
+      "text": "The city's golden heart. Go at first light for the quietest darshan, or after dark when the sarovar turns to glass.",
+      "img": "/dest/golden-temple.jpg",
+      "imgAlt": "The Golden Temple glowing at dusk, reflected in the sarovar"
+    },
+    {
+      "title": "Jallianwala Bagh",
+      "kicker": "Remembrance",
+      "text": "A walled memorial garden a short walk from the Golden Temple — restrained, moving, and deeply part of Amritsar.",
+      "img": "/dest/jallianwala-bagh.jpg",
+      "imgAlt": "The Jallianwala Bagh memorial wall and bronze statue in Amritsar"
+    },
+    {
+      "title": "Partition Museum",
+      "kicker": "Town Hall · Hall Bazaar",
+      "text": "Letters, photographs and first-hand voices from 1947, gathered in the old red-brick Town Hall.",
+      "img": "/dest/partition-museum.jpg",
+      "imgAlt": "The red-brick Town Hall that houses the Partition Museum in Amritsar"
+    },
+    {
+      "title": "Durgiana Temple",
+      "kicker": "The lake temple",
+      "text": "Golden domes rising from a sarovar of its own — the calm, unhurried counterpart to the Golden Temple crowds.",
+      "img": "/dest/durgiana-temple.jpg",
+      "imgAlt": "Golden domes of Durgiana Temple seen from the marble bridge over its sarovar"
+    },
+    {
+      "title": "Gobindgarh Fort",
+      "kicker": "Living history",
+      "text": "An 18th-century fort turned cultural campus: museums, a food street and evening performances under the ramparts.",
+      "img": "/dest/gobindgarh-fort.jpg",
+      "imgAlt": "The gate of Gobindgarh Fort with its Punjab Tourism sign in Amritsar"
+    },
+    {
+      "title": "Ram Bagh",
+      "kicker": "Maharaja Ranjit Singh's garden",
+      "text": "The Maharaja's summer palace, shaded gardens and the old Deorhi gateway — a slow, green hour away from the bazaar.",
+      "img": "/dest/rambagh.jpg",
+      "imgAlt": "The historic Deorhi gateway at Ram Bagh, Amritsar"
+    }
+  ]
 }

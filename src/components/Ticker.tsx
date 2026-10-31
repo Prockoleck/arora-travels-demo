@@ -1,15 +1,21 @@
 import { useContent } from "../lib/content";
 
-/* Destination-board marquee — a quiet strip of everywhere we drive */
+/* Customizable ticker tape — the thin strip that replaced the old
+   “Open 24×7 · Gol Bagh Taxi Stand” hero eyebrow. Items and loop
+   duration are edited in the admin console (Content → Ticker tape). */
 export default function Ticker() {
-  const content = useContent();
-  const items = [...content.destinations, ...content.destinations];
+  const { ticker } = useContent();
+  const items = [...ticker.items, ...ticker.items];
+  const seconds = Math.min(180, Math.max(5, ticker.seconds || 30));
   return (
     <div
       className="relative overflow-hidden border-y border-paper-2 bg-paper py-3.5"
       aria-hidden="true"
     >
-      <div className="marquee-track flex w-max items-center">
+      <div
+        className="marquee-track flex w-max items-center hover:[animation-play-state:paused]"
+        style={{ animationDuration: `${seconds}s` }}
+      >
         {items.map((d, i) => (
           <span
             key={`${d}-${i}`}

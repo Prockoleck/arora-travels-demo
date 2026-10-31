@@ -4,7 +4,7 @@ import { Menu, Phone, X } from "lucide-react";
 import { NAV_LINKS } from "../data";
 import { telHref, useContent } from "../lib/content";
 
-/* Brand logo: official Arora Travels artwork */
+/* Brand logo: official Arora Travels artwork, strengthened for the header */
 export function Logo() {
   const { logo } = useContent();
   return (
@@ -14,7 +14,7 @@ export function Logo() {
         alt="Arora Travels"
         width={428}
         height={118}
-        className="h-10 w-auto md:h-12"
+        className="h-11 w-auto [filter:contrast(1.16)_saturate(1.06)] md:h-14"
       />
     </a>
   );

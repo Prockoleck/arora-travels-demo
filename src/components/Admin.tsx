@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState, type FormEvent } from "react";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type FormEvent } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import {
   ArrowLeft,
@@ -12,11 +12,13 @@ import {
   IndianRupee,
   KeyRound,
   LayoutDashboard,
+  LogOut,
   Settings as SettingsIcon,
 } from "lucide-react";
 import { Logo } from "./Navbar";
 import type { Vehicle } from "../data";
 import { loadBookings } from "../lib/booking";
+import { isUnlocked, lockConsole, unlockConsole, verifyPassword } from "../lib/auth";
 import {
   clearDraft,
   clone,
@@ -39,9 +41,7 @@ import BookingsPanel from "./admin/BookingsPanel";
 import SettingsPanel, { PublishPanel, type PublishState } from "./admin/SettingsPanel";
 import { Btn, Spinner, micro, type MediaApi, type TabId } from "./admin/ui";
 
-/* Matches the sibling taxi sites — session-scoped unlock */
-const ADMIN_PIN = "12345678";
-const AUTH_KEY = "arora_admin_auth";
+/* Session-scoped unlock; the password itself lives in src/lib/auth.ts */
 const MAX_PENDING = 8;
 
 const labelCls = "font-mono text-[10px] font-semibold uppercase tracking-[0.25em] text-fog";
@@ -63,11 +63,16 @@ const TABS: TabDef[] = [
 function Gate({ onUnlock }: { onUnlock: () => void }) {
   const [pin, setPin] = useState("");
   const [bad, setBad] = useState(false);
+  const [checking, setChecking] = useState(false);
 
-  const submit = (ev: FormEvent) => {
+  const submit = async (ev: FormEvent) => {
     ev.preventDefault();
-    if (pin === ADMIN_PIN) {
-      sessionStorage.setItem(AUTH_KEY, "1");
+    if (checking) return;
+    setChecking(true);
+    const ok = await verifyPassword(pin);
+    setChecking(false);
+    if (ok) {
+      unlockConsole();
       onUnlock();
     } else {
       setBad(true);
@@ -91,33 +96,46 @@ function Gate({ onUnlock }: { onUnlock: () => void }) {
           Dispatch Console
         </p>
         <label htmlFor="admin-pin" className={`${labelCls} mt-6 block`}>
-          Passcode
+          Password
         </label>
         <input
           id="admin-pin"
           type="password"
-          inputMode="numeric"
           autoFocus
+          autoComplete="current-password"
+          autoCapitalize="none"
+          autoCorrect="off"
+          spellCheck={false}
+          maxLength={72}
+          disabled={checking}
           value={pin}
           onChange={(e) => {
             setPin(e.target.value);
             setBad(false);
           }}
           placeholder="••••••••"
-          className="mt-2 w-full rounded-lg border border-paper-2 bg-white px-4 py-3 text-center font-mono text-lg tracking-[0.4em] text-ink outline-none transition-colors focus:border-gold"
+          className="mt-2 w-full rounded-lg border border-paper-2 bg-white px-4 py-3 text-center font-mono text-lg tracking-[0.35em] text-ink outline-none transition-colors focus:border-gold disabled:opacity-60"
         />
         <p
           className={`mt-2 h-4 text-center text-xs ${bad ? "text-red-500" : "text-transparent"}`}
           role={bad ? "alert" : undefined}
         >
-          Wrong passcode — try again.
+          Wrong password — try again.
         </p>
         <button
           type="submit"
-          className="mt-3 flex w-full items-center justify-center gap-2 rounded-lg bg-navy px-5 py-3.5 text-sm font-bold text-white transition-all duration-300 hover:bg-navy-800"
+          disabled={checking}
+          className="mt-3 flex w-full items-center justify-center gap-2 rounded-lg bg-navy px-5 py-3.5 text-sm font-bold text-white transition-all duration-300 hover:bg-navy-800 disabled:cursor-wait disabled:opacity-80"
         >
-          <KeyRound size={16} strokeWidth={2.5} />
-          Unlock
+          {checking ? (
+            <>
+              <Spinner size={16} /> Checking…
+            </>
+          ) : (
+            <>
+              <KeyRound size={16} strokeWidth={2.5} /> Unlock
+            </>
+          )}
         </button>
         <a
           href="#home"
@@ -149,7 +167,7 @@ function LoadingScreen() {
 
 /* ── Admin page (hash: #/admin) ────────────────────────────── */
 export default function Admin() {
-  const [authed, setAuthed] = useState(() => sessionStorage.getItem(AUTH_KEY) === "1");
+  const [authed, setAuthed] = useState(() => isUnlocked());
 
   /* content + draft model */
   const live = useContent();
@@ -179,6 +197,11 @@ export default function Admin() {
     window.addEventListener("storage", onStorage);
     return () => window.removeEventListener("storage", onStorage);
   }, []);
+
+  /* every console section opens at its top, not where the last one was left */
+  useLayoutEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  }, [tab]);
 
   /* queued images that the draft no longer uses are dropped + revoked */
   useEffect(() => {
@@ -309,6 +332,12 @@ export default function Admin() {
   const publishState: PublishState = { busy, result, run: runPublish, dirty };
   const bookingCount = useMemo(() => loadBookings().length, [bookingsTick]);
 
+  const logout = () => {
+    lockConsole();
+    setAuthed(false);
+    setTab("dashboard");
+  };
+
   if (!authed) return <Gate onUnlock={() => setAuthed(true)} />;
   if (!draft) return <LoadingScreen />;
 
@@ -350,6 +379,7 @@ export default function Admin() {
             publish={publishState}
             onImport={importDraft}
             onDiscard={discardDraft}
+            onLogout={logout}
           />
         );
     }
@@ -365,7 +395,7 @@ export default function Admin() {
   return (
     <div className="min-h-screen bg-paper text-ink">
       {/* ── Header ── */}
-      <header className="sticky top-0 z-30 border-b border-paper-2 bg-paper/95 backdrop-blur">
+      <header className="sticky top-0 z-30 border-b border-paper-2 bg-white/95 backdrop-blur">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8">
           <div className="flex min-w-0 items-center gap-3">
             <Logo />
@@ -402,6 +432,14 @@ export default function Admin() {
             >
               <ExternalLink size={13} /> View site
             </a>
+            <button
+              type="button"
+              onClick={logout}
+              title="Lock the console and return to the password screen"
+              className="inline-flex items-center gap-1.5 rounded-lg border border-paper-2 bg-white px-3 py-2.5 font-mono text-[11px] uppercase tracking-[0.16em] text-steel transition-colors hover:border-red-300 hover:text-red-500"
+            >
+              <LogOut size={13} /> Log out
+            </button>
           </div>
         </div>
       </header>

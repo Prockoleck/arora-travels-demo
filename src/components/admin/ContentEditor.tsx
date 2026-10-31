@@ -54,6 +54,8 @@ function RowCard({
 
 export default function ContentEditor({ draft, update }: DraftProps) {
   const hero = draft.hero;
+  const welcome = draft.welcome;
+  const ticker = draft.ticker;
   const band = draft.band;
 
   const replace = <K extends keyof SiteContent>(
@@ -74,14 +76,9 @@ export default function ContentEditor({ draft, update }: DraftProps) {
         <SectionTitle
           title="Hero"
           accent="headline"
-          desc="The opening screen. Accent word renders in gold; badge is the small “SINCE ’97” plate."
+          desc="The opening screen. Accent word renders in gold; badge is the small “SINCE ’97” plate. The framed slideshow is edited in Media."
         />
         <div className="grid gap-3 sm:grid-cols-2">
-          <TextField
-            label="Eyebrow"
-            value={hero.eyebrow}
-            onChange={(v) => replace("hero", { ...hero, eyebrow: v })}
-          />
           <TextField
             label="Badge"
             value={hero.badge}
@@ -98,7 +95,6 @@ export default function ContentEditor({ draft, update }: DraftProps) {
             onChange={(v) => replace("hero", { ...hero, line2: v })}
           />
           <TextField
-            className="sm:col-span-2"
             label="Accent word"
             value={hero.accent}
             onChange={(v) => replace("hero", { ...hero, accent: v })}
@@ -126,6 +122,29 @@ export default function ContentEditor({ draft, update }: DraftProps) {
             label="Button label"
             value={hero.cta}
             onChange={(v) => replace("hero", { ...hero, cta: v })}
+          />
+        </div>
+      </Card>
+
+      {/* ── Welcome ── */}
+      <Card>
+        <SectionTitle
+          title="Welcome"
+          accent="band"
+          desc="Sits directly under the hero and ticker, above the booking form. Keep the paragraph to two or three lines."
+        />
+        <div className="grid gap-3">
+          <TextField
+            label="Heading"
+            value={welcome.heading}
+            onChange={(v) => replace("welcome", { ...welcome, heading: v })}
+            placeholder="Welcome to Arora Travels"
+          />
+          <TextAreaField
+            label="Paragraph"
+            value={welcome.text}
+            onChange={(v) => replace("welcome", { ...welcome, text: v })}
+            placeholder="Tell visitors what the stand has always stood for…"
           />
         </div>
       </Card>
@@ -227,21 +246,35 @@ export default function ContentEditor({ draft, update }: DraftProps) {
         </div>
       </Card>
 
-      {/* ── Destinations ── */}
+      {/* ── Ticker ── */}
       <Card>
         <SectionTitle
-          title="Destination"
-          accent="board"
-          desc="The scrolling marquee of places you serve."
+          title="Ticker"
+          accent="tape"
+          desc="The scrolling strip under the hero — replaces the old static “Open 24×7” line. Add, remove and reorder the items."
         />
         <ListEditor
-          items={draft.destinations}
-          onChange={(next) => replace("destinations", next)}
-          itemLabel="destination"
-          placeholder="Golden Temple"
-          addLabel="Add destination"
+          items={ticker.items}
+          onChange={(next) => replace("ticker", { ...ticker, items: next })}
+          itemLabel="ticker item"
+          placeholder="Golden Temple darshan"
+          addLabel="Add ticker item"
           reorder
         />
+        <div className="mt-4 max-w-xs">
+          <TextField
+            label="Loop duration (seconds)"
+            inputMode="numeric"
+            value={String(ticker.seconds)}
+            onChange={(v) =>
+              replace("ticker", {
+                ...ticker,
+                seconds: Math.max(0, Math.min(600, Number(v.replace(/[^\d]/g, "")) || 0)),
+              })
+            }
+            hint="5–180 seconds for one full loop. The strip pauses on hover."
+          />
+        </div>
       </Card>
 
       {/* ── Services ── */}

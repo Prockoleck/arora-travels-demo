@@ -2,7 +2,6 @@ import { useEffect, useRef, useState, type FormEvent } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import {
   AlertTriangle,
-  ArrowUpRight,
   CheckCircle2,
   Clock,
   Loader2,
@@ -16,6 +15,7 @@ import { emptyBooking, type Booking } from "../data";
 import { telHref, useContent } from "../lib/content";
 import Reveal, { SectionTag } from "./Reveal";
 import PassengerStepper from "./PassengerStepper";
+import StandMap from "./StandMap";
 import { notifyServer, saveBooking, whatsappSendLink } from "../lib/booking";
 
 const labelCls =
@@ -25,44 +25,6 @@ const inputCls =
 
 type Errors = Partial<Record<"name" | "phone" | "pickup" | "drop", string>>;
 
-/* Show-only Google Maps of the stand — a keyless Google Maps embed, no API
-   key or billing needed. It's for orientation only: pickup & drop are typed
-   by hand in the form, nothing is picked on this map. */
-function StandMap() {
-  const { business } = useContent();
-  return (
-    <div className="mt-14 overflow-hidden rounded-2xl border border-paper-2 bg-paper">
-      <iframe
-        title="Google map showing Arora Travels at Gol Bagh, Amritsar"
-        src={`https://maps.google.com/maps?q=${encodeURIComponent(
-          "Arora Travels, Gol Bagh, Amritsar, Punjab 143001",
-        )}&z=15&output=embed&hl=en`}
-        loading="lazy"
-        referrerPolicy="no-referrer-when-downgrade"
-        className="block h-80 w-full border-0"
-      />
-      <div className="flex flex-wrap items-center justify-between gap-2 border-t border-paper-2 bg-white px-5 py-3.5">
-        <p className="text-xs text-steel">
-          <span className="font-bold text-ink">Arora Travels</span> · Shop No. 46, Gol Bagh Taxi
-          Stand Market
-        </p>
-        <a
-          href={business.mapsUrl}
-          target="_blank"
-          rel="noreferrer"
-          className="group flex items-center gap-1.5 text-xs font-bold text-gold-deep"
-        >
-          Open in Google Maps
-          <ArrowUpRight
-            size={13}
-            strokeWidth={2.5}
-            className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-          />
-        </a>
-      </div>
-    </div>
-  );
-}
 
 export default function Contact({
   booking,

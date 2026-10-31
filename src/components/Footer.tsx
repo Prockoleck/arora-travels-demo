@@ -1,7 +1,6 @@
 import { Facebook, Instagram, Mail, MessageCircle, Twitter } from "lucide-react";
 import { NAV_LINKS } from "../data";
 import { telHref, useContent } from "../lib/content";
-import { Logo } from "./Navbar";
 
 export default function Footer() {
   const content = useContent();
@@ -20,8 +19,7 @@ export default function Footer() {
       <div className="mx-auto grid max-w-7xl gap-12 px-5 py-16 sm:px-8 md:grid-cols-2 lg:grid-cols-[1.35fr_0.75fr_0.95fr_1fr]">
         {/* brand */}
         <div>
-          <Logo />
-          <p className="mt-6 max-w-xs text-sm leading-relaxed text-steel">
+          <p className="max-w-xs text-sm leading-relaxed text-steel">
             Premium car rental &amp; taxi hire in Amritsar since {business.est}. Executive
             transportation, corporate tariffs and 24×7 airport transfers — the tailor-made way.
           </p>

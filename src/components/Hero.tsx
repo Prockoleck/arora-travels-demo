@@ -1,4 +1,4 @@
-import { type ReactNode } from "react";
+import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, Phone } from "lucide-react";
 import { telHref, useContent } from "../lib/content";
@@ -21,25 +21,34 @@ function MaskedLine({ children, delay }: { children: ReactNode; delay: number })
   );
 }
 
-/* Solid-navy hero with the Golden Temple framed beside the copy — the
-   landmark stands on its own instead of sitting behind the text. */
+/* Solid-navy hero with a framed Amritsar slideshow beside the copy — the
+   landmarks stand on their own instead of sitting behind the text. */
 export default function Hero({ goBook }: { goBook: () => void }) {
   const { hero, business, stats } = useContent();
+  const slides = hero.slides;
+  const seconds = Math.min(60, Math.max(2, hero.slideSeconds || 7));
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    setIndex(0);
+  }, [slides.length]);
+
+  useEffect(() => {
+    if (slides.length < 2) return;
+    const id = window.setInterval(
+      () => setIndex((i) => (i + 1) % slides.length),
+      seconds * 1000,
+    );
+    return () => window.clearInterval(id);
+  }, [slides.length, seconds]);
+
+  const active = slides[Math.min(index, slides.length - 1)];
 
   return (
     <section id="home" className="relative flex min-h-screen items-center overflow-hidden bg-navy">
       <div className="relative mx-auto grid w-full max-w-7xl gap-14 px-5 pb-16 pt-32 sm:px-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-center">
         {/* ── Left: statement ── */}
         <div className="lg:col-start-1 lg:row-start-1">
-          <div className="mb-7 flex flex-wrap items-center gap-3">
-            <span className="flex items-center gap-2.5 rounded-lg border border-white/20 bg-white/10 px-3.5 py-2 backdrop-blur-sm">
-              <span className="dot-live h-2 w-2 rounded-full bg-wa" />
-              <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.24em] text-white/85">
-                {hero.eyebrow}
-              </span>
-            </span>
-          </div>
-
           <h1 className="font-display text-[2.4rem] leading-[1.04] text-white sm:text-5xl xl:text-6xl">
             <MaskedLine delay={0.05}>{hero.line1}</MaskedLine>
             <MaskedLine delay={0.18}>{hero.line2}</MaskedLine>
@@ -91,25 +100,66 @@ export default function Hero({ goBook }: { goBook: () => void }) {
           </motion.div>
         </div>
 
-        {/* ── Right: the Golden Temple, framed like a signature print ── */}
+        {/* ── Right: Amritsar landmark slideshow, framed like a signature print ── */}
         <motion.figure
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4, duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
           className="relative mx-auto w-full max-w-md lg:col-start-2 lg:row-span-2 lg:mx-0 lg:max-w-none"
         >
-          <div className="overflow-hidden rounded-2xl border border-white/10 shadow-[0_40px_100px_-40px_rgba(0,0,0,0.85)]">
-            <img
-              src={hero.img}
-              alt={hero.imgAlt}
-              className="aspect-[4/5] w-full object-cover"
-            />
+          <div
+            className="hero-slides relative aspect-[4/5] w-full overflow-hidden rounded-2xl border border-white/10 shadow-[0_40px_100px_-40px_rgba(0,0,0,0.85)]"
+            style={{ "--hero-slide-sec": `${seconds}s` } as CSSProperties}
+          >
+            {slides.map((slide, i) => (
+              <div
+                key={`${slide.src}-${i}`}
+                className={`hero-slide absolute inset-0 ${i === index ? "is-active" : ""}`}
+                aria-hidden={i !== index}
+              >
+                <img
+                  src={slide.src}
+                  alt={slide.alt}
+                  loading={i === 0 ? "eager" : "lazy"}
+                  className="h-full w-full object-cover"
+                />
+              </div>
+            ))}
+
+            {/* readability gradient for the caption */}
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[2] h-2/5 bg-gradient-to-t from-navy/80 via-navy/25 to-transparent" />
+
+            {active?.caption && (
+              <figcaption className="absolute bottom-4 left-4 right-24 z-10 rounded-md bg-white/95 px-3 py-2 font-mono text-[9px] font-semibold uppercase tracking-[0.22em] text-navy shadow-sm sm:right-28">
+                <motion.span
+                  key={index}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.45 }}
+                  className="line-clamp-2"
+                >
+                  {active.caption}
+                </motion.span>
+              </figcaption>
+            )}
+
+            {slides.length > 1 && (
+              <div className="absolute bottom-4 right-4 z-10 flex items-center gap-1.5 rounded-full bg-navy/45 px-2.5 py-2 backdrop-blur-sm">
+                {slides.map((slide, i) => (
+                  <button
+                    key={`${slide.src}-dot-${i}`}
+                    type="button"
+                    onClick={() => setIndex(i)}
+                    aria-label={`Show slide ${i + 1}${slide.caption ? `: ${slide.caption}` : ""}`}
+                    aria-current={i === index}
+                    className={`h-1.5 rounded-full transition-all duration-300 ${
+                      i === index ? "w-5 bg-gold" : "w-1.5 bg-white/55 hover:bg-white"
+                    }`}
+                  />
+                ))}
+              </div>
+            )}
           </div>
-          {hero.caption && (
-            <figcaption className="absolute bottom-4 left-4 rounded-md bg-white/95 px-3 py-2 font-mono text-[9px] font-semibold uppercase tracking-[0.22em] text-navy shadow-sm">
-              {hero.caption}
-            </figcaption>
-          )}
         </motion.figure>
 
         {/* stats strip — under the photo on mobile, back in the left column on desktop */}

@@ -23,16 +23,19 @@ export const BUSINESS = {
     { display: "+91 99150 70856", tel: "tel:+919915070856" },
     { display: "+91 98143 70856", tel: "tel:+919814370856" },
   ],
-  email: "aroratravels46@rediffmail.com",
+  email: "aroraishu@icloud.com",
   /* Every address here receives a copy of each website booking.
      Editable in the admin console (Business → Booking notifications). */
-  notifyEmails: ["aroratravels46@rediffmail.com"],
+  notifyEmails: ["aroraishu@icloud.com", "aroratravels46@rediffmail.com"],
   whatsapp: "https://wa.me/919914404090",
   address:
     "Shop No. 46, Gol Bagh, Taxi Stand Market, Narain Nagar, Goal Bagh, Amritsar, Punjab 143001, India",
   addressShort: "Shop No. 46, Gol Bagh Taxi Stand Market, Amritsar, Punjab 143001",
+  /* Exact Google Business Profile (ARORA TRAVELS, 4.9★, Gol Bagh).
+     Place ID verified 31 Oct 2026 — opens the listing, not a search. */
   mapsUrl:
-    "https://www.google.com/maps/search/?api=1&query=Arora+Travels,+Gol+Bagh,+Amritsar,+Punjab+143001",
+    "https://www.google.com/maps/place/?q=place_id:ChIJqbwPpPJlGTkR_cwfs9ocdSI",
+  mapCoords: { lat: 31.6315786, lng: 74.8686835 },
 };
 
 export type Business = typeof BUSINESS;
@@ -87,20 +90,73 @@ export const emptyBooking = (): Booking => ({
   passengers: 2,
 });
 
-/* ── Destination board (marquee) ─────────────────────────── */
-export const DESTINATIONS = [
-  "ATQ Airport Transfers",
-  "Golden Temple",
-  "Wagah Border",
-  "Delhi",
-  "Chandigarh",
-  "Katra · Vaishno Devi",
-  "McLeodganj",
-  "Jammu",
-  "Corporate Fleet",
-  "Wedding Cars",
+/* ── Ticker tape (defaults — editable in the admin console) ── */
+export const TICKER_ITEMS = [
+  "Golden Temple darshan",
+  "Wagah Border retreat",
   "Jallianwala Bagh",
-  "Amritsar City Tour",
+  "Partition Museum",
+  "Durgiana Temple",
+  "Gobindgarh Fort",
+  "ATQ airport transfers",
+  "Amritsar city tours",
+  "Outstation cabs",
+  "Corporate fleet",
+  "Wedding cars",
+];
+
+/* ── Sightseeing places — the “beyond the Golden Temple” gallery ── */
+export type Sight = {
+  title: string;
+  kicker: string;
+  text: string;
+  img: string;
+  imgAlt: string;
+};
+
+export const SIGHTS: Sight[] = [
+  {
+    title: "Golden Temple",
+    kicker: "Harmandir Sahib",
+    text: "The city's golden heart. Go at first light for the quietest darshan, or after dark when the sarovar turns to glass.",
+    img: "/dest/golden-temple.jpg",
+    imgAlt: "The Golden Temple glowing at dusk, reflected in the sarovar",
+  },
+  {
+    title: "Jallianwala Bagh",
+    kicker: "Remembrance",
+    text: "A walled memorial garden a short walk from the Golden Temple — restrained, moving, and deeply part of Amritsar.",
+    img: "/dest/jallianwala-bagh.jpg",
+    imgAlt: "The Jallianwala Bagh memorial wall and bronze statue in Amritsar",
+  },
+  {
+    title: "Partition Museum",
+    kicker: "Town Hall · Hall Bazaar",
+    text: "Letters, photographs and first-hand voices from 1947, gathered in the old red-brick Town Hall.",
+    img: "/dest/partition-museum.jpg",
+    imgAlt: "The red-brick Town Hall that houses the Partition Museum in Amritsar",
+  },
+  {
+    title: "Durgiana Temple",
+    kicker: "The lake temple",
+    text: "Golden domes rising from a sarovar of its own — the calm, unhurried counterpart to the Golden Temple crowds.",
+    img: "/dest/durgiana-temple.jpg",
+    imgAlt: "Golden domes of Durgiana Temple seen from the marble bridge over its sarovar",
+  },
+  {
+    title: "Gobindgarh Fort",
+    kicker: "Living history",
+    text: "An 18th-century fort turned cultural campus: museums, a food street and evening performances under the ramparts.",
+    img: "/dest/gobindgarh-fort.jpg",
+    imgAlt: "The gate of Gobindgarh Fort with its Punjab Tourism sign in Amritsar",
+  },
+  {
+    title: "Ram Bagh",
+    kicker: "Maharaja Ranjit Singh's garden",
+    text: "The Maharaja's summer palace, shaded gardens and the old Deorhi gateway — a slow, green hour away from the bazaar.",
+    img: "/dest/rambagh.jpg",
+    imgAlt: "The historic Deorhi gateway at Ram Bagh, Amritsar",
+  },
 ];
 
 /* ── Services ────────────────────────────────────────────── */
@@ -322,6 +378,7 @@ export const NAV_LINKS = [
   { label: "Home", href: "#home" },
   { label: "About", href: "#about" },
   { label: "Services", href: "#services" },
+  { label: "Sightseeing", href: "#sights" },
   { label: "Fleet & Fares", href: "#fleet" },
   { label: "Contact", href: "#contact" },
 ];

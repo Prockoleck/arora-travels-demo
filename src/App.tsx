@@ -1,13 +1,15 @@
 import { useCallback, useEffect, useState } from "react";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
-import Contact from "./components/Contact";
 import Ticker from "./components/Ticker";
+import Welcome from "./components/Welcome";
+import Contact from "./components/Contact";
 import About from "./components/About";
 import Services from "./components/Services";
 import Fleet from "./components/Fleet";
 import WhyUs from "./components/WhyUs";
 import DestinationBand from "./components/DestinationBand";
+import Sights from "./components/Sights";
 import Testimonials from "./components/Testimonials";
 import Footer from "./components/Footer";
 import FloatingWhatsApp from "./components/FloatingWhatsApp";
@@ -48,14 +50,16 @@ export default function App() {
 
           <main>
             <Hero goBook={goBook} />
-            {/* booking section right below the hero */}
-            <Contact booking={booking} patch={patch} />
             <Ticker />
+            <Welcome />
+            {/* booking section right below the welcome band */}
+            <Contact booking={booking} patch={patch} />
             <About />
             <Services goBook={goBook} />
             <Fleet patch={patch} goBook={goBook} />
             <WhyUs />
             <DestinationBand goBook={goBook} />
+            <Sights goBook={goBook} />
             <Testimonials />
           </main>
 

@@ -1,17 +1,19 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import {
   BUSINESS,
-  DESTINATIONS,
   FLEET,
   IMAGES,
   REASONS,
   ROUTES,
   SERVICES,
+  SIGHTS,
   STATS,
   TESTIMONIALS,
+  TICKER_ITEMS,
   TIMELINE,
   VEHICLE_OPTIONS,
   type RouteFare,
+  type Sight,
   type Vehicle,
 } from "../data";
 
@@ -27,8 +29,9 @@ import {
    used by the console's "Preview on site" button.
    ──────────────────────────────────────────────────────────────── */
 
+export type HeroSlide = { src: string; alt: string; caption: string };
+
 export type HeroContent = {
-  eyebrow: string;
   line1: string;
   line2: string;
   accent: string;
@@ -37,10 +40,14 @@ export type HeroContent = {
   subBold: string;
   subEnd: string;
   cta: string;
-  img: string;
-  imgAlt: string;
-  caption: string;
+  /* framed photo slideshow beside the headline */
+  slides: HeroSlide[];
+  slideSeconds: number;
 };
+
+export type WelcomeContent = { heading: string; text: string };
+
+export type TickerContent = { items: string[]; seconds: number };
 
 export type BandContent = {
   eyebrow: string;
@@ -59,12 +66,14 @@ export type WhyContent = { img: string; imgAlt: string; caption: string };
 export type SiteContent = {
   business: typeof BUSINESS;
   hero: HeroContent;
+  welcome: WelcomeContent;
+  ticker: TickerContent;
   band: BandContent;
   about: AboutContent;
   why: WhyContent;
   logo: { src: string };
   stats: { value: number; suffix: string; label: string }[];
-  destinations: string[];
+  sights: Sight[];
   services: { n: string; title: string; desc: string; includes: string[] }[];
   fleet: Vehicle[];
   vehicleOptions: string[];
@@ -81,7 +90,6 @@ export function defaultContent(): SiteContent {
   return {
     business: { ...BUSINESS, phones: BUSINESS.phones.map((p) => ({ ...p })) },
     hero: {
-      eyebrow: "Open 24×7 · Gol Bagh Taxi Stand",
       line1: "Premium car rental",
       line2: "& taxi services in",
       accent: "Amritsar",
@@ -91,11 +99,36 @@ export function defaultContent(): SiteContent {
       subEnd:
         "for executives, families and guests. Economical rates, reasonable corporate tariffs, professional chauffeurs. Any hour, any road.",
       cta: "Book your ride now",
-      img: "/dest/golden-temple.jpg",
-      imgAlt:
-        "The Golden Temple (Harmandir Sahib) glowing at dusk, reflected in the sarovar",
-      caption: "Harmandir Sahib · Amritsar at dusk",
+      slides: [
+        {
+          src: "/dest/golden-temple.jpg",
+          alt: "The Golden Temple (Harmandir Sahib) glowing at dusk, reflected in the sarovar",
+          caption: "Harmandir Sahib · Amritsar at dusk",
+        },
+        {
+          src: "/dest/wagah.jpg",
+          alt: "The India gate at the Attari-Wagah border with the tricolour flying over a packed stadium",
+          caption: "Attari–Wagah Border · retreat ceremony",
+        },
+        {
+          src: "/dest/jallianwala-bagh.jpg",
+          alt: "The Jallianwala Bagh memorial wall and bronze statue in Amritsar",
+          caption: "Jallianwala Bagh · a quiet memorial",
+        },
+        {
+          src: "/dest/durgiana-temple.jpg",
+          alt: "Golden domes of Durgiana Temple seen from the marble bridge over its sarovar",
+          caption: "Durgiana Temple · the lake temple",
+        },
+      ],
+      slideSeconds: 7,
     },
+    welcome: {
+      heading: "Welcome to Arora Travels",
+      text:
+        "For nearly three decades, families, executives and pilgrims have stepped into our Gol Bagh stand and driven away with the same thing: a clean car, a courteous chauffeur and a fare agreed before the wheels turn. That is still the whole idea.",
+    },
+    ticker: { items: [...TICKER_ITEMS], seconds: 30 },
     band: {
       eyebrow: "Explore Amritsar",
       pre: "From the Golden Temple to the",
@@ -120,7 +153,7 @@ export function defaultContent(): SiteContent {
     },
     logo: { src: "/logo.jpg" },
     stats: STATS.map((s) => ({ ...s })),
-    destinations: [...DESTINATIONS],
+    sights: SIGHTS.map((s) => ({ ...s })),
     services: SERVICES.map((s) => ({
       n: s.n,
       title: s.title,
@@ -134,7 +167,7 @@ export function defaultContent(): SiteContent {
     timeline: TIMELINE.map((t) => ({ ...t })),
     testimonials: TESTIMONIALS.map((t) => ({ quote: t.quote, name: t.name, role: t.role })),
     photoCredit:
-      "Landmark photos via Wikimedia Commons — Golden Temple © Bernard Gagnon · Wagah Border © Tamjeed Ahmed (CC BY-SA 4.0)",
+      "Wikimedia Commons — Golden Temple & Jallianwala Bagh © Bernard Gagnon (CC BY-SA) · Durgiana Temple © Jaiprakashsingh (CC BY-SA) · Partition Museum © shankar s. (CC BY 2.0) · Gobindgarh Fort © Gobindgarh Fort (CC BY-SA 4.0) · Ram Bagh © Harvinder Chandigarh (CC BY-SA 4.0) · Wagah Border © Tamjeed Ahmed (CC BY-SA)",
   };
 }
 
@@ -164,6 +197,50 @@ export function mergeContent(saved: unknown): SiteContent {
   if (!Array.isArray(biz.phones) || biz.phones.length === 0) {
     biz.phones = d.business.phones;
   }
+
+  /* Migrate a pre-slideshow snapshot: the saved hero image becomes slide 1 */
+  const savedHero = (
+    s.hero && typeof s.hero === "object" && !Array.isArray(s.hero) ? s.hero : {}
+  ) as Record<string, unknown>;
+  const hero = out.hero as unknown as HeroContent;
+  if (!Array.isArray(savedHero.slides)) {
+    const img = typeof savedHero.img === "string" ? savedHero.img.trim() : "";
+    if (img) {
+      hero.slides = [
+        {
+          src: img,
+          alt: typeof savedHero.imgAlt === "string" ? savedHero.imgAlt : "",
+          caption: typeof savedHero.caption === "string" ? savedHero.caption : "",
+        },
+      ];
+    }
+  }
+  hero.slides = (Array.isArray(hero.slides) ? hero.slides : []).filter(
+    (slide) => slide && typeof slide.src === "string" && slide.src.trim() !== "",
+  );
+  if (hero.slides.length === 0) hero.slides = d.hero.slides;
+  if (!Number.isFinite(hero.slideSeconds) || hero.slideSeconds < 2) {
+    hero.slideSeconds = d.hero.slideSeconds;
+  }
+
+  /* Migrate the old destination board into the customizable ticker tape */
+  const ticker = out.ticker as unknown as TickerContent;
+  const savedTicker = (
+    s.ticker && typeof s.ticker === "object" && !Array.isArray(s.ticker) ? s.ticker : {}
+  ) as Record<string, unknown>;
+  if (!Array.isArray(savedTicker.items) && Array.isArray(s.destinations)) {
+    const migrated = s.destinations.filter(
+      (item): item is string => typeof item === "string" && item.trim() !== "",
+    );
+    if (migrated.length) ticker.items = migrated;
+  }
+  if (!Array.isArray(ticker.items) || ticker.items.length === 0) {
+    ticker.items = d.ticker.items;
+  }
+  if (!Number.isFinite(ticker.seconds) || ticker.seconds < 5) {
+    ticker.seconds = d.ticker.seconds;
+  }
+
   return out as unknown as SiteContent;
 }
 

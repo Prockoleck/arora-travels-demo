@@ -95,9 +95,9 @@ export default function Dashboard({
           delay={0.04}
         />
         <Stat
-          label="Destinations"
-          value={String(draft.destinations.length)}
-          sub="on the marquee board"
+          label="Ticker items"
+          value={String(draft.ticker.items.length)}
+          sub="on the scrolling strip"
           delay={0.08}
         />
         <Stat
