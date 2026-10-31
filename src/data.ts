@@ -35,7 +35,7 @@ export const BUSINESS = {
   /* Exact Google Business Profile (ARORA TRAVELS, 4.9★, Gol Bagh).
      Place ID verified 31 Oct 2026 — opens the listing, not a search. */
   mapsUrl:
-    "https://www.google.com/maps/place/?q=place_id:ChIJqbwPpPJlGTkR_cwfs9ocdSI",
+    "https://maps.app.goo.gl/N3Gjq8sCBVNgyjkK9?g_st=ac",
   mapCoords: { lat: 31.6315786, lng: 74.8686835 },
 };
 
